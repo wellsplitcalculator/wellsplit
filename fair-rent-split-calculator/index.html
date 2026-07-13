@@ -40,6 +40,7 @@
   </style>
 </head>
 <body>
+  <div id="navbar-container"></div>
   <button aria-label="Switch color theme" class="theme-toggle" onclick="toggleTheme()" type="button">☀ Light</button>
   <main>
     <div class="page-shell">
@@ -112,5 +113,10 @@
     async function copyResult(){const result=document.getElementById('result');if(!result.innerText.trim()){alert('Calculate the rent split first.');return}try{await navigator.clipboard.writeText(result.innerText.trim());alert('Result copied.')}catch(error){const textarea=document.createElement('textarea');textarea.value=result.innerText.trim();document.body.appendChild(textarea);textarea.select();document.execCommand('copy');textarea.remove();alert('Result copied.')}}
     syncRoomsFromCount();updateMethodVisibility();updateHybridLabel();
   </script>
+
+<div id="footer-container"></div>
+
+  <script src="/components/shared.js"></script>
+  
 </body>
 </html>
