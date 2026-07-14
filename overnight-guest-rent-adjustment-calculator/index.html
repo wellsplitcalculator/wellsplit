@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+
+  <!-- Google AdSense tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1724135069833024"
+       crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR5ESWGW9Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VR5ESWGW9Y');
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/files/favicon.png">
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="robots" content="index, follow">
+
+  <meta
+    name="description"
+    content="Adjust roommate rent fairly for overnight guests. Enter guest nights, choose the adjustment percentage and guest weight, and calculate updated monthly payments."
+  >
+
+  <title>Overnight Guest Rent Adjustment Calculator - WellSplit</title>
+
+  <link rel="stylesheet" href="/components/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is an overnight guest rent adjustment calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It adjusts a roommate's rent when their guests stay overnight."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does it work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Part of the rent stays equal, while the guest-adjusted part follows occupancy nights."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is an occupancy night?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is one person staying in the home for one night."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do residents count every night?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Each roommate counts for every day in the billing month."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How are guest nights assigned?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Add each guest's overnight stays to the roommate hosting them."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the guest adjustment portion?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is the percentage of rent affected by overnight guest use."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What percentage should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Many households choose 10% to 30%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is guest weight?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It controls how strongly each guest night counts compared with a resident night."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why use less than 100% guest weight?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Guests may use less storage and fewer household resources than residents."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use 100% guest weight?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Then each guest night counts like a full resident night."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if nobody has guests?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The rent remains evenly divided."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can several roommates have guests?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Enter guest nights for every roommate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if two guests stay together?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Count both guests for each night they stay."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I count two guests for three nights?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enter six guest nights."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this include utilities?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It adjusts rent only."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use it for a 28-day month?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Select the correct billing-month length."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do all payments add up to the rent?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, apart from minor display rounding."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I copy the result?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use the Copy Result button."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this suitable for long-term guests?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, but frequent guests may be better treated as occupants."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the result legally binding?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It is an estimate for roommate discussions."
+      }
+    }
+  ]
+}
+  </script>
+
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --bg:#2f343c;
+      --panel:#3a4048;
+      --panel-2:#454c56;
+      --field:#505863;
+      --text:#f3f4f6;
+      --muted:#c6ccd4;
+      --border:#606977;
+      --accent:#7dd3fc;
+      --accent-2:#38bdf8;
+      --danger:#f87171;
+      --shadow:0 18px 50px rgba(0,0,0,.18);
+      --radius:16px
+    }
+
+    html[data-theme="light"]{
+      --bg:#f6f7f9;
+      --panel:#fff;
+      --panel-2:#f1f5f9;
+      --field:#fff;
+      --text:#111827;
+      --muted:#5e6b78;
+      --border:#dce3eb;
+      --accent:#0369a1;
+      --accent-2:#0284c7;
+      --danger:#b91c1c;
+      --shadow:0 18px 45px rgba(15,23,42,.08)
+    }
+
+    html{scroll-behavior:smooth}
+
+    body{
+      min-height:100vh;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
+      line-height:1.6
+    }
+
+    button,input,select{font:inherit}
+    main{padding:42px 6% 40px}
+
+    .content-layout{
+      width:min(100%,1180px);
+      display:grid;
+      grid-template-columns:minmax(0,760px) minmax(280px,1fr);
+      gap:34px;
+      align-items:start
+    }
+
+    .page-shell{width:100%;min-width:0}
+    .ad-space{min-height:600px}
+    .hero{margin-bottom:22px}
+
+    h1{
+      max-width:740px;
+      font-size:clamp(2rem,5vw,3.5rem);
+      line-height:1.02;
+      letter-spacing:-.06em;
+      margin-bottom:12px
+    }
+
+    .hero p{max-width:690px;color:var(--muted);font-size:.92rem}
+
+    .calculator,.content-section{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+      margin-bottom:16px
+    }
+
+    .section-title{
+      font-size:1.15rem;
+      line-height:1.25;
+      letter-spacing:-.035em;
+      margin-bottom:5px
+    }
+
+    .section-description{
+      color:var(--muted);
+      font-size:.84rem;
+      line-height:1.5;
+      margin-bottom:14px
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px
+    }
+
+    label{
+      display:block;
+      margin-bottom:4px;
+      color:var(--muted);
+      font-size:.72rem;
+      font-weight:800
+    }
+
+    input,select{
+      width:100%;
+      min-height:42px;
+      background:var(--field);
+      color:var(--text);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:9px 10px;
+      outline:none;
+      font-size:.9rem
+    }
+
+    input:focus,select:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)
+    }
+
+    input[type="range"]{
+      min-height:auto;
+      padding:0;
+      border:0;
+      box-shadow:none;
+      accent-color:var(--accent)
+    }
+
+    .range-head{
+      display:flex;
+      justify-content:flex-end;
+      margin-top:6px
+    }
+
+    .range-value{
+      color:var(--accent);
+      font-size:.78rem;
+      font-weight:900
+    }
+
+    .roommate-list{display:grid;gap:10px}
+
+    .roommate-row{
+      padding:12px;
+      background:color-mix(in srgb,var(--panel-2) 66%,transparent);
+      border:1px solid var(--border);
+      border-radius:13px
+    }
+
+    .roommate-row-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px
+    }
+
+    .roommate-label{font-size:.9rem;font-weight:850}
+
+    .roommate-grid{
+      display:grid;
+      grid-template-columns:1.5fr 1fr;
+      gap:8px;
+      align-items:end
+    }
+
+    .remove{
+      width:38px;
+      height:38px;
+      padding:0;
+      border:1px solid var(--border);
+      background:transparent;
+      color:var(--muted);
+      border-radius:10px;
+      cursor:pointer;
+      font-size:1rem;
+      font-weight:900
+    }
+
+    .remove:hover{color:var(--danger);border-color:var(--danger)}
+
+    .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+
+    button{
+      border:0;
+      cursor:pointer;
+      border-radius:10px;
+      padding:10px 13px;
+      font-size:.86rem;
+      font-weight:900;
+      transition:.16s
+    }
+
+    button:hover{transform:translateY(-1px)}
+    .primary{background:var(--accent);color:#061018}
+    .primary:hover{background:var(--accent-2)}
+    .secondary{background:var(--panel-2);color:var(--text);border:1px solid var(--border)}
+    .secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+    .result{
+      margin-top:14px;
+      padding:14px;
+      background:var(--panel-2);
+      border:1px solid var(--border);
+      border-radius:12px;
+      min-height:56px;
+      overflow-x:auto
+    }
+
+    .result:empty::before{
+      content:"Your guest-adjusted rent split will appear here.";
+      color:var(--muted);
+      font-weight:600
+    }
+
+    .summary-line{color:var(--muted);font-size:.82rem;margin-bottom:12px}
+
+    .result-table{
+      width:100%;
+      min-width:650px;
+      border-collapse:collapse;
+      font-size:.86rem
+    }
+
+    .result-table th,.result-table td{
+      padding:9px 8px;
+      border-bottom:1px solid var(--border);
+      text-align:left;
+      vertical-align:top
+    }
+
+    .result-table th{
+      color:var(--muted);
+      font-size:.72rem;
+      text-transform:uppercase;
+      letter-spacing:.04em
+    }
+
+    .result-table tr:last-child td{border-bottom:0}
+    .money-cell{font-weight:900;color:var(--accent);white-space:nowrap}
+    .note{margin-top:12px;color:var(--muted);font-size:.8rem;line-height:1.5}
+
+    .content-section h2{
+      font-size:1.45rem;
+      line-height:1.2;
+      letter-spacing:-.035em;
+      margin-bottom:10px
+    }
+
+    .content-section h3{font-size:1.02rem;margin:18px 0 6px}
+    .content-section p{color:var(--muted);font-size:.9rem;margin-bottom:10px}
+    .content-section ul{margin:8px 0 10px 20px;color:var(--muted);font-size:.9rem}
+    .content-section li{margin-bottom:5px}
+
+    #faqs h2{font-size:1.45rem;margin-bottom:7px;letter-spacing:-.03em}
+
+    .faq-list{
+      display:flex;
+      flex-direction:column;
+      gap:7px;
+      margin-top:13px
+    }
+
+    .faq-item{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:11px;
+      overflow:hidden;
+      transition:border-color .2s ease,background .2s ease
+    }
+
+    .faq-item:hover{border-color:var(--accent)}
+    .faq-item[open]{background:var(--panel-2)}
+
+    .faq-item summary{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+      list-style:none;
+      user-select:none;
+      padding:10px 12px;
+      font-size:.85rem;
+      font-weight:750;
+      line-height:1.3;
+      color:var(--text)
+    }
+
+    .faq-item summary::-webkit-details-marker{display:none}
+
+    .faq-item summary::before{
+      content:"▶";
+      font-size:.64rem;
+      flex-shrink:0;
+      color:var(--text);
+      transition:transform .2s ease
+    }
+
+    .faq-item[open] summary::before{transform:rotate(90deg)}
+
+    .faq-answer{padding:0 12px 11px 31px}
+
+    .faq-answer p{
+      margin:0;
+      font-size:.79rem;
+      line-height:1.5;
+      color:var(--muted)
+    }
+
+    footer{
+      padding:24px 6%;
+      color:var(--muted);
+      border-top:1px solid var(--border);
+      font-size:.9rem;
+      text-align:center
+    }
+
+    @media(max-width:900px){
+      .content-layout{display:block;width:100%}
+      .ad-column{display:none}
+    }
+
+    @media(max-width:780px){
+      main{padding:34px 18px 26px}
+      h1{font-size:clamp(2rem,10vw,3rem)}
+      .calculator,.content-section{padding:15px}
+      .grid,.roommate-grid{grid-template-columns:1fr}
+      .btns button{flex:1 1 145px}
+      #faqs h2{font-size:1.32rem}
+      .faq-list{gap:6px}
+      .faq-item summary{padding:9px 11px;font-size:.82rem}
+      .faq-answer{padding:0 11px 10px 29px}
+      .faq-answer p{font-size:.77rem}
+    }
+
+    @media(max-width:420px){
+      .btns button{flex:1 1 100%}
+    }
+  </style>
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+
+  <main>
+    <div class="content-layout">
+      <div class="page-shell">
+
+        <section class="hero">
+          <h1>Overnight Guest Rent Adjustment Calculator</h1>
+          <p>
+            Adjust an equal roommate rent split when some roommates host overnight guests more often.
+          </p>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">1. Rent and guest settings</h2>
+          <p class="section-description">
+            Choose how much of the rent should respond to guest stays and how strongly guest nights should count.
+          </p>
+
+          <div class="grid">
+            <div>
+              <label for="totalRent">Total monthly rent</label>
+              <input id="totalRent" inputmode="decimal" min="0" placeholder="3000" type="number">
+            </div>
+
+            <div>
+              <label for="currencySymbol">Currency symbol</label>
+              <select id="currencySymbol">
+                <option value="$">$</option>
+                <option value="CA$">CA$</option>
+                <option value="US$">US$</option>
+                <option value="€">€</option>
+                <option value="£">£</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="roommateCount">Number of roommates</label>
+              <input id="roommateCount" inputmode="numeric" min="1" max="20" value="3" type="number">
+            </div>
+
+            <div>
+              <label for="daysInMonth">Days in billing month</label>
+              <select id="daysInMonth">
+                <option value="28">28 days</option>
+                <option value="29">29 days</option>
+                <option value="30" selected>30 days</option>
+                <option value="31">31 days</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="adjustmentPercent">Guest-adjusted portion of rent</label>
+              <input id="adjustmentPercent" max="50" min="0" oninput="updateLabels()" type="range" value="20">
+              <div class="range-head">
+                <span class="range-value" id="adjustmentPercentValue">20% adjusted / 80% equal</span>
+              </div>
+            </div>
+
+            <div>
+              <label for="guestWeight">Guest-night weight</label>
+              <input id="guestWeight" max="100" min="0" oninput="updateLabels()" type="range" value="50">
+              <div class="range-head">
+                <span class="range-value" id="guestWeightValue">50% of a resident night</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">2. Roommate guest nights</h2>
+          <p class="section-description">
+            Enter the total number of overnight guest stays hosted by each roommate during the billing month.
+          </p>
+
+          <div class="roommate-list" id="roommateRows"></div>
+
+          <div class="btns">
+            <button class="secondary" onclick="addRoommate()" type="button">Add Roommate</button>
+            <button class="secondary" onclick="syncRoommatesFromCount()" type="button">Apply Roommate Count</button>
+            <button class="primary" onclick="calculateRent()" type="button">Calculate Adjustment</button>
+            <button class="secondary" onclick="copyResult()" type="button">Copy Result</button>
+          </div>
+
+          <div class="result" id="result"></div>
+        </section>
+
+        <section class="content-section" id="about">
+          <h2>About the Overnight Guest Rent Adjustment Calculator</h2>
+
+          <p>
+            The WellSplit Overnight Guest Rent Adjustment Calculator helps roommates
+            account for frequent overnight guests without changing the entire rent split.
+          </p>
+
+          <p>
+            A selected portion of the rent remains sensitive to occupancy. Every resident
+            counts for each day in the billing month, while guest nights are added to the
+            host's occupancy total using the chosen guest weight.
+          </p>
+
+          <h3>How to use this calculator</h3>
+
+          <ul>
+            <li>Enter the total rent and number of roommates.</li>
+            <li>Select the number of days in the billing month.</li>
+            <li>Choose the guest-adjusted portion of rent.</li>
+            <li>Choose how strongly each guest night should count.</li>
+            <li>Enter the overnight guest nights hosted by each roommate.</li>
+            <li>Calculate the updated roommate payments.</li>
+          </ul>
+
+          <p>
+            This method works best when the base rent is normally equal and roommates
+            only want to adjust part of the payment for additional use caused by guests.
+          </p>
+        </section>
+
+        <section class="content-section" id="faqs">
+          <h2>Overnight Guest Rent Adjustment FAQs</h2>
+          <p>Quick answers about overnight guests and roommate rent.</p>
+
+          <div class="faq-list">
+          <details class="faq-item">
+            <summary>What is an overnight guest rent adjustment calculator?</summary>
+            <div class="faq-answer"><p>It adjusts a roommate's rent when their guests stay overnight.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>How does it work?</summary>
+            <div class="faq-answer"><p>Part of the rent stays equal, while the guest-adjusted part follows occupancy nights.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What is an occupancy night?</summary>
+            <div class="faq-answer"><p>It is one person staying in the home for one night.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Do residents count every night?</summary>
+            <div class="faq-answer"><p>Yes. Each roommate counts for every day in the billing month.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>How are guest nights assigned?</summary>
+            <div class="faq-answer"><p>Add each guest's overnight stays to the roommate hosting them.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What is the guest adjustment portion?</summary>
+            <div class="faq-answer"><p>It is the percentage of rent affected by overnight guest use.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What percentage should I use?</summary>
+            <div class="faq-answer"><p>Many households choose 10% to 30%.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What is guest weight?</summary>
+            <div class="faq-answer"><p>It controls how strongly each guest night counts compared with a resident night.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Why use less than 100% guest weight?</summary>
+            <div class="faq-answer"><p>Guests may use less storage and fewer household resources than residents.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Can I use 100% guest weight?</summary>
+            <div class="faq-answer"><p>Yes. Then each guest night counts like a full resident night.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What if nobody has guests?</summary>
+            <div class="faq-answer"><p>The rent remains evenly divided.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Can several roommates have guests?</summary>
+            <div class="faq-answer"><p>Yes. Enter guest nights for every roommate.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What if two guests stay together?</summary>
+            <div class="faq-answer"><p>Count both guests for each night they stay.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>How do I count two guests for three nights?</summary>
+            <div class="faq-answer"><p>Enter six guest nights.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Does this include utilities?</summary>
+            <div class="faq-answer"><p>No. It adjusts rent only.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Can I use it for a 28-day month?</summary>
+            <div class="faq-answer"><p>Yes. Select the correct billing-month length.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Do all payments add up to the rent?</summary>
+            <div class="faq-answer"><p>Yes, apart from minor display rounding.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Can I copy the result?</summary>
+            <div class="faq-answer"><p>Yes. Use the Copy Result button.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Is this suitable for long-term guests?</summary>
+            <div class="faq-answer"><p>Yes, but frequent guests may be better treated as occupants.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Is the result legally binding?</summary>
+            <div class="faq-answer"><p>No. It is an estimate for roommate discussions.</p></div>
+          </details>
+          </div>
+        </section>
+      </div>
+
+      <aside class="ad-column" aria-label="Advertisement space">
+        <div class="ad-space">
+          <!-- Place your desktop AdSense ad code here. -->
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    function money(value){
+      const symbol=document.getElementById('currencySymbol').value;
+      return symbol+Number(value||0).toLocaleString(undefined,{
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      });
+    }
+
+    function getNumber(id){
+      return parseFloat(document.getElementById(id).value)||0;
+    }
+
+    function updateLabels(){
+      const adjusted=Number(document.getElementById('adjustmentPercent').value);
+      const weight=Number(document.getElementById('guestWeight').value);
+
+      document.getElementById('adjustmentPercentValue').textContent=
+        adjusted+'% adjusted / '+(100-adjusted)+'% equal';
+
+      document.getElementById('guestWeightValue').textContent=
+        weight+'% of a resident night';
+    }
+
+    function roommateTemplate(index){
+      return `
+        <div class="roommate-row">
+          <div class="roommate-row-head">
+            <span class="roommate-label">Roommate ${index}</span>
+            <button
+              aria-label="Remove roommate"
+              class="remove"
+              onclick="removeRoommate(this)"
+              type="button"
+            >×</button>
+          </div>
+
+          <div class="roommate-grid">
+            <div>
+              <label>Roommate name</label>
+              <input class="roommateName" placeholder="Roommate ${index}" type="text">
+            </div>
+
+            <div>
+              <label>Overnight guest nights</label>
+              <input class="guestNights" inputmode="numeric" min="0" value="0" type="number">
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function refreshRoommateLabels(){
+      document.querySelectorAll('.roommate-row').forEach((row,index)=>{
+        row.querySelector('.roommate-label').textContent='Roommate '+(index+1);
+      });
+
+      document.getElementById('roommateCount').value=
+        document.querySelectorAll('.roommate-row').length;
+    }
+
+    function addRoommate(){
+      const container=document.getElementById('roommateRows');
+
+      if(container.children.length>=20){
+        alert('You can add up to 20 roommates.');
+        return;
+      }
+
+      container.insertAdjacentHTML(
+        'beforeend',
+        roommateTemplate(container.children.length+1)
+      );
+
+      refreshRoommateLabels();
+    }
+
+    function removeRoommate(button){
+      const rows=document.querySelectorAll('.roommate-row');
+
+      if(rows.length<=1){
+        alert('Keep at least one roommate.');
+        return;
+      }
+
+      button.closest('.roommate-row').remove();
+      refreshRoommateLabels();
+    }
+
+    function syncRoommatesFromCount(){
+      const requested=Math.min(
+        Math.max(parseInt(document.getElementById('roommateCount').value)||1,1),
+        20
+      );
+
+      const container=document.getElementById('roommateRows');
+
+      while(container.children.length<requested){
+        addRoommate();
+      }
+
+      while(container.children.length>requested){
+        container.lastElementChild.remove();
+      }
+
+      refreshRoommateLabels();
+    }
+
+    function collectRoommates(){
+      return [...document.querySelectorAll('.roommate-row')].map((row,index)=>({
+        name:row.querySelector('.roommateName').value.trim()||'Roommate '+(index+1),
+        guestNights:Math.max(
+          parseFloat(row.querySelector('.guestNights').value)||0,
+          0
+        )
+      }));
+    }
+
+    function calculateRent(){
+      const rent=getNumber('totalRent');
+      const result=document.getElementById('result');
+      const roommates=collectRoommates();
+
+      if(rent<=0){
+        result.innerHTML='<p>Please enter a valid total rent amount.</p>';
+        return;
+      }
+
+      const days=getNumber('daysInMonth');
+      const adjustedRatio=getNumber('adjustmentPercent')/100;
+      const equalRatio=1-adjustedRatio;
+      const guestWeight=getNumber('guestWeight')/100;
+
+      const equalRent=rent*equalRatio;
+      const adjustedRent=rent*adjustedRatio;
+      const equalShare=equalRent/roommates.length;
+
+      roommates.forEach(roommate=>{
+        roommate.residentNights=days;
+        roommate.weightedGuestNights=roommate.guestNights*guestWeight;
+        roommate.occupancyUnits=
+          roommate.residentNights+
+          roommate.weightedGuestNights;
+      });
+
+      const totalOccupancyUnits=roommates.reduce(
+        (sum,roommate)=>sum+roommate.occupancyUnits,
+        0
+      );
+
+      roommates.forEach(roommate=>{
+        roommate.adjustedShare=
+          adjustedRent*(roommate.occupancyUnits/totalOccupancyUnits);
+
+        roommate.total=
+          equalShare+
+          roommate.adjustedShare;
+
+        roommate.percent=(roommate.total/rent)*100;
+        roommate.changeFromEqual=
+          roommate.total-(rent/roommates.length);
+      });
+
+      const rows=roommates.map(roommate=>`
+        <tr>
+          <td>${escapeHtml(roommate.name)}</td>
+          <td>${formatNumber(roommate.guestNights)}</td>
+          <td>${formatNumber(roommate.weightedGuestNights)}</td>
+          <td>${money(equalShare)}</td>
+          <td>${money(roommate.adjustedShare)}</td>
+          <td class="money-cell">${money(roommate.total)}</td>
+          <td>${signedMoney(roommate.changeFromEqual)}</td>
+        </tr>
+      `).join('');
+
+      result.innerHTML=`
+        <div class="summary-line">
+          ${roommates.length} roommates ·
+          ${days}-day month ·
+          ${Math.round(adjustedRatio*100)}% guest-adjusted rent ·
+          ${Math.round(guestWeight*100)}% guest-night weight
+        </div>
+
+        <table class="result-table">
+          <thead>
+            <tr>
+              <th>Roommate</th>
+              <th>Guest nights</th>
+              <th>Weighted nights</th>
+              <th>Equal portion</th>
+              <th>Adjusted portion</th>
+              <th>Total rent</th>
+              <th>Change vs. equal</th>
+            </tr>
+          </thead>
+
+          <tbody>${rows}</tbody>
+        </table>
+
+        <p class="note">
+          The equal portion is divided evenly. The adjusted portion follows resident
+          nights plus weighted overnight guest nights assigned to each host.
+        </p>
+      `;
+    }
+
+    function signedMoney(value){
+      if(Math.abs(value)<0.005){
+        return money(0);
+      }
+
+      return (value>0?'+':'−')+money(Math.abs(value));
+    }
+
+    function formatNumber(value){
+      return Number(value||0).toLocaleString(undefined,{
+        maximumFractionDigits:2
+      });
+    }
+
+    function escapeHtml(value){
+      return String(value)
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'",'&#039;');
+    }
+
+    async function copyResult(){
+      const result=document.getElementById('result');
+
+      if(!result.innerText.trim()){
+        alert('Calculate the rent split first.');
+        return;
+      }
+
+      try{
+        await navigator.clipboard.writeText(result.innerText.trim());
+        alert('Result copied.');
+      }catch(error){
+        const textarea=document.createElement('textarea');
+        textarea.value=result.innerText.trim();
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        textarea.remove();
+        alert('Result copied.');
+      }
+    }
+
+    syncRoommatesFromCount();
+    updateLabels();
+  </script>
+
+  <div id="footer-container"></div>
+  <script src="/components/shared.js"></script>
+</body>
+</html>
