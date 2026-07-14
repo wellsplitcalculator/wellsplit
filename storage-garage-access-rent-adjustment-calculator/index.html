@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+
+  <!-- Google AdSense tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1724135069833024"
+       crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR5ESWGW9Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VR5ESWGW9Y');
+  </script>
+
+  <link rel="icon" type="image/png" href="/files/favicon.png">
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="robots" content="index, follow">
+  <meta
+    name="description"
+    content="Adjust roommate rent for private storage and garage access. Add room sizes, occupants, shared space, and simple storage or garage premiums."
+  >
+
+  <title>Storage / Garage Access Rent Adjustment Calculator - WellSplit</title>
+
+  <link rel="stylesheet" href="/components/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a storage and garage rent adjustment calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It helps roommates divide rent when some people receive extra storage, garage access, or both. The calculator adds a reasonable premium to the rooms that receive those benefits."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the calculator work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most of the rent is divided by room size and shared-space use. Storage and garage access then increase the effective value of the rooms that receive them."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as storage access?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Storage may include a private locker, basement area, shed, large exclusive closet, or another space that only one roommate or room group can use."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as garage access?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Garage access may include a reserved indoor parking space, exclusive use of part of a garage, or secure vehicle storage tied to one roommate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much should storage increase rent?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no universal amount. A modest premium such as 5% to 10% is common for useful private storage, depending on size, security, and exclusivity."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much should garage access increase rent?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Garage value varies widely. A premium of 10% to 25% may be reasonable where indoor parking is scarce, secure, or especially convenient."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the premium added directly to the rent?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The premium increases that room's effective value. The calculator then redistributes the full rent across all rooms so the totals still match the monthly rent."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can one room have both storage and garage access?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Select both benefits for that room. The calculator will apply both premiums before calculating the final share."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if storage is shared by everyone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Do not assign it to a specific room. Shared storage should normally be treated as part of the home's common value rather than a private premium."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if the garage is shared?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If everyone can use it equally, do not assign a garage premium to one room. Only assign a premium when access is exclusive or clearly unequal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can couples use this calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Enter the couple as one room, set the occupants to two, and the calculator will show both the room total and the per-person amount."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can multiple people share one room?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Enter the correct number of occupants for that room. The room total will be divided equally among them."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use square feet or square metres?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use either measurement system, but keep the same unit for every bedroom and shared-space entry."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is room size used?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Each bedroom's size contributes to its base value. Larger rooms receive a larger share before storage and garage adjustments are applied."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can shared space be included?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Shared space can be excluded, divided equally by room, or divided according to occupants."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if all bedrooms are the same size?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rooms without private extras will pay similar amounts. Rooms with storage or garage access will pay more according to the selected premiums."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this calculator include utilities?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It calculates rent only. Utilities can be divided separately using an equal, per-person, or usage-based method."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do all room totals add up to the full rent?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The calculator redistributes the complete rent across the entered rooms, apart from minor rounding in the displayed values."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I copy the result?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. After calculating, use the Copy Result button to copy the payment table and summary."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the result legally binding?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It is a planning tool for roommate discussions. Everyone should agree to the final split and follow the lease."
+      }
+    }
+  ]
+}
+  </script>
+
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --bg:#2f343c;
+      --panel:#3a4048;
+      --panel-2:#454c56;
+      --field:#505863;
+      --text:#f3f4f6;
+      --muted:#c6ccd4;
+      --border:#606977;
+      --accent:#7dd3fc;
+      --accent-2:#38bdf8;
+      --danger:#f87171;
+      --shadow:0 18px 50px rgba(0,0,0,.18);
+      --radius:16px
+    }
+
+    html[data-theme="light"]{
+      --bg:#f6f7f9;
+      --panel:#fff;
+      --panel-2:#f1f5f9;
+      --field:#fff;
+      --text:#111827;
+      --muted:#5e6b78;
+      --border:#dce3eb;
+      --accent:#0369a1;
+      --accent-2:#0284c7;
+      --danger:#b91c1c;
+      --shadow:0 18px 45px rgba(15,23,42,.08)
+    }
+
+    html{scroll-behavior:smooth}
+
+    body{
+      min-height:100vh;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
+      line-height:1.6
+    }
+
+    button,input,select{font:inherit}
+    main{padding:42px 6% 40px}
+
+    .content-layout{
+      width:min(100%,1180px);
+      display:grid;
+      grid-template-columns:minmax(0,800px) minmax(280px,1fr);
+      gap:34px;
+      align-items:start
+    }
+
+    .page-shell{width:100%;min-width:0}
+    .ad-space{min-height:600px}
+    .hero{margin-bottom:22px}
+
+    h1{
+      max-width:780px;
+      font-size:clamp(2rem,5vw,3.55rem);
+      line-height:1.02;
+      letter-spacing:-.06em;
+      margin-bottom:12px
+    }
+
+    .hero p{max-width:720px;color:var(--muted);font-size:.92rem}
+
+    .calculator,.content-section{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+      margin-bottom:16px
+    }
+
+    .section-title{
+      font-size:1.15rem;
+      line-height:1.25;
+      letter-spacing:-.035em;
+      margin-bottom:5px
+    }
+
+    .section-description{
+      color:var(--muted);
+      font-size:.84rem;
+      line-height:1.5;
+      margin-bottom:14px
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px
+    }
+
+    label{
+      display:block;
+      margin-bottom:4px;
+      color:var(--muted);
+      font-size:.72rem;
+      font-weight:800
+    }
+
+    input,select{
+      width:100%;
+      min-height:42px;
+      background:var(--field);
+      color:var(--text);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:9px 10px;
+      outline:none;
+      font-size:.9rem
+    }
+
+    input:focus,select:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)
+    }
+
+    input[type="range"]{
+      min-height:auto;
+      padding:0;
+      border:0;
+      box-shadow:none;
+      accent-color:var(--accent)
+    }
+
+    .range-head{
+      display:flex;
+      justify-content:flex-end;
+      margin-top:6px
+    }
+
+    .range-value{
+      color:var(--accent);
+      font-size:.78rem;
+      font-weight:900
+    }
+
+    .room-list{display:grid;gap:10px}
+
+    .room-row{
+      padding:12px;
+      background:color-mix(in srgb,var(--panel-2) 66%,transparent);
+      border:1px solid var(--border);
+      border-radius:13px
+    }
+
+    .room-row-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px
+    }
+
+    .room-label{font-size:.9rem;font-weight:850}
+
+    .room-grid{
+      display:grid;
+      grid-template-columns:1.3fr .9fr .8fr .9fr .9fr;
+      gap:8px;
+      align-items:end
+    }
+
+    .remove{
+      width:38px;
+      height:38px;
+      padding:0;
+      border:1px solid var(--border);
+      background:transparent;
+      color:var(--muted);
+      border-radius:10px;
+      cursor:pointer;
+      font-size:1rem;
+      font-weight:900
+    }
+
+    .remove:hover{color:var(--danger);border-color:var(--danger)}
+
+    .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+
+    button{
+      border:0;
+      cursor:pointer;
+      border-radius:10px;
+      padding:10px 13px;
+      font-size:.86rem;
+      font-weight:900;
+      transition:.16s
+    }
+
+    button:hover{transform:translateY(-1px)}
+    .primary{background:var(--accent);color:#061018}
+    .primary:hover{background:var(--accent-2)}
+    .secondary{background:var(--panel-2);color:var(--text);border:1px solid var(--border)}
+    .secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+    .result{
+      margin-top:14px;
+      padding:14px;
+      background:var(--panel-2);
+      border:1px solid var(--border);
+      border-radius:12px;
+      min-height:56px;
+      overflow-x:auto
+    }
+
+    .result:empty::before{
+      content:"Your storage and garage rent adjustment will appear here.";
+      color:var(--muted);
+      font-weight:600
+    }
+
+    .summary-line{color:var(--muted);font-size:.82rem;margin-bottom:12px}
+
+    .result-table{
+      width:100%;
+      min-width:760px;
+      border-collapse:collapse;
+      font-size:.86rem
+    }
+
+    .result-table th,.result-table td{
+      padding:9px 8px;
+      border-bottom:1px solid var(--border);
+      text-align:left;
+      vertical-align:top
+    }
+
+    .result-table th{
+      color:var(--muted);
+      font-size:.72rem;
+      text-transform:uppercase;
+      letter-spacing:.04em
+    }
+
+    .result-table tr:last-child td{border-bottom:0}
+    .money-cell{font-weight:900;color:var(--accent);white-space:nowrap}
+    .note{margin-top:12px;color:var(--muted);font-size:.8rem;line-height:1.5}
+
+    .content-section h2{
+      font-size:1.45rem;
+      line-height:1.2;
+      letter-spacing:-.035em;
+      margin-bottom:10px
+    }
+
+    .content-section h3{font-size:1.02rem;margin:18px 0 6px}
+    .content-section p{color:var(--muted);font-size:.9rem;margin-bottom:10px}
+    .content-section ul{margin:8px 0 10px 20px;color:var(--muted);font-size:.9rem}
+    .content-section li{margin-bottom:5px}
+
+    #faqs h2{font-size:1.45rem;margin-bottom:7px}
+
+    .faq-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:13px
+    }
+
+    .faq-item{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:11px;
+      overflow:hidden
+    }
+
+    .faq-item:hover{border-color:var(--accent)}
+    .faq-item[open]{background:var(--panel-2)}
+
+    .faq-item summary{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+      list-style:none;
+      padding:10px 12px;
+      font-size:.85rem;
+      font-weight:750;
+      line-height:1.3
+    }
+
+    .faq-item summary::-webkit-details-marker{display:none}
+
+    .faq-item summary::before{
+      content:"▶";
+      font-size:.64rem;
+      transition:transform .2s
+    }
+
+    .faq-item[open] summary::before{transform:rotate(90deg)}
+
+    .faq-answer{padding:0 12px 12px 31px}
+
+    .faq-answer p{
+      margin:0;
+      font-size:.8rem;
+      line-height:1.55;
+      color:var(--muted)
+    }
+
+    footer{
+      padding:24px 6%;
+      color:var(--muted);
+      border-top:1px solid var(--border);
+      font-size:.9rem;
+      text-align:center
+    }
+
+    @media(max-width:900px){
+      .content-layout{display:block;width:100%}
+      .ad-column{display:none}
+    }
+
+    @media(max-width:780px){
+      main{padding:34px 18px 26px}
+      h1{font-size:clamp(2rem,10vw,3rem)}
+      .calculator,.content-section{padding:15px}
+      .grid,.room-grid{grid-template-columns:1fr}
+      .btns button{flex:1 1 145px}
+      #faqs h2{font-size:1.32rem}
+      .faq-item summary{font-size:.82rem}
+      .faq-answer p{font-size:.78rem}
+    }
+
+    @media(max-width:420px){
+      .btns button{flex:1 1 100%}
+    }
+  </style>
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+
+  <main>
+    <div class="content-layout">
+      <div class="page-shell">
+
+        <section class="hero">
+          <h1>Storage / Garage Access Rent Adjustment Calculator</h1>
+          <p>
+            Divide rent fairly when some roommates receive private storage, garage access, or both.
+          </p>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">1. Rent and adjustment settings</h2>
+          <p class="section-description">
+            Enter the rent, room details, shared-space settings, and simple premiums for private extras.
+          </p>
+
+          <div class="grid">
+            <div>
+              <label for="totalRent">Total monthly rent</label>
+              <input id="totalRent" inputmode="decimal" min="0" placeholder="3000" type="number">
+            </div>
+
+            <div>
+              <label for="currencySymbol">Currency symbol</label>
+              <select id="currencySymbol">
+                <option value="$">$</option>
+                <option value="CA$">CA$</option>
+                <option value="US$">US$</option>
+                <option value="€">€</option>
+                <option value="£">£</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="roomCount">Number of rooms</label>
+              <input id="roomCount" inputmode="numeric" min="1" max="20" value="3" type="number">
+            </div>
+
+            <div>
+              <label for="sizeUnit">Room-size measurement</label>
+              <select id="sizeUnit">
+                <option value="sq ft">Square feet (sq ft)</option>
+                <option value="m²">Square metres (m²)</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="sharedSpace">Total shared-space size</label>
+              <input id="sharedSpace" inputmode="decimal" min="0" placeholder="900" type="number">
+            </div>
+
+            <div>
+              <label for="sharedSpaceMethod">Shared-space method</label>
+              <select id="sharedSpaceMethod">
+                <option value="ignore">Do not include shared space</option>
+                <option value="equal" selected>Divide equally by room</option>
+                <option value="occupants">Divide according to occupants</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="storagePremium">Private storage premium</label>
+              <input id="storagePremium" max="25" min="0" oninput="updatePremiumLabels()" type="range" value="8">
+              <div class="range-head">
+                <span class="range-value" id="storagePremiumValue">8%</span>
+              </div>
+            </div>
+
+            <div>
+              <label for="garagePremium">Garage access premium</label>
+              <input id="garagePremium" max="40" min="0" oninput="updatePremiumLabels()" type="range" value="15">
+              <div class="range-head">
+                <span class="range-value" id="garagePremiumValue">15%</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">2. Room details</h2>
+          <p class="section-description">
+            Add one row per room and mark any private storage or exclusive garage access.
+          </p>
+
+          <div class="room-list" id="roomRows"></div>
+
+          <div class="btns">
+            <button class="secondary" onclick="addRoom()" type="button">Add Room</button>
+            <button class="secondary" onclick="syncRoomsFromCount()" type="button">Apply Room Count</button>
+            <button class="primary" onclick="calculateRent()" type="button">Calculate Adjustment</button>
+            <button class="secondary" onclick="copyResult()" type="button">Copy Result</button>
+          </div>
+
+          <div class="result" id="result"></div>
+        </section>
+
+        <section class="content-section" id="about">
+          <h2>About the Storage / Garage Access Rent Adjustment Calculator</h2>
+
+          <p>
+            This calculator helps roommates account for private storage and exclusive
+            garage access when dividing monthly rent.
+          </p>
+
+          <p>
+            Each room receives a base value from its bedroom size and optional share of
+            common space. The selected storage and garage premiums then increase the value
+            of rooms receiving those benefits.
+          </p>
+
+          <h3>How to use it</h3>
+
+          <ul>
+            <li>Enter the total rent and room measurements.</li>
+            <li>Choose whether shared space should be included.</li>
+            <li>Set simple storage and garage premiums.</li>
+            <li>Add each room and its occupants.</li>
+            <li>Mark private storage and garage access.</li>
+            <li>Calculate room and per-person payments.</li>
+          </ul>
+
+          <p>
+            This method works best when storage or garage use is clearly exclusive rather
+            than shared by everyone in the home.
+          </p>
+        </section>
+
+        <section class="content-section" id="faqs">
+          <h2>Storage / Garage Rent Adjustment FAQs</h2>
+          <p>Helpful answers about storage, garage access, and roommate rent.</p>
+
+          <div class="faq-list">
+          <details class="faq-item">
+            <summary>What is a storage and garage rent adjustment calculator?</summary>
+            <div class="faq-answer"><p>It helps roommates divide rent when some people receive extra storage, garage access, or both. The calculator adds a reasonable premium to the rooms that receive those benefits.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>How does the calculator work?</summary>
+            <div class="faq-answer"><p>Most of the rent is divided by room size and shared-space use. Storage and garage access then increase the effective value of the rooms that receive them.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What counts as storage access?</summary>
+            <div class="faq-answer"><p>Storage may include a private locker, basement area, shed, large exclusive closet, or another space that only one roommate or room group can use.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What counts as garage access?</summary>
+            <div class="faq-answer"><p>Garage access may include a reserved indoor parking space, exclusive use of part of a garage, or secure vehicle storage tied to one roommate.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>How much should storage increase rent?</summary>
+            <div class="faq-answer"><p>There is no universal amount. A modest premium such as 5% to 10% is common for useful private storage, depending on size, security, and exclusivity.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>How much should garage access increase rent?</summary>
+            <div class="faq-answer"><p>Garage value varies widely. A premium of 10% to 25% may be reasonable where indoor parking is scarce, secure, or especially convenient.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Is the premium added directly to the rent?</summary>
+            <div class="faq-answer"><p>No. The premium increases that room's effective value. The calculator then redistributes the full rent across all rooms so the totals still match the monthly rent.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Can one room have both storage and garage access?</summary>
+            <div class="faq-answer"><p>Yes. Select both benefits for that room. The calculator will apply both premiums before calculating the final share.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What if storage is shared by everyone?</summary>
+            <div class="faq-answer"><p>Do not assign it to a specific room. Shared storage should normally be treated as part of the home's common value rather than a private premium.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What if the garage is shared?</summary>
+            <div class="faq-answer"><p>If everyone can use it equally, do not assign a garage premium to one room. Only assign a premium when access is exclusive or clearly unequal.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Can couples use this calculator?</summary>
+            <div class="faq-answer"><p>Yes. Enter the couple as one room, set the occupants to two, and the calculator will show both the room total and the per-person amount.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Can multiple people share one room?</summary>
+            <div class="faq-answer"><p>Yes. Enter the correct number of occupants for that room. The room total will be divided equally among them.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Can I use square feet or square metres?</summary>
+            <div class="faq-answer"><p>Yes. Use either measurement system, but keep the same unit for every bedroom and shared-space entry.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>How is room size used?</summary>
+            <div class="faq-answer"><p>Each bedroom's size contributes to its base value. Larger rooms receive a larger share before storage and garage adjustments are applied.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Can shared space be included?</summary>
+            <div class="faq-answer"><p>Yes. Shared space can be excluded, divided equally by room, or divided according to occupants.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What if all bedrooms are the same size?</summary>
+            <div class="faq-answer"><p>Rooms without private extras will pay similar amounts. Rooms with storage or garage access will pay more according to the selected premiums.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Does this calculator include utilities?</summary>
+            <div class="faq-answer"><p>No. It calculates rent only. Utilities can be divided separately using an equal, per-person, or usage-based method.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Do all room totals add up to the full rent?</summary>
+            <div class="faq-answer"><p>Yes. The calculator redistributes the complete rent across the entered rooms, apart from minor rounding in the displayed values.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Can I copy the result?</summary>
+            <div class="faq-answer"><p>Yes. After calculating, use the Copy Result button to copy the payment table and summary.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Is the result legally binding?</summary>
+            <div class="faq-answer"><p>No. It is a planning tool for roommate discussions. Everyone should agree to the final split and follow the lease.</p></div>
+          </details>
+          </div>
+        </section>
+      </div>
+
+      <aside class="ad-column" aria-label="Advertisement space">
+        <div class="ad-space">
+          <!-- Place your desktop AdSense ad code here. -->
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    function money(value){
+      const symbol=document.getElementById('currencySymbol').value;
+
+      return symbol+Number(value||0).toLocaleString(undefined,{
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      });
+    }
+
+    function getNumber(id){
+      return parseFloat(document.getElementById(id).value)||0;
+    }
+
+    function updatePremiumLabels(){
+      document.getElementById('storagePremiumValue').textContent=
+        document.getElementById('storagePremium').value+'%';
+
+      document.getElementById('garagePremiumValue').textContent=
+        document.getElementById('garagePremium').value+'%';
+    }
+
+    function roomTemplate(index){
+      return `
+        <div class="room-row">
+          <div class="room-row-head">
+            <span class="room-label">Room ${index}</span>
+
+            <button
+              aria-label="Remove room"
+              class="remove"
+              onclick="removeRoom(this)"
+              type="button"
+            >×</button>
+          </div>
+
+          <div class="room-grid">
+            <div>
+              <label>Room / roommate name</label>
+              <input class="roomName" placeholder="Room ${index}" type="text">
+            </div>
+
+            <div>
+              <label>Room size</label>
+              <input class="roomSize" inputmode="decimal" min="0" placeholder="150" type="number">
+            </div>
+
+            <div>
+              <label>Occupants</label>
+              <input class="occupants" inputmode="numeric" min="1" max="10" value="1" type="number">
+            </div>
+
+            <div>
+              <label>Private storage</label>
+              <select class="storageAccess">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Garage access</label>
+              <select class="garageAccess">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function refreshRoomLabels(){
+      document.querySelectorAll('.room-row').forEach((row,index)=>{
+        row.querySelector('.room-label').textContent='Room '+(index+1);
+      });
+
+      document.getElementById('roomCount').value=
+        document.querySelectorAll('.room-row').length;
+    }
+
+    function addRoom(){
+      const container=document.getElementById('roomRows');
+
+      if(container.children.length>=20){
+        alert('You can add up to 20 rooms.');
+        return;
+      }
+
+      container.insertAdjacentHTML(
+        'beforeend',
+        roomTemplate(container.children.length+1)
+      );
+
+      refreshRoomLabels();
+    }
+
+    function removeRoom(button){
+      const rows=document.querySelectorAll('.room-row');
+
+      if(rows.length<=1){
+        alert('Keep at least one room.');
+        return;
+      }
+
+      button.closest('.room-row').remove();
+      refreshRoomLabels();
+    }
+
+    function syncRoomsFromCount(){
+      const requested=Math.min(
+        Math.max(parseInt(document.getElementById('roomCount').value)||1,1),
+        20
+      );
+
+      const container=document.getElementById('roomRows');
+
+      while(container.children.length<requested){
+        addRoom();
+      }
+
+      while(container.children.length>requested){
+        container.lastElementChild.remove();
+      }
+
+      refreshRoomLabels();
+    }
+
+    function collectRooms(){
+      return [...document.querySelectorAll('.room-row')].map((row,index)=>({
+        name:row.querySelector('.roomName').value.trim()||'Room '+(index+1),
+        roomSize:parseFloat(row.querySelector('.roomSize').value)||0,
+        occupants:Math.max(
+          parseInt(row.querySelector('.occupants').value)||1,
+          1
+        ),
+        storageAccess:Number(row.querySelector('.storageAccess').value),
+        garageAccess:Number(row.querySelector('.garageAccess').value)
+      }));
+    }
+
+    function calculateRent(){
+      const rent=getNumber('totalRent');
+      const sharedSpace=getNumber('sharedSpace');
+      const sharedMethod=document.getElementById('sharedSpaceMethod').value;
+      const storagePremium=getNumber('storagePremium')/100;
+      const garagePremium=getNumber('garagePremium')/100;
+      const sizeUnit=document.getElementById('sizeUnit').value;
+      const result=document.getElementById('result');
+      const rooms=collectRooms();
+
+      if(rent<=0){
+        result.innerHTML='<p>Please enter a valid total rent amount.</p>';
+        return;
+      }
+
+      if(rooms.some(room=>room.roomSize<=0)){
+        result.innerHTML='<p>Please enter a valid size for every room.</p>';
+        return;
+      }
+
+      const totalOccupants=rooms.reduce(
+        (sum,room)=>sum+room.occupants,
+        0
+      );
+
+      rooms.forEach(room=>{
+        let sharedSpaceShare=0;
+
+        if(sharedMethod==='equal' && sharedSpace>0){
+          sharedSpaceShare=sharedSpace/rooms.length;
+        }
+
+        if(sharedMethod==='occupants' && sharedSpace>0){
+          sharedSpaceShare=sharedSpace*(room.occupants/totalOccupants);
+        }
+
+        room.sharedSpaceShare=sharedSpaceShare;
+        room.baseValue=room.roomSize+sharedSpaceShare;
+
+        room.multiplier=
+          1+
+          room.storageAccess*storagePremium+
+          room.garageAccess*garagePremium;
+
+        room.effectiveValue=
+          room.baseValue*room.multiplier;
+      });
+
+      const totalEffectiveValue=rooms.reduce(
+        (sum,room)=>sum+room.effectiveValue,
+        0
+      );
+
+      rooms.forEach(room=>{
+        room.percent=
+          (room.effectiveValue/totalEffectiveValue)*100;
+
+        room.total=
+          rent*(room.effectiveValue/totalEffectiveValue);
+
+        room.perPerson=
+          room.total/room.occupants;
+      });
+
+      const sharedMethodLabel=
+        sharedMethod==='ignore'
+          ? 'Shared space excluded'
+          : sharedMethod==='equal'
+            ? 'Shared space divided equally by room'
+            : 'Shared space divided according to occupants';
+
+      const rows=rooms.map(room=>`
+        <tr>
+          <td>${escapeHtml(room.name)}</td>
+          <td>${room.occupants}</td>
+          <td>${formatNumber(room.roomSize)} ${sizeUnit}</td>
+          <td>${room.storageAccess?'Yes':'No'}</td>
+          <td>${room.garageAccess?'Yes':'No'}</td>
+          <td>${room.percent.toFixed(1)}%</td>
+          <td class="money-cell">${money(room.total)}</td>
+          <td>${money(room.perPerson)}</td>
+        </tr>
+      `).join('');
+
+      result.innerHTML=`
+        <div class="summary-line">
+          ${rooms.length} rooms ·
+          ${totalOccupants} occupants ·
+          ${Math.round(storagePremium*100)}% storage premium ·
+          ${Math.round(garagePremium*100)}% garage premium ·
+          ${sharedMethodLabel}
+        </div>
+
+        <table class="result-table">
+          <thead>
+            <tr>
+              <th>Room</th>
+              <th>Occupants</th>
+              <th>Room size</th>
+              <th>Storage</th>
+              <th>Garage</th>
+              <th>Rent share</th>
+              <th>Room total</th>
+              <th>Per person</th>
+            </tr>
+          </thead>
+
+          <tbody>${rows}</tbody>
+        </table>
+
+        <p class="note">
+          Each room's share is based on room size, optional shared-space allocation,
+          and the selected premiums for private storage and exclusive garage access.
+        </p>
+      `;
+    }
+
+    function formatNumber(value){
+      return Number(value||0).toLocaleString(undefined,{
+        maximumFractionDigits:2
+      });
+    }
+
+    function escapeHtml(value){
+      return String(value)
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'",'&#039;');
+    }
+
+    async function copyResult(){
+      const result=document.getElementById('result');
+
+      if(!result.innerText.trim()){
+        alert('Calculate the rent split first.');
+        return;
+      }
+
+      try{
+        await navigator.clipboard.writeText(result.innerText.trim());
+        alert('Result copied.');
+      }catch(error){
+        const textarea=document.createElement('textarea');
+
+        textarea.value=result.innerText.trim();
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        textarea.remove();
+
+        alert('Result copied.');
+      }
+    }
+
+    syncRoomsFromCount();
+    updatePremiumLabels();
+  </script>
+
+  <div id="footer-container"></div>
+  <script src="/components/shared.js"></script>
+</body>
+</html>
