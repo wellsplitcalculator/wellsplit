@@ -400,7 +400,313 @@
         flex:1 1 100%
       }
     }
+
+    .content-section{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+      margin-bottom:16px
+    }
+
+    .content-section h2{
+      font-size:1.45rem;
+      line-height:1.2;
+      letter-spacing:-.035em;
+      margin-bottom:10px
+    }
+
+    .content-section h3{
+      font-size:1.02rem;
+      margin:18px 0 6px
+    }
+
+    .content-section p{
+      color:var(--muted);
+      font-size:.9rem;
+      line-height:1.65;
+      margin-bottom:10px
+    }
+
+    .content-section ul{
+      margin:8px 0 10px 20px;
+      color:var(--muted);
+      font-size:.9rem
+    }
+
+    .content-section li{
+      margin-bottom:5px
+    }
+
+    #faqs h2{
+      font-size:1.55rem;
+      margin-bottom:8px;
+      letter-spacing:-.03em
+    }
+
+    .faq-list{
+      display:flex;
+      flex-direction:column;
+      gap:9px;
+      margin-top:15px
+    }
+
+    .faq-item{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:13px;
+      overflow:hidden;
+      transition:border-color .2s ease,background .2s ease
+    }
+
+    .faq-item:hover{
+      border-color:var(--accent)
+    }
+
+    .faq-item[open]{
+      background:var(--panel-2)
+    }
+
+    .faq-item summary{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      cursor:pointer;
+      list-style:none;
+      user-select:none;
+      padding:12px 14px;
+      font-size:.9rem;
+      font-weight:750;
+      line-height:1.35;
+      color:var(--text)
+    }
+
+    .faq-item summary::-webkit-details-marker{
+      display:none
+    }
+
+    .faq-item summary::before{
+      content:"▶";
+      font-size:.7rem;
+      flex-shrink:0;
+      color:var(--text);
+      transition:transform .2s ease
+    }
+
+    .faq-item[open] summary::before{
+      transform:rotate(90deg)
+    }
+
+    .faq-answer{
+      padding:0 14px 13px 35px
+    }
+
+    .faq-answer p{
+      margin:0;
+      font-size:.83rem;
+      line-height:1.6;
+      color:var(--muted)
+    }
+
+    @media(max-width:780px){
+      .content-section{
+        padding:15px
+      }
+
+      #faqs h2{
+        font-size:1.4rem
+      }
+
+      .faq-list{
+        gap:8px
+      }
+
+      .faq-item summary{
+        padding:11px 13px;
+        font-size:.87rem
+      }
+
+      .faq-answer{
+        padding:0 13px 12px 33px
+      }
+
+      .faq-answer p{
+        font-size:.81rem
+      }
+    }
+
   </style>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a rent split by room size calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A rent split by room size calculator divides rent according to each bedroom's size. Larger bedrooms pay a larger share, while smaller bedrooms pay less."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does this room-size rent calculator work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enter the total monthly rent, each bedroom's size, the number of occupants, and an optional shared-space amount. The calculator then assigns each room a percentage of the total rent."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you split rent by bedroom size?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Add all bedroom sizes together, calculate each room's percentage of the total bedroom area, and apply that percentage to the rent. This calculator can also include a share of common space."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should shared space be included in a rent split?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It can be. Including shared space may produce a fairer result when kitchens, living rooms, and other common areas make up a large part of the home."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does 'divide shared space equally by room' mean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It means every bedroom receives the same share of the common-area size, regardless of how many people occupy the room."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does 'divide shared space according to occupants' mean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It means rooms with more occupants receive a larger share of the common space because more people use the kitchen, living room, bathrooms, and other shared areas."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if I exclude shared space?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The calculator uses bedroom sizes only. Each room's rent is based entirely on its percentage of the total private bedroom area."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do couples use this calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enter the couple's bedroom as one room and set the occupants to two. The calculator shows the room total and the amount each partner pays."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can multiple people share one room?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Enter the room once and set the correct number of occupants. The calculator divides that room's total equally among them."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use square feet or square metres?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Select either square feet or square metres. Use the same unit for every room and for the shared-space measurement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I measure a bedroom?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Measure the room's length and width, then multiply them. For example, a 12-foot by 10-foot room is 120 square feet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I measure shared space?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Measure common areas such as the living room, kitchen, hallways, and shared bathrooms. Add those areas together to get the total shared-space size."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if all bedrooms are the same size?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If shared space is divided equally by room, each room will pay the same total. If shared space is divided by occupants, rooms with more people may pay more."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if one room is much larger?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The larger room will receive a higher rent share because it represents more of the home's effective space."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can this calculator handle three or more rooms?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Add as many room rows as needed, up to the calculator's room limit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is effective room size calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Effective room size equals the private bedroom size plus that room's assigned share of common space."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is the per-person amount calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The calculator divides each room's total by the number of occupants in that room."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this calculator include utilities?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It calculates monthly rent only. Utilities can be divided separately, often by person or according to actual usage."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do all room totals add up to the full rent?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The calculator distributes the full monthly rent across all entered rooms, subject only to minor rounding in the displayed values."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the calculated rent split legally binding?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The result is an estimate for roommate discussions. Everyone should agree to the final split and follow the lease and applicable rental rules."
+      }
+    }
+  ]
+}
+  </script>
+
 </head>
 
 <body>
@@ -486,6 +792,174 @@
           </div>
 
           <div class="result" id="result"></div>
+        </section>
+
+        <section class="content-section" id="about">
+          <h2>About the Rent Split by Room Size Calculator</h2>
+
+          <p>
+            The WellSplit Rent Split by Room Size Calculator helps roommates divide rent
+            according to bedroom size, shared-space allocation, and the number of people
+            sharing each room. It is useful for apartments, houses, student rentals, and
+            other shared homes where bedrooms are not equal.
+          </p>
+
+          <p>
+            The calculator assigns each room an effective size. Effective size includes
+            the private bedroom area plus an optional share of common space. Shared space
+            can be divided equally by room, divided according to occupants, or excluded
+            entirely.
+          </p>
+
+          <h3>How to use this room-size rent calculator</h3>
+
+          <ul>
+            <li>Enter the total monthly rent and choose a currency.</li>
+            <li>Select square feet or square metres for all measurements.</li>
+            <li>Enter the total shared-space size or leave it out.</li>
+            <li>Choose how shared space should be assigned.</li>
+            <li>Add each bedroom, its size, and the number of occupants.</li>
+            <li>Calculate each room's total and the amount owed per person.</li>
+          </ul>
+
+          <p>
+            This method is helpful when roommates want a transparent rent split based on
+            private space while still accounting for shared areas. The result provides a
+            practical starting point, and all roommates should review and agree to the
+            final arrangement.
+          </p>
+        </section>
+
+        <section class="content-section" id="faqs">
+          <h2>Rent Split by Room Size FAQs</h2>
+
+          <p>
+            These answers explain common questions about dividing rent by bedroom size,
+            shared space, occupants, and per-person payments.
+          </p>
+
+          <div class="faq-list">
+          <details class="faq-item">
+            <summary>What is a rent split by room size calculator?</summary>
+            <div class="faq-answer">
+              <p>A rent split by room size calculator divides rent according to each bedroom's size. Larger bedrooms pay a larger share, while smaller bedrooms pay less.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>How does this room-size rent calculator work?</summary>
+            <div class="faq-answer">
+              <p>Enter the total monthly rent, each bedroom's size, the number of occupants, and an optional shared-space amount. The calculator then assigns each room a percentage of the total rent.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>How do you split rent by bedroom size?</summary>
+            <div class="faq-answer">
+              <p>Add all bedroom sizes together, calculate each room's percentage of the total bedroom area, and apply that percentage to the rent. This calculator can also include a share of common space.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Should shared space be included in a rent split?</summary>
+            <div class="faq-answer">
+              <p>It can be. Including shared space may produce a fairer result when kitchens, living rooms, and other common areas make up a large part of the home.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>What does 'divide shared space equally by room' mean?</summary>
+            <div class="faq-answer">
+              <p>It means every bedroom receives the same share of the common-area size, regardless of how many people occupy the room.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>What does 'divide shared space according to occupants' mean?</summary>
+            <div class="faq-answer">
+              <p>It means rooms with more occupants receive a larger share of the common space because more people use the kitchen, living room, bathrooms, and other shared areas.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>What happens if I exclude shared space?</summary>
+            <div class="faq-answer">
+              <p>The calculator uses bedroom sizes only. Each room's rent is based entirely on its percentage of the total private bedroom area.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>How do couples use this calculator?</summary>
+            <div class="faq-answer">
+              <p>Enter the couple's bedroom as one room and set the occupants to two. The calculator shows the room total and the amount each partner pays.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Can multiple people share one room?</summary>
+            <div class="faq-answer">
+              <p>Yes. Enter the room once and set the correct number of occupants. The calculator divides that room's total equally among them.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Can I use square feet or square metres?</summary>
+            <div class="faq-answer">
+              <p>Yes. Select either square feet or square metres. Use the same unit for every room and for the shared-space measurement.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>How do I measure a bedroom?</summary>
+            <div class="faq-answer">
+              <p>Measure the room's length and width, then multiply them. For example, a 12-foot by 10-foot room is 120 square feet.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>How do I measure shared space?</summary>
+            <div class="faq-answer">
+              <p>Measure common areas such as the living room, kitchen, hallways, and shared bathrooms. Add those areas together to get the total shared-space size.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>What if all bedrooms are the same size?</summary>
+            <div class="faq-answer">
+              <p>If shared space is divided equally by room, each room will pay the same total. If shared space is divided by occupants, rooms with more people may pay more.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>What if one room is much larger?</summary>
+            <div class="faq-answer">
+              <p>The larger room will receive a higher rent share because it represents more of the home's effective space.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Can this calculator handle three or more rooms?</summary>
+            <div class="faq-answer">
+              <p>Yes. Add as many room rows as needed, up to the calculator's room limit.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>How is effective room size calculated?</summary>
+            <div class="faq-answer">
+              <p>Effective room size equals the private bedroom size plus that room's assigned share of common space.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>How is the per-person amount calculated?</summary>
+            <div class="faq-answer">
+              <p>The calculator divides each room's total by the number of occupants in that room.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Does this calculator include utilities?</summary>
+            <div class="faq-answer">
+              <p>No. It calculates monthly rent only. Utilities can be divided separately, often by person or according to actual usage.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Do all room totals add up to the full rent?</summary>
+            <div class="faq-answer">
+              <p>Yes. The calculator distributes the full monthly rent across all entered rooms, subject only to minor rounding in the displayed values.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Is the calculated rent split legally binding?</summary>
+            <div class="faq-answer">
+              <p>No. The result is an estimate for roommate discussions. Everyone should agree to the final split and follow the lease and applicable rental rules.</p>
+            </div>
+          </details>
+          </div>
         </section>
       </div>
 
