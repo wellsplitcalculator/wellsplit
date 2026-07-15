@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+  <!-- Google AdSense tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1724135069833024"
+       crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR5ESWGW9Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VR5ESWGW9Y');
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/files/favicon.png">
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Breakup budget separation calculator. Plan your financial separation, divide assets, and create sustainable post-breakup budgets.">
+  <title>Breakup Budget Separation Calculator · WellSplit</title>
+  <link rel="stylesheet" href="/components/styles.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #2f343c; --panel: #3a4048; --panel-2: #454c56;
+      --field: #505863; --text: #f3f4f6; --muted: #c6ccd4;
+      --border: #606977; --accent: #7dd3fc; --accent-2: #38bdf8;
+      --danger: #f87171; --shadow: 0 18px 50px rgba(0,0,0,.18);
+      --radius: 16px;
+      --green: #6ee7b7;
+      --orange: #fcd34d;
+      --purple: #c4b5fd;
+      --pink: #f9a8d4;
+    }
+    html[data-theme="light"] {
+      --bg: #f6f7f9; --panel: #fff; --panel-2: #f1f5f9;
+      --field: #fff; --text: #111827; --muted: #5e6b78;
+      --border: #dce3eb; --accent: #0369a1; --accent-2: #0284c7;
+      --danger: #b91c1c; --shadow: 0 18px 45px rgba(15,23,42,.08);
+      --green: #059669;
+      --orange: #d97706;
+      --purple: #7c3aed;
+      --pink: #db2777;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh; background: var(--bg); color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    main { padding: 42px 6% 32px; }
+    .content-layout {
+      width: min(100%, 1180px);
+      display: grid;
+      grid-template-columns: minmax(0, 780px) minmax(280px, 1fr);
+      gap: 30px; align-items: start;
+    }
+    .page-shell { width: 100%; min-width: 0; }
+    .ad-space { min-height: 600px; }
+    .ad-column { display: block; }
+    .hero { margin-bottom: 18px; }
+    h1 {
+      max-width: 780px; font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+      line-height: 1.02; letter-spacing: -.06em; margin-bottom: 10px;
+    }
+    .hero p { max-width: 720px; color: var(--muted); font-size: .88rem; }
+    .calculator {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .section-title { font-size: 1.02rem; letter-spacing: -.035em; margin-bottom: 3px; }
+    .section-description {
+      color: var(--muted); font-size: .8rem;
+      line-height: 1.4; margin-bottom: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+    .grid-person {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 10px;
+      background: color-mix(in srgb, var(--panel-2) 50%, transparent);
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+    .grid-person .person-label {
+      grid-column: 1 / -1;
+      font-weight: 700;
+      font-size: .85rem;
+      color: var(--accent);
+      margin-bottom: 2px;
+    }
+    label {
+      display: block; margin-bottom: 3px; color: var(--muted);
+      font-size: .7rem; font-weight: 800;
+    }
+    input, select {
+      width: 100%; min-height: 38px; background: var(--field);
+      color: var(--text); border: 1px solid var(--border);
+      border-radius: 10px; padding: 7px 10px; outline: none;
+      font-size: .85rem;
+    }
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+    .result {
+      margin-top: 12px; padding: 12px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 12px; min-height: 50px; overflow-x: auto;
+    }
+    .result:empty::before {
+      content: "Your separation budget analysis will appear here.";
+      color: var(--muted); font-weight: 600;
+    }
+    .summary-line {
+      color: var(--muted); font-size: .78rem; margin-bottom: 10px;
+    }
+    .result-table {
+      width: 100%; min-width: 520px; border-collapse: collapse;
+      font-size: .82rem;
+    }
+    .result-table th, .result-table td {
+      padding: 7px 6px; border-bottom: 1px solid var(--border);
+      text-align: left; vertical-align: top;
+    }
+    .result-table th {
+      color: var(--muted); font-size: .68rem;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .result-table tr:last-child td { border-bottom: 0; }
+    .money-cell { font-weight: 900; color: var(--accent); white-space: nowrap; }
+    .deficit-cell { font-weight: 900; color: var(--danger); white-space: nowrap; }
+    .surplus-cell { font-weight: 900; color: var(--green); white-space: nowrap; }
+    .note {
+      margin-top: 10px; color: var(--muted); font-size: .76rem;
+      line-height: 1.4;
+    }
+    .btns {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px;
+    }
+    button {
+      border: 0; cursor: pointer; border-radius: 10px;
+      padding: 8px 12px; font-size: .82rem; font-weight: 900;
+      transition: .16s;
+    }
+    button:hover { transform: translateY(-1px); }
+    .primary { background: var(--accent); color: #061018; }
+    .primary:hover { background: var(--accent-2); }
+    .secondary {
+      background: var(--panel-2); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .content-section {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .content-section h2 { font-size: 1.3rem; letter-spacing: -.035em; margin-bottom: 8px; }
+    .content-section h3 { font-size: .98rem; margin: 14px 0 5px; }
+    .content-section p { color: var(--muted); font-size: .85rem; margin-bottom: 8px; }
+    .content-section ul { margin: 6px 0 8px 18px; color: var(--muted); font-size: .85rem; }
+    .content-section li { margin-bottom: 4px; }
+    #faqs h2 { font-size: 1.6rem; margin-bottom: 6px; letter-spacing: -.03em; }
+    .faq-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .faq-item {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .faq-item:hover { border-color: var(--accent); }
+    .faq-item[open] { background: var(--panel-2); }
+    .faq-item summary {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+      list-style: none; user-select: none; padding: 10px 14px;
+      font-size: .88rem; font-weight: 700; line-height: 1.3; color: var(--text);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before {
+      content: "▶"; font-size: .7rem; flex-shrink: 0;
+      color: var(--text); transition: transform .22s ease;
+    }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-answer { padding: 0 18px 12px 42px; }
+    .faq-answer p { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    footer { padding: 20px 6%; color: var(--muted); border-top: 1px solid var(--border); font-size: .85rem; text-align: center; }
+    @media (max-width:900px) { .content-layout { display: block; width: 100%; } .ad-column { display: none; } }
+    @media (max-width:780px) {
+      main { padding: 28px 14px 20px; }
+      h1 { font-size: clamp(1.6rem, 8vw, 2.5rem); }
+      .calculator, .content-section { padding: 12px; }
+      .grid, .grid-3, .grid-person { grid-template-columns: 1fr; }
+      .btns button { flex: 1 1 130px; }
+      .faq-answer { padding: 0 14px 10px 34px; }
+      .faq-answer p { font-size: .82rem; }
+      #faqs h2 { font-size: 1.4rem; }
+      .faq-item summary { padding: 8px 12px; gap: 8px; font-size: .84rem; }
+    }
+    @media (max-width:420px) { .btns button { flex: 1 1 100%; } }
+    .highlight-box {
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      border-left: 3px solid var(--accent);
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 6px;
+      font-size: .85rem;
+    }
+    .highlight-box.success {
+      background: color-mix(in srgb, var(--green) 15%, transparent);
+      border-left-color: var(--green);
+    }
+    .highlight-box.warning {
+      background: color-mix(in srgb, var(--orange) 15%, transparent);
+      border-left-color: var(--orange);
+    }
+    .highlight-box.danger {
+      background: color-mix(in srgb, var(--danger) 15%, transparent);
+      border-left-color: var(--danger);
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin: 8px 0;
+    }
+    .result-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+    .result-card .label {
+      color: var(--muted);
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-weight: 800;
+    }
+    .result-card .amount {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .result-card .amount.deficit { color: var(--danger); }
+    .result-card .amount.surplus { color: var(--green); }
+    .result-card .detail {
+      color: var(--muted);
+      font-size: .75rem;
+      margin-top: 4px;
+    }
+    .comparison-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .8rem;
+    }
+    .comparison-row:last-child { border-bottom: 0; }
+    .comparison-label { color: var(--muted); }
+    .status-badge {
+      display: inline-block;
+      padding: 2px 12px;
+      border-radius: 20px;
+      font-size: .7rem;
+      font-weight: 700;
+    }
+    .status-ok { background: color-mix(in srgb, var(--green) 20%, transparent); color: var(--green); }
+    .status-tight { background: color-mix(in srgb, var(--orange) 20%, transparent); color: var(--orange); }
+    .status-stress { background: color-mix(in srgb, var(--danger) 20%, transparent); color: var(--danger); }
+    @media (max-width:600px) {
+      .result-grid { grid-template-columns: 1fr; }
+      .result-card .amount { font-size: 1.3rem; }
+    }
+    .asset-input-group {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .asset-input-group input[type="number"] {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar-container"></div>
+  <main>
+    <div class="content-layout">
+      <div class="page-shell">
+        <section class="hero">
+          <h1>Breakup Budget Separation Calculator</h1>
+          <p>Plan your financial separation with clarity. Calculate individual budgets, divide assets and debts, and create a sustainable path forward.</p>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">1. Current combined budget</h2>
+          <p class="section-description">Enter your current combined monthly income and expenses.</p>
+          <div class="grid">
+            <div>
+              <label for="combinedIncome12">Combined monthly income</label>
+              <input id="combinedIncome12" type="number" inputmode="decimal" min="0" placeholder="7000" value="">
+            </div>
+            <div>
+              <label for="currencySymbol12">Currency</label>
+              <select id="currencySymbol12">
+                <option value="$">$ (USD)</option>
+                <option value="€">€ (EUR)</option>
+                <option value="£">£ (GBP)</option>
+                <option value="CA$">CA$ (CAD)</option>
+                <option value="AU$">AU$ (AUD)</option>
+                <option value="¥">¥ (JPY)</option>
+                <option value="CHF">CHF (CHF)</option>
+                <option value="kr">kr (SEK)</option>
+                <option value="NZ$">NZ$ (NZD)</option>
+                <option value="₹">₹ (INR)</option>
+                <option value="R">R (ZAR)</option>
+                <option value="S$">S$ (SGD)</option>
+                <option value="HK$">HK$ (HKD)</option>
+              </select>
+            </div>
+            <div>
+              <label for="combinedRent">Combined rent / mortgage</label>
+              <input id="combinedRent" type="number" inputmode="decimal" min="0" placeholder="2000" value="">
+            </div>
+            <div>
+              <label for="combinedBills12">Combined utilities &amp; bills</label>
+              <input id="combinedBills12" type="number" inputmode="decimal" min="0" placeholder="400" value="">
+            </div>
+            <div>
+              <label for="combinedGroceries12">Combined groceries</label>
+              <input id="combinedGroceries12" type="number" inputmode="decimal" min="0" placeholder="600" value="">
+            </div>
+            <div>
+              <label for="combinedTransport12">Combined transportation</label>
+              <input id="combinedTransport12" type="number" inputmode="decimal" min="0" placeholder="400" value="">
+            </div>
+            <div>
+              <label for="combinedOther12">Combined other monthly expenses</label>
+              <input id="combinedOther12" type="number" inputmode="decimal" min="0" placeholder="500" value="">
+            </div>
+            <div>
+              <label for="combinedDebt12">Combined debt payments</label>
+              <input id="combinedDebt12" type="number" inputmode="decimal" min="0" placeholder="600" value="">
+            </div>
+          </div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">2. Individual income &amp; budget</h2>
+          <p class="section-description">Enter each partner's post-separation income and estimated individual expenses.</p>
+          
+          <div class="grid-person">
+            <div class="person-label">👤 Partner 1</div>
+            <div>
+              <label for="p1Name12">Name</label>
+              <input id="p1Name12" type="text" placeholder="Alex" value="Alex">
+            </div>
+            <div>
+              <label for="p1Income12">Monthly income</label>
+              <input id="p1Income12" type="number" inputmode="decimal" min="0" placeholder="3500" value="">
+            </div>
+            <div>
+              <label for="p1Rent12">Individual rent / mortgage</label>
+              <input id="p1Rent12" type="number" inputmode="decimal" min="0" placeholder="1200" value="">
+            </div>
+            <div>
+              <label for="p1Bills12">Individual utilities &amp; bills</label>
+              <input id="p1Bills12" type="number" inputmode="decimal" min="0" placeholder="250" value="">
+            </div>
+            <div>
+              <label for="p1Groceries12">Individual groceries</label>
+              <input id="p1Groceries12" type="number" inputmode="decimal" min="0" placeholder="400" value="">
+            </div>
+            <div>
+              <label for="p1Transport12">Individual transportation</label>
+              <input id="p1Transport12" type="number" inputmode="decimal" min="0" placeholder="300" value="">
+            </div>
+            <div>
+              <label for="p1Other12">Individual other expenses</label>
+              <input id="p1Other12" type="number" inputmode="decimal" min="0" placeholder="300" value="">
+            </div>
+            <div>
+              <label for="p1Debt12">Individual debt payments</label>
+              <input id="p1Debt12" type="number" inputmode="decimal" min="0" placeholder="300" value="">
+            </div>
+          </div>
+
+          <div class="grid-person">
+            <div class="person-label">👤 Partner 2</div>
+            <div>
+              <label for="p2Name12">Name</label>
+              <input id="p2Name12" type="text" placeholder="Jordan" value="Jordan">
+            </div>
+            <div>
+              <label for="p2Income12">Monthly income</label>
+              <input id="p2Income12" type="number" inputmode="decimal" min="0" placeholder="3500" value="">
+            </div>
+            <div>
+              <label for="p2Rent12">Individual rent / mortgage</label>
+              <input id="p2Rent12" type="number" inputmode="decimal" min="0" placeholder="1200" value="">
+            </div>
+            <div>
+              <label for="p2Bills12">Individual utilities &amp; bills</label>
+              <input id="p2Bills12" type="number" inputmode="decimal" min="0" placeholder="250" value="">
+            </div>
+            <div>
+              <label for="p2Groceries12">Individual groceries</label>
+              <input id="p2Groceries12" type="number" inputmode="decimal" min="0" placeholder="400" value="">
+            </div>
+            <div>
+              <label for="p2Transport12">Individual transportation</label>
+              <input id="p2Transport12" type="number" inputmode="decimal" min="0" placeholder="300" value="">
+            </div>
+            <div>
+              <label for="p2Other12">Individual other expenses</label>
+              <input id="p2Other12" type="number" inputmode="decimal" min="0" placeholder="300" value="">
+            </div>
+            <div>
+              <label for="p2Debt12">Individual debt payments</label>
+              <input id="p2Debt12" type="number" inputmode="decimal" min="0" placeholder="300" value="">
+            </div>
+          </div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">3. Assets, debts &amp; separation costs</h2>
+          <p class="section-description">Enter assets to divide and one-time separation costs.</p>
+          <div class="grid">
+            <div>
+              <label for="cashAssets">Cash / savings to divide</label>
+              <input id="cashAssets" type="number" inputmode="decimal" min="0" placeholder="10000" value="">
+            </div>
+            <div>
+              <label for="investmentAssets">Investments / retirement to divide</label>
+              <input id="investmentAssets" type="number" inputmode="decimal" min="0" placeholder="15000" value="">
+            </div>
+            <div>
+              <label for="propertyEquity">Property equity to divide</label>
+              <input id="propertyEquity" type="number" inputmode="decimal" min="0" placeholder="50000" value="">
+            </div>
+            <div>
+              <label for="otherAssets">Other assets to divide</label>
+              <input id="otherAssets" type="number" inputmode="decimal" min="0" placeholder="5000" value="">
+            </div>
+            <div>
+              <label for="combinedDebtTotal">Combined debt to divide</label>
+              <input id="combinedDebtTotal" type="number" inputmode="decimal" min="0" placeholder="8000" value="">
+            </div>
+            <div>
+              <label for="separationCosts">One-time separation costs (moving, legal, etc.)</label>
+              <input id="separationCosts" type="number" inputmode="decimal" min="0" placeholder="3000" value="">
+            </div>
+            <div>
+              <label for="assetSplitMethod">Asset split method</label>
+              <select id="assetSplitMethod">
+                <option value="equal">Equal split (50/50)</option>
+                <option value="income">Proportional by income</option>
+                <option value="custom">Custom percentage</option>
+              </select>
+            </div>
+            <div id="customAssetDiv" style="display:none;">
+              <label for="customAssetPct">Partner 1's share (%)</label>
+              <input id="customAssetPct" type="number" min="0" max="100" placeholder="60" value="" step="1">
+            </div>
+          </div>
+        </section>
+
+        <section class="calculator">
+          <div class="btns">
+            <button class="primary" onclick="calculateSeparation()" type="button">Calculate Separation</button>
+            <button class="secondary" onclick="copyResult12()" type="button">Copy result</button>
+            <button class="secondary" onclick="resetSeparation()" type="button">Reset</button>
+          </div>
+          <div class="result" id="result12"></div>
+        </section>
+
+        <section class="content-section" id="about12">
+          <h2>About the Breakup Budget Separation Calculator</h2>
+          <p>Going through a separation is emotionally challenging. This calculator helps you navigate the financial side by comparing your combined budget with individual post-separation budgets, dividing assets and debts, and identifying financial gaps that need to be addressed.</p>
+          <h3>How to use this separation calculator</h3>
+          <ul>
+            <li>Enter your current combined income, expenses, and debts.</li>
+            <li>Enter each partner's projected individual income and expenses after separation.</li>
+            <li>List assets and debts to divide, and one-time separation costs.</li>
+            <li>Calculate to see each person's financial standing and recommended next steps.</li>
+          </ul>
+        </section>
+
+        <section class="content-section" id="faqs12">
+          <h2>Breakup Budget Separation FAQs</h2>
+          <p>Common questions about managing finances during separation.</p>
+          <div class="faq-list">
+            <details class="faq-item"><summary>Why should we plan our budget during a breakup?</summary><div class="faq-answer"><p>Separation is financially disruptive. Planning helps you understand your new financial reality, identify shortfalls, and create a realistic path forward. It reduces stress and helps both partners transition more smoothly.</p></div></details>
+            <details class="faq-item"><summary>How do we split shared expenses fairly?</summary><div class="faq-answer"><p>The calculator shows both equal and income-based splits. Consider what's fair for your situation — sometimes 50/50 works, other times proportional by income is more equitable, especially if there's a significant income gap.</p></div></details>
+            <details class="faq-item"><summary>What assets should we include in the division?</summary><div class="faq-answer"><p>Include cash, investments, retirement accounts, property equity, vehicles, and other valuable assets. The calculator has categories for most common assets. Consult a professional for complex assets.</p></div></details>
+            <details class="faq-item"><summary>How do we handle shared debt?</summary><div class="faq-answer"><p>Shared debt should be divided just like assets. Consider who incurred the debt and for what purpose. The calculator includes a combined debt category that can be split using the same method as assets.</p></div></details>
+            <details class="faq-item"><summary>What are "one-time separation costs"?</summary><div class="faq-answer"><p>These include moving costs, legal fees, new furniture, deposits on new housing, and other expenses you'll only incur once during the separation process. Budgeting for these helps avoid surprises.</p></div></details>
+            <details class="faq-item"><summary>What if one partner has significantly less income?</summary><div class="faq-answer"><p>The calculator highlights income gaps. Consider whether temporary support, asset division adjustments, or lifestyle changes might be needed to ensure both partners can live sustainably.</p></div></details>
+            <details class="faq-item"><summary>Should we use equal or proportional asset splitting?</summary><div class="faq-answer"><p>Equal splitting is common and simple. Proportional by income can be fairer when incomes differ significantly. Custom percentage gives you flexibility if you have specific agreements in mind.</p></div></details>
+            <details class="faq-item"><summary>What if we have a mortgage together?</summary><div class="faq-answer"><p>The mortgage is both a debt and an asset (property). Include the property equity in assets and the mortgage in debts. Decide whether to sell the property or if one partner will buy out the other's share.</p></div></details>
+            <details class="faq-item"><summary>How do we handle joint accounts?</summary><div class="faq-answer"><p>Joint accounts should be frozen or closed during separation. Divide the balance according to your agreed split method. The calculator shows you the amount each partner would receive from joint savings.</p></div></details>
+            <details class="faq-item"><summary>What about retirement accounts?</summary><div class="faq-answer"><p>Retirement accounts may need a Qualified Domestic Relations Order (QDRO) to divide legally. Include them in investments/retirement assets. Consult a professional for legal division.</p></div></details>
+            <details class="faq-item"><summary>Should we include child-related expenses?</summary><div class="faq-answer"><p>Yes, child-related expenses are critical. Include them in each partner's individual budget based on custody arrangements. The calculator helps you see if child support is needed to balance budgets.</p></div></details>
+            <details class="faq-item"><summary>What if our separation is amicable?</summary><div class="faq-answer"><p>Even in amicable separations, financial planning is important. This calculator helps you maintain fairness and avoid future disputes by making the numbers transparent and clear.</p></div></details>
+            <details class="faq-item"><summary>How do we handle tax implications?</summary><div class="faq-answer"><p>Tax implications vary by jurisdiction. This calculator focuses on monthly budgeting and asset division. Consult a tax professional for advice on your specific situation.</p></div></details>
+            <details class="faq-item"><summary>What if one partner wants to keep the home?</summary><div class="faq-answer"><p>Include the property equity in assets and the mortgage in debts. The partner keeping the home may need to "buy out" the other partner's share. The calculator shows the equity amount to be divided.</p></div></details>
+            <details class="faq-item"><summary>How do we deal with different spending habits?</summary><div class="faq-answer"><p>After separation, each person manages their own spending. The calculator assumes each partner will adjust their lifestyle to their new budget. It highlights if a budget seems unrealistic given past spending patterns.</p></div></details>
+            <details class="faq-item"><summary>What if we have pets?</summary><div class="faq-answer"><p>Pet expenses should be included in individual budgets for the partner who keeps the pet. If sharing custody, divide expenses accordingly. The calculator's "other expenses" category can include pet costs.</p></div></details>
+            <details class="faq-item"><summary>Is this calculator legally binding?</summary><div class="faq-answer"><p>No, this is a planning tool, not legal advice. Use it as a starting point for discussions. For legal separation agreements, consult a professional.</p></div></details>
+            <details class="faq-item"><summary>Can this calculator handle multiple assets?</summary><div class="faq-answer"><p>Yes, the calculator aggregates assets into categories. For complex situations with many assets, you may want to use a spreadsheet for detailed tracking and then enter totals into the categories provided.</p></div></details>
+            <details class="faq-item"><summary>How often should we review our separation budget?</summary><div class="faq-answer"><p>Review monthly for the first 6 months, then quarterly. Budgets often need adjustment as you settle into new living arrangements and expenses become clearer.</p></div></details>
+            <details class="faq-item"><summary>Is this calculator free to use?</summary><div class="faq-answer"><p>Yes, completely free. We believe financial clarity during difficult times should be accessible. The calculator is supported by ads to keep it free.</p></div></details>
+          </div>
+        </section>
+      </div>
+      <aside class="ad-column" aria-label="Advertisement"><div class="ad-space"><!-- AdSense ad code --></div></aside>
+    </div>
+  </main>
+  <div id="footer-container"></div>
+  <script>
+    function money12(value) {
+      const sym = document.getElementById('currencySymbol12').value || '$';
+      return sym + Number(value || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function getNumber12(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+    // ---- show/hide custom asset ----
+    document.getElementById('assetSplitMethod').addEventListener('change', function() {
+      document.getElementById('customAssetDiv').style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+
+    // ---- main calculation ----
+    function calculateSeparation() {
+      const p1Name = document.getElementById('p1Name12').value.trim() || 'Partner 1';
+      const p2Name = document.getElementById('p2Name12').value.trim() || 'Partner 2';
+
+      // Combined budget
+      const combinedIncome = getNumber12('combinedIncome12');
+      const combinedRent = getNumber12('combinedRent');
+      const combinedBills = getNumber12('combinedBills12');
+      const combinedGroceries = getNumber12('combinedGroceries12');
+      const combinedTransport = getNumber12('combinedTransport12');
+      const combinedOther = getNumber12('combinedOther12');
+      const combinedDebt = getNumber12('combinedDebt12');
+      const combinedTotalExp = combinedRent + combinedBills + combinedGroceries + combinedTransport + combinedOther + combinedDebt;
+      const combinedSurplus = combinedIncome - combinedTotalExp;
+
+      // Individual budgets
+      const p1Income = getNumber12('p1Income12');
+      const p1Rent = getNumber12('p1Rent12');
+      const p1Bills = getNumber12('p1Bills12');
+      const p1Groceries = getNumber12('p1Groceries12');
+      const p1Transport = getNumber12('p1Transport12');
+      const p1Other = getNumber12('p1Other12');
+      const p1Debt = getNumber12('p1Debt12');
+      const p1TotalExp = p1Rent + p1Bills + p1Groceries + p1Transport + p1Other + p1Debt;
+      const p1Surplus = p1Income - p1TotalExp;
+
+      const p2Income = getNumber12('p2Income12');
+      const p2Rent = getNumber12('p2Rent12');
+      const p2Bills = getNumber12('p2Bills12');
+      const p2Groceries = getNumber12('p2Groceries12');
+      const p2Transport = getNumber12('p2Transport12');
+      const p2Other = getNumber12('p2Other12');
+      const p2Debt = getNumber12('p2Debt12');
+      const p2TotalExp = p2Rent + p2Bills + p2Groceries + p2Transport + p2Other + p2Debt;
+      const p2Surplus = p2Income - p2TotalExp;
+
+      const individualTotalIncome = p1Income + p2Income;
+      const individualTotalExp = p1TotalExp + p2TotalExp;
+
+      // Assets and debts
+      const cashAssets = getNumber12('cashAssets');
+      const investAssets = getNumber12('investmentAssets');
+      const propertyEquity = getNumber12('propertyEquity');
+      const otherAssets = getNumber12('otherAssets');
+      const totalAssets = cashAssets + investAssets + propertyEquity + otherAssets;
+      const totalDebt = getNumber12('combinedDebtTotal');
+      const separationCosts = getNumber12('separationCosts');
+
+      const assetMethod = document.getElementById('assetSplitMethod').value;
+      let p1AssetPct = 50;
+      let p2AssetPct = 50;
+      let assetLabel = '';
+
+      if (assetMethod === 'equal') {
+        p1AssetPct = 50;
+        p2AssetPct = 50;
+        assetLabel = 'Equal split (50/50)';
+      } else if (assetMethod === 'income') {
+        const total = p1Income + p2Income;
+        if (total > 0) {
+          p1AssetPct = (p1Income / total) * 100;
+          p2AssetPct = (p2Income / total) * 100;
+        }
+        assetLabel = 'Proportional by income';
+      } else {
+        const custom = getNumber12('customAssetPct');
+        if (custom <= 0 || custom >= 100) {
+          document.getElementById('result12').innerHTML = '<p>Please enter a valid custom percentage (1-99).</p>';
+          return;
+        }
+        p1AssetPct = custom;
+        p2AssetPct = 100 - custom;
+        assetLabel = 'Custom percentage';
+      }
+
+      const p1Assets = (totalAssets - totalDebt) * (p1AssetPct / 100);
+      const p2Assets = (totalAssets - totalDebt) * (p2AssetPct / 100);
+      const p1NetAfterCosts = p1Assets - (separationCosts * (p1AssetPct / 100));
+      const p2NetAfterCosts = p2Assets - (separationCosts * (p2AssetPct / 100));
+
+      // Status assessment
+      let p1Status, p1StatusClass;
+      if (p1Surplus >= 200) {
+        p1Status = 'Healthy';
+        p1StatusClass = 'status-ok';
+      } else if (p1Surplus >= 0) {
+        p1Status = 'Tight';
+        p1StatusClass = 'status-tight';
+      } else {
+        p1Status = 'Stressed';
+        p1StatusClass = 'status-stress';
+      }
+
+      let p2Status, p2StatusClass;
+      if (p2Surplus >= 200) {
+        p2Status = 'Healthy';
+        p2StatusClass = 'status-ok';
+      } else if (p2Surplus >= 0) {
+        p2Status = 'Tight';
+        p2StatusClass = 'status-tight';
+      } else {
+        p2Status = 'Stressed';
+        p2StatusClass = 'status-stress';
+      }
+
+      const resultDiv = document.getElementById('result12');
+
+      resultDiv.innerHTML = `
+        <div class="summary-line">
+          📊 Separation Financial Plan · Asset split: ${assetLabel}
+        </div>
+
+        <div class="result-grid">
+          <div class="result-card" style="border-color: var(--accent);">
+            <div class="label">💰 Combined budget</div>
+            <div class="amount">${money12(combinedIncome)}</div>
+            <div class="detail">Expenses: ${money12(combinedTotalExp)}</div>
+            <div class="detail" style="color: ${combinedSurplus >= 0 ? 'var(--green)' : 'var(--danger)'};">
+              ${combinedSurplus >= 0 ? 'Surplus' : 'Deficit'}: ${money12(Math.abs(combinedSurplus))}
+            </div>
+          </div>
+          <div class="result-card" style="border-color: var(--green);">
+            <div class="label">💵 ${p1Name} individual</div>
+            <div class="amount ${p1Surplus >= 0 ? 'surplus' : 'deficit'}">${money12(p1Surplus)}</div>
+            <div class="detail">Income: ${money12(p1Income)} · Expenses: ${money12(p1TotalExp)}</div>
+            <div class="detail"><span class="status-badge ${p1StatusClass}">${p1Status}</span></div>
+          </div>
+          <div class="result-card" style="border-color: var(--purple);">
+            <div class="label">💵 ${p2Name} individual</div>
+            <div class="amount ${p2Surplus >= 0 ? 'surplus' : 'deficit'}">${money12(p2Surplus)}</div>
+            <div class="detail">Income: ${money12(p2Income)} · Expenses: ${money12(p2TotalExp)}</div>
+            <div class="detail"><span class="status-badge ${p2StatusClass}">${p2Status}</span></div>
+          </div>
+        </div>
+
+        <div class="result-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="result-card">
+            <div class="label">🏦 Total assets</div>
+            <div class="amount">${money12(totalAssets)}</div>
+            <div class="detail">${p1Name}: ${(p1AssetPct).toFixed(0)}% · ${p2Name}: ${(p2AssetPct).toFixed(0)}%</div>
+          </div>
+          <div class="result-card">
+            <div class="label">📋 Total debt</div>
+            <div class="amount" style="color: var(--danger);">${money12(totalDebt)}</div>
+            <div class="detail">To be divided between partners</div>
+          </div>
+          <div class="result-card">
+            <div class="label">📦 Net assets after split</div>
+            <div class="amount">${money12(totalAssets - totalDebt)}</div>
+            <div class="detail">${p1Name}: ${money12(p1Assets)} · ${p2Name}: ${money12(p2Assets)}</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 10px;">
+          <div style="font-weight:700; font-size:.82rem; margin-bottom:4px;">Individual budget breakdown</div>
+          <div class="comparison-row" style="font-weight:700; border-bottom:2px solid var(--border);">
+            <span>Category</span>
+            <span>${p1Name}</span>
+            <span>${p2Name}</span>
+            <span>Combined</span>
+          </div>
+          <div class="comparison-row">
+            <span>Income</span>
+            <span>${money12(p1Income)}</span>
+            <span>${money12(p2Income)}</span>
+            <span>${money12(p1Income + p2Income)}</span>
+          </div>
+          <div class="comparison-row">
+            <span>Rent / Mortgage</span>
+            <span>${money12(p1Rent)}</span>
+            <span>${money12(p2Rent)}</span>
+            <span>${money12(p1Rent + p2Rent)}</span>
+          </div>
+          <div class="comparison-row">
+            <span>Utilities &amp; bills</span>
+            <span>${money12(p1Bills)}</span>
+            <span>${money12(p2Bills)}</span>
+            <span>${money12(p1Bills + p2Bills)}</span>
+          </div>
+          <div class="comparison-row">
+            <span>Groceries</span>
+            <span>${money12(p1Groceries)}</span>
+            <span>${money12(p2Groceries)}</span>
+            <span>${money12(p1Groceries + p2Groceries)}</span>
+          </div>
+          <div class="comparison-row">
+            <span>Transportation</span>
+            <span>${money12(p1Transport)}</span>
+            <span>${money12(p2Transport)}</span>
+            <span>${money12(p1Transport + p2Transport)}</span>
+          </div>
+          <div class="comparison-row">
+            <span>Other expenses</span>
+            <span>${money12(p1Other)}</span>
+            <span>${money12(p2Other)}</span>
+            <span>${money12(p1Other + p2Other)}</span>
+          </div>
+          <div class="comparison-row">
+            <span>Debt payments</span>
+            <span>${money12(p1Debt)}</span>
+            <span>${money12(p2Debt)}</span>
+            <span>${money12(p1Debt + p2Debt)}</span>
+          </div>
+          <div class="comparison-row" style="font-weight:700; border-top:2px solid var(--border); margin-top:4px; padding-top:6px;">
+            <span>Monthly surplus/deficit</span>
+            <span class="${p1Surplus >= 0 ? 'surplus-cell' : 'deficit-cell'}">${money12(p1Surplus)}</span>
+            <span class="${p2Surplus >= 0 ? 'surplus-cell' : 'deficit-cell'}">${money12(p2Surplus)}</span>
+            <span class="${(p1Surplus + p2Surplus) >= 0 ? 'surplus-cell' : 'deficit-cell'}">${money12(p1Surplus + p2Surplus)}</span>
+          </div>
+        </div>
+
+        ${separationCosts > 0 ? `
+          <div class="highlight-box warning">
+            <strong>📦 One-time separation costs:</strong> ${money12(separationCosts)}
+            <br>
+            ${p1Name}'s share: ${money12(separationCosts * (p1AssetPct / 100))} · 
+            ${p2Name}'s share: ${money12(separationCosts * (p2AssetPct / 100))}
+          </div>
+        ` : ''}
+
+        ${(p1Surplus < 0 || p2Surplus < 0) ? `
+          <div class="highlight-box danger">
+            <strong>⚠️ Budget Alert:</strong>
+            ${p1Surplus < 0 ? `${p1Name} has a monthly deficit of ${money12(Math.abs(p1Surplus))}. ` : ''}
+            ${p2Surplus < 0 ? `${p2Name} has a monthly deficit of ${money12(Math.abs(p2Surplus))}. ` : ''}
+            Consider reducing expenses, increasing income, or adjusting asset/debt division.
+          </div>
+        ` : p1Surplus < 200 || p2Surplus < 200 ? `
+          <div class="highlight-box warning">
+            <strong>💡 Tight Budget:</strong>
+            ${p1Surplus < 200 ? `${p1Name}'s budget is tight (${money12(p1Surplus)} surplus). ` : ''}
+            ${p2Surplus < 200 ? `${p2Name}'s budget is tight (${money12(p2Surplus)} surplus). ` : ''}
+            Consider building an emergency fund and tracking expenses closely.
+          </div>
+        ` : `
+          <div class="highlight-box success">
+            <strong>✅ Healthy Separation Budget:</strong>
+            Both partners have positive monthly surpluses. Continue monitoring expenses and build emergency savings.
+          </div>
+        `}
+
+        <p class="note">
+          <strong>How to interpret:</strong> This calculator shows each partner's financial standing after separation.
+          ${p1Surplus >= 0 && p2Surplus >= 0 ? 'Both partners have positive monthly surpluses, indicating sustainable individual budgets.' : 'One or both partners have budget deficits that need attention.'}
+          <br><br>
+          <strong>Next steps:</strong>
+          ${p1Surplus < 0 || p2Surplus < 0 
+            ? 'Review expenses to identify areas for reduction. Consider if asset division could be adjusted to provide more cash flow to the partner with a deficit.' 
+            : 'Focus on building individual emergency funds (3-6 months of expenses) and establishing new financial routines.'}
+          ${totalAssets - totalDebt > 0 ? ` Net assets of ${money12(totalAssets - totalDebt)} are available to help with the transition.` : ''}
+        </p>
+      `;
+    }
+
+    function resetSeparation() {
+      document.querySelectorAll('.calculator input[type="number"]').forEach(input => {
+        if (input.id !== 'assetSplitMethod') {
+          input.value = '';
+        }
+      });
+      document.getElementById('result12').innerHTML = '';
+    }
+
+    async function copyResult12() {
+      const result = document.getElementById('result12');
+      if (!result.innerText.trim()) { alert('Calculate the separation plan first.'); return; }
+      try {
+        await navigator.clipboard.writeText(result.innerText.trim());
+        alert('Result copied.');
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = result.innerText.trim();
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+        alert('Result copied.');
+      }
+    }
+  </script>
+  <script src="/components/shared.js"></script>
+</body>
+</html>
