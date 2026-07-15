@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+  <!-- Google AdSense tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1724135069833024"
+       crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR5ESWGW9Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VR5ESWGW9Y');
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/files/favicon.png">
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Fair rent and bills split calculator for couples and roommates with unequal incomes. Split shared expenses proportionally by income.">
+  <title>Rent + Bills Split Calculator for Unequal Incomes · WellSplit</title>
+  <link rel="stylesheet" href="/components/styles.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #2f343c; --panel: #3a4048; --panel-2: #454c56;
+      --field: #505863; --text: #f3f4f6; --muted: #c6ccd4;
+      --border: #606977; --accent: #7dd3fc; --accent-2: #38bdf8;
+      --danger: #f87171; --shadow: 0 18px 50px rgba(0,0,0,.18);
+      --radius: 16px;
+    }
+    html[data-theme="light"] {
+      --bg: #f6f7f9; --panel: #fff; --panel-2: #f1f5f9;
+      --field: #fff; --text: #111827; --muted: #5e6b78;
+      --border: #dce3eb; --accent: #0369a1; --accent-2: #0284c7;
+      --danger: #b91c1c; --shadow: 0 18px 45px rgba(15,23,42,.08);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh; background: var(--bg); color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    main { padding: 42px 6% 32px; }
+    .content-layout {
+      width: min(100%, 1180px);
+      display: grid;
+      grid-template-columns: minmax(0, 780px) minmax(280px, 1fr);
+      gap: 30px; align-items: start;
+    }
+    .page-shell { width: 100%; min-width: 0; }
+    .ad-space { min-height: 600px; }
+    .ad-column { display: block; }
+    .hero { margin-bottom: 18px; }
+    h1 {
+      max-width: 780px; font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+      line-height: 1.02; letter-spacing: -.06em; margin-bottom: 10px;
+    }
+    .hero p { max-width: 720px; color: var(--muted); font-size: .88rem; }
+    .calculator {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .section-title { font-size: 1.02rem; letter-spacing: -.035em; margin-bottom: 3px; }
+    .section-description {
+      color: var(--muted); font-size: .8rem;
+      line-height: 1.4; margin-bottom: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+    label {
+      display: block; margin-bottom: 3px; color: var(--muted);
+      font-size: .7rem; font-weight: 800;
+    }
+    input, select {
+      width: 100%; min-height: 38px; background: var(--field);
+      color: var(--text); border: 1px solid var(--border);
+      border-radius: 10px; padding: 7px 10px; outline: none;
+      font-size: .85rem;
+    }
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+    .group-list { display: grid; gap: 8px; }
+    .group-row {
+      padding: 10px; background: color-mix(in srgb, var(--panel-2) 66%, transparent);
+      border: 1px solid var(--border); border-radius: 12px;
+    }
+    .group-row-head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px; margin-bottom: 8px;
+    }
+    .group-label { font-size: .85rem; font-weight: 850; }
+    .group-grid {
+      display: grid; grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 6px; align-items: end;
+    }
+    .remove {
+      width: 34px; height: 34px; padding: 0;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); border-radius: 10px; cursor: pointer;
+      font-size: .9rem; font-weight: 900;
+    }
+    .remove:hover { color: var(--danger); border-color: var(--danger); }
+    .btns {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px;
+    }
+    button {
+      border: 0; cursor: pointer; border-radius: 10px;
+      padding: 8px 12px; font-size: .82rem; font-weight: 900;
+      transition: .16s;
+    }
+    button:hover { transform: translateY(-1px); }
+    .primary { background: var(--accent); color: #061018; }
+    .primary:hover { background: var(--accent-2); }
+    .secondary {
+      background: var(--panel-2); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .result {
+      margin-top: 12px; padding: 12px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 12px; min-height: 50px; overflow-x: auto;
+    }
+    .result:empty::before {
+      content: "Your rent + bills split will appear here.";
+      color: var(--muted); font-weight: 600;
+    }
+    .summary-line {
+      color: var(--muted); font-size: .78rem; margin-bottom: 10px;
+    }
+    .result-table {
+      width: 100%; min-width: 520px; border-collapse: collapse;
+      font-size: .82rem;
+    }
+    .result-table th, .result-table td {
+      padding: 7px 6px; border-bottom: 1px solid var(--border);
+      text-align: left; vertical-align: top;
+    }
+    .result-table th {
+      color: var(--muted); font-size: .68rem;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .result-table tr:last-child td { border-bottom: 0; }
+    .money-cell { font-weight: 900; color: var(--accent); white-space: nowrap; }
+    .note {
+      margin-top: 10px; color: var(--muted); font-size: .76rem;
+      line-height: 1.4;
+    }
+    .content-section {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .content-section h2 { font-size: 1.3rem; letter-spacing: -.035em; margin-bottom: 8px; }
+    .content-section h3 { font-size: .98rem; margin: 14px 0 5px; }
+    .content-section p { color: var(--muted); font-size: .85rem; margin-bottom: 8px; }
+    .content-section ul { margin: 6px 0 8px 18px; color: var(--muted); font-size: .85rem; }
+    .content-section li { margin-bottom: 4px; }
+    #faqs h2 { font-size: 1.6rem; margin-bottom: 6px; letter-spacing: -.03em; }
+    .faq-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .faq-item {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .faq-item:hover { border-color: var(--accent); }
+    .faq-item[open] { background: var(--panel-2); }
+    .faq-item summary {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+      list-style: none; user-select: none; padding: 10px 14px;
+      font-size: .88rem; font-weight: 700; line-height: 1.3; color: var(--text);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before {
+      content: "▶"; font-size: .7rem; flex-shrink: 0;
+      color: var(--text); transition: transform .22s ease;
+    }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-answer { padding: 0 18px 12px 42px; }
+    .faq-answer p { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    footer { padding: 20px 6%; color: var(--muted); border-top: 1px solid var(--border); font-size: .85rem; text-align: center; }
+    @media (max-width:900px) { .content-layout { display: block; width: 100%; } .ad-column { display: none; } }
+    @media (max-width:780px) {
+      main { padding: 28px 14px 20px; }
+      h1 { font-size: clamp(1.6rem, 8vw, 2.5rem); }
+      .calculator, .content-section { padding: 12px; }
+      .grid, .grid-3 { grid-template-columns: 1fr; }
+      .btns button { flex: 1 1 130px; }
+      .faq-answer { padding: 0 14px 10px 34px; }
+      .faq-answer p { font-size: .82rem; }
+      #faqs h2 { font-size: 1.4rem; }
+      .faq-item summary { padding: 8px 12px; gap: 8px; font-size: .84rem; }
+    }
+    @media (max-width:420px) { .btns button { flex: 1 1 100%; } }
+    .highlight-box {
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      border-left: 3px solid var(--accent);
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 6px;
+      font-size: .85rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar-container"></div>
+  <main>
+    <div class="content-layout">
+      <div class="page-shell">
+        <section class="hero">
+          <h1>Rent + Bills Split Calculator for Unequal Incomes</h1>
+          <p>Split shared living expenses fairly based on each person's income. Perfect for couples and roommates with different earnings.</p>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">1. Shared expenses</h2>
+          <p class="section-description">Enter your total monthly rent and bills, then choose how to split them.</p>
+          <div class="grid">
+            <div>
+              <label for="totalRent3">Total monthly rent</label>
+              <input id="totalRent3" type="number" inputmode="decimal" min="0" placeholder="2000" value="">
+            </div>
+            <div>
+              <label for="totalBills">Total monthly bills (utilities, internet, etc.)</label>
+              <input id="totalBills" type="number" inputmode="decimal" min="0" placeholder="300" value="">
+            </div>
+            <div>
+              <label for="currencySymbol3">Currency</label>
+              <select id="currencySymbol3">
+                <option value="$">$ (USD)</option>
+                <option value="€">€ (EUR)</option>
+                <option value="£">£ (GBP)</option>
+                <option value="CA$">CA$ (CAD)</option>
+                <option value="AU$">AU$ (AUD)</option>
+                <option value="¥">¥ (JPY)</option>
+                <option value="CHF">CHF (CHF)</option>
+                <option value="kr">kr (SEK)</option>
+                <option value="NZ$">NZ$ (NZD)</option>
+                <option value="₹">₹ (INR)</option>
+                <option value="R">R (ZAR)</option>
+                <option value="S$">S$ (SGD)</option>
+                <option value="HK$">HK$ (HKD)</option>
+              </select>
+            </div>
+            <div>
+              <label for="splitMethod">Split method</label>
+              <select id="splitMethod">
+                <option value="income">Proportional by income</option>
+                <option value="equal">Equal split (50/50)</option>
+                <option value="custom">Custom percentage</option>
+              </select>
+            </div>
+            <div id="customPercentDiv" style="display:none;">
+              <label for="customPercent">Partner 1's share (%)</label>
+              <input id="customPercent" type="number" min="0" max="100" placeholder="60" value="" step="1">
+            </div>
+          </div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">2. Income details</h2>
+          <p class="section-description">Add each person and their monthly income. The calculator will split expenses proportionally.</p>
+          <div class="group-list" id="incomeRows"></div>
+          <div class="btns">
+            <button class="secondary" onclick="addIncomePerson()" type="button">Add person</button>
+            <button class="primary" onclick="calculateSplit()" type="button">Calculate</button>
+            <button class="secondary" onclick="copyResult3()" type="button">Copy result</button>
+          </div>
+          <div class="result" id="result3"></div>
+        </section>
+
+        <section class="content-section" id="about3">
+          <h2>About the Rent + Bills Split Calculator</h2>
+          <p>The WellSplit Rent + Bills Split Calculator helps couples and roommates divide shared living expenses fairly based on income differences. When one person earns significantly more, splitting expenses 50/50 can be financially stressful for the lower earner. This calculator offers a proportional approach that reflects each person's ability to pay.</p>
+          <h3>How to use this expense split calculator</h3>
+          <ul>
+            <li>Enter your total rent and monthly bills (utilities, internet, etc.).</li>
+            <li>Choose your preferred split method: proportional by income, equal, or custom percentage.</li>
+            <li>Add each person and their monthly take-home income.</li>
+            <li>Calculate to see each person's fair share of shared expenses.</li>
+          </ul>
+          <p>This approach works for couples, roommates, or any shared living situation where incomes differ. It promotes financial fairness and reduces money-related tension in relationships.</p>
+        </section>
+
+        <section class="content-section" id="faqs3">
+          <h2>Rent + Bills Split FAQs</h2>
+          <p>Common questions about splitting shared expenses fairly.</p>
+          <div class="faq-list">
+            <details class="faq-item"><summary>What is proportional income splitting?</summary><div class="faq-answer"><p>Proportional income splitting means each person pays a percentage of shared expenses that matches their percentage of total household income. For example, if one person earns 60% of total income, they pay 60% of rent and bills. This approach is considered fairer than 50/50 when incomes are unequal.</p></div></details>
+            <details class="faq-item"><summary>Why not just split expenses 50/50?</summary><div class="faq-answer"><p>While 50/50 seems equal, it can be financially burdensome when one person earns significantly less. A proportional split ensures both partners maintain a similar standard of living and can contribute to savings, reducing financial stress and potential resentment in relationships.</p></div></details>
+            <details class="faq-item"><summary>What if we have completely different incomes?</summary><div class="faq-answer"><p>That's exactly where this calculator shines. It automatically calculates each person's fair share based on their income proportion. If one earns $3,000/month and the other earns $6,000/month, the higher earner pays 67% of shared expenses, keeping things proportional.</p></div></details>
+            <details class="faq-item"><summary>Should bills be split the same way as rent?</summary><div class="faq-answer"><p>Typically yes, using the same proportional method ensures consistency across all shared expenses. However, some couples split rent proportionally but split utilities equally, especially if usage is roughly the same. The calculator handles both approaches — you can run separate calculations.</p></div></details>
+            <details class="faq-item"><summary>What about groceries and other variable expenses?</summary><div class="faq-answer"><p>Groceries and variable expenses are often split by usage or equally, but you can also apply proportional splitting if you prefer. Many couples include them in the "bills" category for a simplified approach, or handle them separately based on who eats more or has special dietary needs.</p></div></details>
+            <details class="faq-item"><summary>Is proportional splitting always the fairest method?</summary><div class="faq-answer"><p>Fairness is subjective. Proportional splitting is mathematically fair based on income, but some couples prefer 50/50 because they value equality over equity. Others use a hybrid approach where essential bills are proportional and discretionary spending is separate. The calculator lets you choose what works for you.</p></div></details>
+            <details class="faq-item"><summary>What if one person works part-time or is studying?</summary><div class="faq-answer"><p>In these cases, proportional splitting is especially helpful. The lower-income partner pays less, which is more fair given their reduced earning capacity. Many couples agree to revisit the split when income changes, such as after graduation or when the part-time worker returns to full-time employment.</p></div></details>
+            <details class="faq-item"><summary>How do we handle bonuses or irregular income?</summary><div class="faq-answer"><p>For irregular income, use a conservative monthly average over the past 6-12 months. Some couples choose to exclude bonuses from the proportional calculation, treating them as extra savings or personal money. The key is to agree on the approach and communicate openly.</p></div></details>
+            <details class="faq-item"><summary>Should rent be split based on bedroom size too?</summary><div class="faq-answer"><p>This calculator focuses on income-based splitting. If bedrooms are very different in size, you might want to use our Rent Split Calculator first to get a room-size adjusted total, then apply proportional income splitting to that amount. The approach you choose depends on your priorities and household dynamics.</p></div></details>
+            <details class="faq-item"><summary>What if one person works from home and uses more utilities?</summary><div class="faq-answer"><p>This is a valid consideration. If one partner works from home and increases utility usage significantly, you might adjust the split slightly. Some couples add an extra percentage to the working-from-home partner's share, while others accept it as part of proportional splitting. The custom percentage option allows for this flexibility.</p></div></details>
+            <details class="faq-item"><summary>Can this calculator handle more than two people?</summary><div class="faq-answer"><p>Yes! You can add multiple people — the calculator works for couples, roommates, or group living situations. Simply add each person and their income, and the calculator will divide expenses proportionally among all household members.</p></div></details>
+            <details class="faq-item"><summary>What should we do if incomes change?</summary><div class="faq-answer"><p>Regular financial check-ins are recommended. When someone gets a raise, changes jobs, or experiences a change in income, revisit your expense split. The calculator makes it easy to recalculate and adjust your arrangement accordingly.</p></div></details>
+            <details class="faq-item"><summary>Is it okay to use a custom percentage instead?</summary><div class="faq-answer"><p>Absolutely. Some couples prefer a 60/40 split even if incomes differ differently, or they may want to split some expenses differently. The custom percentage option gives you complete flexibility to choose what feels right for your relationship.</p></div></details>
+            <details class="faq-item"><summary>What about debt payments — are they included?</summary><div class="faq-answer"><p>This calculator focuses on shared living expenses like rent and bills. Individual debts (student loans, personal credit cards) are typically paid from each person's own income after shared expenses. The proportional approach ensures that both partners have enough remaining income for personal obligations.</p></div></details>
+            <details class="faq-item"><summary>How does this affect savings and financial goals?</summary><div class="faq-answer"><p>Proportional splitting often leaves both partners with similar disposable income percentages, making it easier for both to save consistently. It prevents the lower earner from being stretched too thin, which can actually accelerate shared financial goals like buying a home or taking vacations together.</p></div></details>
+            <details class="faq-item"><summary>Can we apply different splits to different expenses?</summary><div class="faq-answer"><p>Yes! Many couples use proportional splitting for big expenses like rent and mortgages, but split utilities or groceries equally. The calculator can be run multiple times with different inputs to handle varied arrangements, or you can use the custom percentage option for a blended approach.</p></div></details>
+            <details class="faq-item"><summary>What if one partner wants to pay more?</summary><div class="faq-answer"><p>Some partners prefer to contribute more due to higher income or because they want to cover certain expenses. This is perfectly fine — you can use the custom percentage option or simply adjust the bills input to reflect that one person is covering certain expenses directly. Transparency and agreement are key.</p></div></details>
+            <details class="faq-item"><summary>Does this work for dating couples too?</summary><div class="faq-answer"><p>Yes, this approach works for any couple in a committed relationship, whether married, engaged, or dating. Financial fairness is important at any relationship stage. The calculator can help start important financial conversations early, building a foundation of trust and partnership.</p></div></details>
+            <details class="faq-item"><summary>What about shared ownership of property?</summary><div class="faq-answer"><p>If you own property together, the proportional split might also consider ownership percentages. If one person owns the property, the rent portion may be handled differently. In these cases, combining this calculator with our Fair Rent Split Calculator (which considers room size) can provide a comprehensive solution.</p></div></details>
+            <details class="faq-item"><summary>Is this calculator free to use?</summary><div class="faq-answer"><p>Yes, the WellSplit Rent + Bills Split Calculator is completely free. We believe financial fairness in relationships shouldn't cost money. The calculator is supported by ads to keep it accessible to everyone.</p></div></details>
+          </div>
+        </section>
+      </div>
+      <aside class="ad-column" aria-label="Advertisement"><div class="ad-space"><!-- AdSense ad code --></div></aside>
+    </div>
+  </main>
+  <div id="footer-container"></div>
+  <script>
+    function money3(value) {
+      const sym = document.getElementById('currencySymbol3').value || '$';
+      return sym + Number(value || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function getNumber3(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+    // ---- income rows ----
+    function incomeTemplate(index) {
+      return `
+        <div class="group-row">
+          <div class="group-row-head">
+            <span class="group-label">Person ${index}</span>
+            <button aria-label="Remove person" class="remove" onclick="removeIncomePerson(this)" type="button">×</button>
+          </div>
+          <div class="group-grid">
+            <div><label>Name</label><input class="personName" placeholder="Person ${index}" type="text" value="Person ${index}"></div>
+            <div><label>Monthly income</label><input class="personIncome" type="number" inputmode="decimal" min="0" placeholder="3000" value=""></div>
+            <div><label>Extra expenses</label><input class="personExtraBills" type="number" inputmode="decimal" min="0" placeholder="optional" value="0"></div>
+          </div>
+        </div>
+      `;
+    }
+    function refreshIncomeLabels() {
+      document.querySelectorAll('.group-row').forEach((row, i) => {
+        row.querySelector('.group-label').textContent = 'Person ' + (i + 1);
+        const nameInput = row.querySelector('.personName');
+        if (!nameInput.value.trim()) nameInput.value = 'Person ' + (i + 1);
+      });
+    }
+    function addIncomePerson() {
+      const container = document.getElementById('incomeRows');
+      container.insertAdjacentHTML('beforeend', incomeTemplate(container.children.length + 1));
+      refreshIncomeLabels();
+    }
+    function removeIncomePerson(btn) {
+      const rows = document.querySelectorAll('.group-row');
+      if (rows.length <= 1) { alert('Keep at least one person.'); return; }
+      btn.closest('.group-row').remove();
+      refreshIncomeLabels();
+    }
+    function collectIncomePeople() {
+      return [...document.querySelectorAll('.group-row')].map((row, i) => {
+        const name = row.querySelector('.personName').value.trim() || 'Person ' + (i + 1);
+        const income = parseFloat(row.querySelector('.personIncome').value) || 0;
+        const extra = parseFloat(row.querySelector('.personExtraBills').value) || 0;
+        return { name, income, extra };
+      });
+    }
+
+    // ---- show/hide custom percent ----
+    document.getElementById('splitMethod').addEventListener('change', function() {
+      document.getElementById('customPercentDiv').style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+
+    // ---- main calculation ----
+    function calculateSplit() {
+      const rent = getNumber3('totalRent3');
+      const bills = getNumber3('totalBills');
+      const totalExpenses = rent + bills;
+      const method = document.getElementById('splitMethod').value;
+      const people = collectIncomePeople();
+
+      if (totalExpenses <= 0) {
+        document.getElementById('result3').innerHTML = '<p>Please enter valid rent and bill amounts.</p>';
+        return;
+      }
+      if (people.length < 1) {
+        document.getElementById('result3').innerHTML = '<p>Add at least one person.</p>';
+        return;
+      }
+
+      let results = [];
+      let totalIncome = people.reduce((sum, p) => sum + p.income, 0);
+
+      if (method === 'equal') {
+        const share = totalExpenses / people.length;
+        results = people.map(p => ({
+          ...p,
+          share: share,
+          percent: (share / totalExpenses) * 100
+        }));
+      } else if (method === 'custom') {
+        const customPct = getNumber3('customPercent');
+        if (customPct <= 0 || customPct >= 100) {
+          document.getElementById('result3').innerHTML = '<p>Please enter a valid custom percentage (1-99).</p>';
+          return;
+        }
+        const p1Share = totalExpenses * (customPct / 100);
+        const p2Share = totalExpenses - p1Share;
+        results = people.map((p, idx) => ({
+          ...p,
+          share: idx === 0 ? p1Share : p2Share,
+          percent: idx === 0 ? customPct : 100 - customPct
+        }));
+      } else {
+        // proportional by income
+        if (totalIncome <= 0) {
+          document.getElementById('result3').innerHTML = '<p>Total income must be greater than 0 for proportional split.</p>';
+          return;
+        }
+        results = people.map(p => {
+          const share = totalExpenses * (p.income / totalIncome);
+          return {
+            ...p,
+            share: share,
+            percent: (share / totalExpenses) * 100
+          };
+        });
+      }
+
+      // show result
+      const resultDiv = document.getElementById('result3');
+      const rows = results.map(r => `
+        <tr>
+          <td>${escapeHtml(r.name)}</td>
+          <td>${money3(r.income)}</td>
+          <td>${r.percent.toFixed(1)}%</td>
+          <td class="money-cell">${money3(r.share)}</td>
+          <td>${money3(r.extra)}</td>
+          <td class="money-cell">${money3(r.share + r.extra)}</td>
+        </tr>
+      `).join('');
+
+      const methodLabel = method === 'equal' ? 'Equal split (50/50)' : 
+                          method === 'custom' ? 'Custom percentage' : 
+                          'Proportional by income';
+
+      resultDiv.innerHTML = `
+        <div class="summary-line">
+          Total expenses: ${money3(totalExpenses)} · 
+          ${methodLabel} · 
+          ${people.length} people
+        </div>
+        <table class="result-table">
+          <thead><tr><th>Person</th><th>Monthly income</th><th>Share %</th><th>Expense share</th><th>Extra bills</th><th>Total</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <p class="note">
+          <strong>How it works:</strong> ${method === 'income' ? 'Each person pays based on their income proportion.' : 
+          method === 'equal' ? 'Everyone pays an equal share of total expenses.' : 
+          'A custom percentage split has been applied.'}
+          ${method === 'income' ? ' Higher earners pay more, lower earners pay less — fair based on ability to pay.' : ''}
+          Extra bills are added on top of each person\'s share.
+        </p>
+      `;
+    }
+
+    function escapeHtml(value) {
+      return String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+    }
+
+    async function copyResult3() {
+      const result = document.getElementById('result3');
+      if (!result.innerText.trim()) { alert('Calculate the split first.'); return; }
+      try {
+        await navigator.clipboard.writeText(result.innerText.trim());
+        alert('Result copied.');
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = result.innerText.trim();
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+        alert('Result copied.');
+      }
+    }
+
+    // init with 2 people
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('incomeRows');
+      container.innerHTML = incomeTemplate(1) + incomeTemplate(2);
+      refreshIncomeLabels();
+    });
+  </script>
+  <script src="/components/shared.js"></script>
+</body>
+</html>
