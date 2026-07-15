@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+  <!-- Google AdSense tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1724135069833024"
+       crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR5ESWGW9Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VR5ESWGW9Y');
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/files/favicon.png">
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Shared grocery split calculator. Fairly divide grocery costs by person, consumption, dietary needs, or item-level tracking.">
+  <title>Shared Grocery Split Calculator · WellSplit</title>
+  <link rel="stylesheet" href="/components/styles.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #2f343c; --panel: #3a4048; --panel-2: #454c56;
+      --field: #505863; --text: #f3f4f6; --muted: #c6ccd4;
+      --border: #606977; --accent: #7dd3fc; --accent-2: #38bdf8;
+      --danger: #f87171; --shadow: 0 18px 50px rgba(0,0,0,.18);
+      --radius: 16px;
+      --green: #6ee7b7;
+      --orange: #fcd34d;
+      --purple: #c4b5fd;
+      --pink: #f9a8d4;
+    }
+    html[data-theme="light"] {
+      --bg: #f6f7f9; --panel: #fff; --panel-2: #f1f5f9;
+      --field: #fff; --text: #111827; --muted: #5e6b78;
+      --border: #dce3eb; --accent: #0369a1; --accent-2: #0284c7;
+      --danger: #b91c1c; --shadow: 0 18px 45px rgba(15,23,42,.08);
+      --green: #059669;
+      --orange: #d97706;
+      --purple: #7c3aed;
+      --pink: #db2777;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh; background: var(--bg); color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    main { padding: 42px 6% 32px; }
+    .content-layout {
+      width: min(100%, 1180px);
+      display: grid;
+      grid-template-columns: minmax(0, 780px) minmax(280px, 1fr);
+      gap: 30px; align-items: start;
+    }
+    .page-shell { width: 100%; min-width: 0; }
+    .ad-space { min-height: 600px; }
+    .ad-column { display: block; }
+    .hero { margin-bottom: 18px; }
+    h1 {
+      max-width: 780px; font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+      line-height: 1.02; letter-spacing: -.06em; margin-bottom: 10px;
+    }
+    .hero p { max-width: 720px; color: var(--muted); font-size: .88rem; }
+    .calculator {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .section-title { font-size: 1.02rem; letter-spacing: -.035em; margin-bottom: 3px; }
+    .section-description {
+      color: var(--muted); font-size: .8rem;
+      line-height: 1.4; margin-bottom: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+    label {
+      display: block; margin-bottom: 3px; color: var(--muted);
+      font-size: .7rem; font-weight: 800;
+    }
+    input, select {
+      width: 100%; min-height: 38px; background: var(--field);
+      color: var(--text); border: 1px solid var(--border);
+      border-radius: 10px; padding: 7px 10px; outline: none;
+      font-size: .85rem;
+    }
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+    .result {
+      margin-top: 12px; padding: 12px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 12px; min-height: 50px; overflow-x: auto;
+    }
+    .result:empty::before {
+      content: "Your grocery split results will appear here.";
+      color: var(--muted); font-weight: 600;
+    }
+    .summary-line {
+      color: var(--muted); font-size: .78rem; margin-bottom: 10px;
+    }
+    .result-table {
+      width: 100%; min-width: 520px; border-collapse: collapse;
+      font-size: .82rem;
+    }
+    .result-table th, .result-table td {
+      padding: 7px 6px; border-bottom: 1px solid var(--border);
+      text-align: left; vertical-align: top;
+    }
+    .result-table th {
+      color: var(--muted); font-size: .68rem;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .result-table tr:last-child td { border-bottom: 0; }
+    .money-cell { font-weight: 900; color: var(--accent); white-space: nowrap; }
+    .note {
+      margin-top: 10px; color: var(--muted); font-size: .76rem;
+      line-height: 1.4;
+    }
+    .btns {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px;
+    }
+    button {
+      border: 0; cursor: pointer; border-radius: 10px;
+      padding: 8px 12px; font-size: .82rem; font-weight: 900;
+      transition: .16s;
+    }
+    button:hover { transform: translateY(-1px); }
+    .primary { background: var(--accent); color: #061018; }
+    .primary:hover { background: var(--accent-2); }
+    .secondary {
+      background: var(--panel-2); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .content-section {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .content-section h2 { font-size: 1.3rem; letter-spacing: -.035em; margin-bottom: 8px; }
+    .content-section h3 { font-size: .98rem; margin: 14px 0 5px; }
+    .content-section p { color: var(--muted); font-size: .85rem; margin-bottom: 8px; }
+    .content-section ul { margin: 6px 0 8px 18px; color: var(--muted); font-size: .85rem; }
+    .content-section li { margin-bottom: 4px; }
+    #faqs h2 { font-size: 1.6rem; margin-bottom: 6px; letter-spacing: -.03em; }
+    .faq-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .faq-item {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .faq-item:hover { border-color: var(--accent); }
+    .faq-item[open] { background: var(--panel-2); }
+    .faq-item summary {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+      list-style: none; user-select: none; padding: 10px 14px;
+      font-size: .88rem; font-weight: 700; line-height: 1.3; color: var(--text);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before {
+      content: "▶"; font-size: .7rem; flex-shrink: 0;
+      color: var(--text); transition: transform .22s ease;
+    }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-answer { padding: 0 18px 12px 42px; }
+    .faq-answer p { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    footer { padding: 20px 6%; color: var(--muted); border-top: 1px solid var(--border); font-size: .85rem; text-align: center; }
+    @media (max-width:900px) { .content-layout { display: block; width: 100%; } .ad-column { display: none; } }
+    @media (max-width:780px) {
+      main { padding: 28px 14px 20px; }
+      h1 { font-size: clamp(1.6rem, 8vw, 2.5rem); }
+      .calculator, .content-section { padding: 12px; }
+      .grid, .grid-3 { grid-template-columns: 1fr; }
+      .btns button { flex: 1 1 130px; }
+      .faq-answer { padding: 0 14px 10px 34px; }
+      .faq-answer p { font-size: .82rem; }
+      #faqs h2 { font-size: 1.4rem; }
+      .faq-item summary { padding: 8px 12px; gap: 8px; font-size: .84rem; }
+    }
+    @media (max-width:420px) { .btns button { flex: 1 1 100%; } }
+    .highlight-box {
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      border-left: 3px solid var(--accent);
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 6px;
+      font-size: .85rem;
+    }
+    .highlight-box.success {
+      background: color-mix(in srgb, var(--green) 15%, transparent);
+      border-left-color: var(--green);
+    }
+    .highlight-box.warning {
+      background: color-mix(in srgb, var(--orange) 15%, transparent);
+      border-left-color: var(--orange);
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin: 8px 0;
+    }
+    .result-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+    .result-card .label {
+      color: var(--muted);
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-weight: 800;
+    }
+    .result-card .amount {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .result-card .amount.surplus { color: var(--green); }
+    .result-card .amount.deficit { color: var(--orange); }
+    .result-card .detail {
+      color: var(--muted);
+      font-size: .75rem;
+      margin-top: 4px;
+    }
+    .comparison-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .8rem;
+    }
+    .comparison-row:last-child { border-bottom: 0; }
+    .comparison-label { color: var(--muted); }
+    .status-badge {
+      display: inline-block;
+      padding: 2px 12px;
+      border-radius: 20px;
+      font-size: .7rem;
+      font-weight: 700;
+    }
+    .status-fair { background: color-mix(in srgb, var(--green) 20%, transparent); color: var(--green); }
+    .status-partial { background: color-mix(in srgb, var(--orange) 20%, transparent); color: var(--orange); }
+    .status-unfair { background: color-mix(in srgb, var(--danger) 20%, transparent); color: var(--danger); }
+    @media (max-width:600px) {
+      .result-grid { grid-template-columns: 1fr; }
+      .result-card .amount { font-size: 1.3rem; }
+    }
+    .item-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding: 4px 0;
+    }
+    .item-row input[type="text"] { flex: 2; }
+    .item-row input[type="number"] { width: 100px; }
+    .item-row select { width: 120px; }
+    .item-row .remove-item {
+      background: transparent;
+      border: none;
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0 4px;
+    }
+    .item-row .remove-item:hover { transform: scale(1.2); }
+    .category-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: .65rem;
+      font-weight: 700;
+    }
+    .cat-produce { background: color-mix(in srgb, var(--green) 20%, transparent); color: var(--green); }
+    .cat-dairy { background: color-mix(in srgb, var(--accent) 20%, transparent); color: var(--accent); }
+    .cat-meat { background: color-mix(in srgb, var(--danger) 20%, transparent); color: var(--danger); }
+    .cat-pantry { background: color-mix(in srgb, var(--orange) 20%, transparent); color: var(--orange); }
+    .cat-frozen { background: color-mix(in srgb, var(--purple) 20%, transparent); color: var(--purple); }
+    .cat-other { background: color-mix(in srgb, var(--muted) 20%, transparent); color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div id="navbar-container"></div>
+  <main>
+    <div class="content-layout">
+      <div class="page-shell">
+        <section class="hero">
+          <h1>Shared Grocery Split Calculator</h1>
+          <p>Fairly divide grocery costs by person, consumption, dietary needs, or item-level tracking. Perfect for couples, roommates, and shared households.</p>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">1. Household members</h2>
+          <p class="section-description">Add each person who shares groceries.</p>
+          <div class="grid">
+            <div>
+              <label for="p1Name15">Person 1 name</label>
+              <input id="p1Name15" type="text" placeholder="Alex" value="Alex">
+            </div>
+            <div>
+              <label for="p2Name15">Person 2 name</label>
+              <input id="p2Name15" type="text" placeholder="Jordan" value="Jordan">
+            </div>
+            <div>
+              <label for="p1Consumption15">Person 1 consumption factor</label>
+              <input id="p1Consumption15" type="number" min="0.1" max="5" placeholder="1" value="" step="0.1">
+            </div>
+            <div>
+              <label for="p2Consumption15">Person 2 consumption factor</label>
+              <input id="p2Consumption15" type="number" min="0.1" max="5" placeholder="1.2" value="" step="0.1">
+            </div>
+          </div>
+          <div style="margin-top: 8px;">
+            <button class="secondary" onclick="addPerson15()" type="button" style="font-size:.78rem;">+ Add Person</button>
+          </div>
+          <div id="extraPeople15"></div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">2. Grocery items</h2>
+          <p class="section-description">Add each grocery item with its cost and who it's for.</p>
+          
+          <div style="margin-bottom: 8px;">
+            <button class="secondary" onclick="addItemTop15()" type="button" style="font-size:.78rem;">+ Add Item (top)</button>
+            <button class="secondary" onclick="addSampleItems15()" type="button" style="font-size:.78rem;">📋 Add Sample Items</button>
+          </div>
+          
+          <div id="itemList15">
+            <!-- Items will be added here dynamically -->
+          </div>
+
+          <div class="grid" style="margin-top: 8px;">
+            <div>
+              <label for="taxRate15">Tax rate (%)</label>
+              <input id="taxRate15" type="number" min="0" max="20" placeholder="8" value="" step="0.1">
+            </div>
+            <div>
+              <label for="tipAmount15">Delivery tip (optional)</label>
+              <input id="tipAmount15" type="number" inputmode="decimal" min="0" placeholder="5" value="">
+            </div>
+            <div>
+              <label for="currencySymbol15">Currency</label>
+              <select id="currencySymbol15">
+                <option value="$">$ (USD)</option>
+                <option value="€">€ (EUR)</option>
+                <option value="£">£ (GBP)</option>
+                <option value="CA$">CA$ (CAD)</option>
+                <option value="AU$">AU$ (AUD)</option>
+                <option value="¥">¥ (JPY)</option>
+                <option value="CHF">CHF (CHF)</option>
+                <option value="kr">kr (SEK)</option>
+                <option value="NZ$">NZ$ (NZD)</option>
+                <option value="₹">₹ (INR)</option>
+                <option value="R">R (ZAR)</option>
+                <option value="S$">S$ (SGD)</option>
+                <option value="HK$">HK$ (HKD)</option>
+              </select>
+            </div>
+            <div>
+              <label for="groceryMethod15">Split method</label>
+              <select id="groceryMethod15">
+                <option value="item">By item (individual tracking)</option>
+                <option value="consumption">By consumption factor</option>
+                <option value="equal">Equal split</option>
+                <option value="custom">Custom percentage</option>
+              </select>
+            </div>
+            <div id="customGroceryDiv15" style="display:none;">
+              <label for="customGroceryPct15">Person 1's share (%)</label>
+              <input id="customGroceryPct15" type="number" min="0" max="100" placeholder="60" value="" step="1">
+            </div>
+          </div>
+        </section>
+
+        <section class="calculator">
+          <div class="btns">
+            <button class="primary" onclick="calculateGrocerySplit()" type="button">Calculate Split</button>
+            <button class="secondary" onclick="copyResult15()" type="button">Copy result</button>
+            <button class="secondary" onclick="resetGrocerySplit()" type="button">Reset</button>
+          </div>
+          <div class="result" id="result15"></div>
+        </section>
+
+        <section class="content-section" id="about15">
+          <h2>About the Shared Grocery Split Calculator</h2>
+          <p>Grocery shopping can be one of the trickiest shared expenses to split fairly — especially when people have different dietary needs, eating habits, or when some items are for specific individuals. This calculator helps you track and divide grocery costs with precision.</p>
+          <h3>How to use this grocery splitter</h3>
+          <ul>
+            <li>Add each household member and their consumption factor.</li>
+            <li>Add grocery items with prices, categories, and who they're for.</li>
+            <li>Choose your split method (by item, consumption, equal, or custom).</li>
+            <li>Add tax and delivery tip if applicable.</li>
+            <li>Calculate to see each person's fair share.</li>
+          </ul>
+        </section>
+
+        <section class="content-section" id="faqs15">
+          <h2>Shared Grocery Split FAQs</h2>
+          <p>Common questions about splitting grocery costs fairly.</p>
+          <div class="faq-list">
+            <details class="faq-item"><summary>Why split groceries by item?</summary><div class="faq-answer"><p>Item-level tracking ensures everyone pays only for what they eat or use. This is especially useful when people have different dietary restrictions, preferences, or when some items are only for specific individuals.</p></div></details>
+            <details class="faq-item"><summary>What is a consumption factor?</summary><div class="faq-answer"><p>Consumption factor adjusts for different eating habits. A factor of 1.2 means someone eats 20% more than average. This is useful when one person eats significantly more or has different dietary needs.</p></div></details>
+            <details class="faq-item"><summary>Should we include tax and tip in the split?</summary><div class="faq-answer"><p>Yes, tax and delivery tips are part of the total grocery cost and should be split fairly. The calculator adds them to the total before splitting.</p></div></details>
+            <details class="faq-item"><summary>How do we handle shared items like milk or bread?</summary><div class="faq-answer"><p>Mark shared items as "Shared" in the assignment dropdown. They'll be split according to your chosen method (by consumption, equally, or by item tracking).</p></div></details>
+            <details class="faq-item"><summary>What about personal items like specialty snacks?</summary><div class="faq-answer"><p>Assign personal items to specific individuals. They'll only pay for those items, making the split more fair when someone has expensive preferences.</p></div></details>
+            <details class="faq-item"><summary>How do we handle household staples?</summary><div class="faq-answer"><p>Household staples like spices, oil, and condiments are often shared. Mark them as "Shared" and they'll be distributed fairly based on your split method.</p></div></details>
+            <details class="faq-item"><summary>Can this calculator handle more than 2 people?</summary><div class="faq-answer"><p>Yes! You can add as many people as needed using the "Add Person" button. This is great for shared houses with multiple roommates.</p></div></details>
+            <details class="faq-item"><summary>What if someone has dietary restrictions?</summary><div class="faq-answer"><p>Use item-level tracking to assign special items to specific people. This ensures that only those who benefit from special diet items pay for them.</p></div></details>
+            <details class="faq-item"><summary>How do we handle bulk purchases?</summary><div class="faq-answer"><p>For bulk items shared over multiple weeks, you can split the cost when you buy it. The calculator treats it as a single purchase — you can note the estimated usage period in the item description.</p></div></details>
+            <details class="faq-item"><summary>What about leftovers or food waste?</summary><div class="faq-answer"><p>Food waste is unfortunately part of grocery shopping. The best approach is to track what's actually consumed. For shared items, split the cost fairly and try to reduce waste through better meal planning.</p></div></details>
+            <details class="faq-item"><summary>Should couples split groceries equally?</summary><div class="faq-answer"><p>Not necessarily. If one person eats significantly more, has special dietary needs, or buys expensive items, a different split method may be fairer. The calculator lets you compare different methods.</p></div></details>
+            <details class="faq-item"><summary>How do we handle guests or dinner parties?</summary><div class="faq-answer"><p>You might want to exclude those costs from the split or treat them as shared entertainment expenses. The calculator focuses on regular household groceries.</p></div></details>
+            <details class="faq-item"><summary>What if we use a grocery delivery service?</summary><div class="faq-answer"><p>Include the delivery fee and tip in the "tip" field. They'll be added to the total and split according to your chosen method.</p></div></details>
+            <details class="faq-item"><summary>Can this calculator handle different currencies?</summary><div class="faq-answer"><p>Yes, choose from multiple currency options. All amounts will be displayed in your selected currency.</p></div></details>
+            <details class="faq-item"><summary>How often should we split groceries?</summary><div class="faq-answer"><p>Most households split after each grocery trip or monthly. The calculator works for any period — just enter the items from your most recent shopping trip.</p></div></details>
+            <details class="faq-item"><summary>What if we take turns buying groceries?</summary><div class="faq-answer"><p>If you take turns, you might not need a split calculator. But if you want to track fairness over time, you can use the calculator to see if the costs balance out over multiple trips.</p></div></details>
+            <details class="faq-item"><summary>Should we include non-food items?</summary><div class="faq-answer"><p>Household items like cleaning supplies, paper towels, and toiletries are often included in grocery trips. You can add them as items and mark them as "Shared" or assign them to specific people.</p></div></details>
+            <details class="faq-item"><summary>How do we handle different meal preferences?</summary><div class="faq-answer"><p>Item-level tracking is perfect for this. Each person can add their preferred items, and the calculator will assign costs accordingly.</p></div></details>
+            <details class="faq-item"><summary>Is this calculator free to use?</summary><div class="faq-answer"><p>Yes, completely free. We believe fair grocery splitting should be accessible. The calculator is supported by ads to keep it free.</p></div></details>
+          </div>
+        </section>
+      </div>
+      <aside class="ad-column" aria-label="Advertisement"><div class="ad-space"><!-- AdSense ad code --></div></aside>
+    </div>
+  </main>
+  <div id="footer-container"></div>
+  <script>
+    function money15(value) {
+      const sym = document.getElementById('currencySymbol15').value || '$';
+      return sym + Number(value || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function getNumber15(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+    // ---- extra people ----
+    let personCount15 = 2;
+
+    function addPerson15() {
+      personCount15++;
+      const container = document.getElementById('extraPeople15');
+      const div = document.createElement('div');
+      div.className = 'grid';
+      div.id = 'gperson' + personCount15;
+      div.style.marginTop = '6px';
+      div.innerHTML = `
+        <div style="grid-column: 1 / -1; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-weight:700; font-size:.85rem;">👤 Person ${personCount15}</span>
+          <button onclick="removePerson15('gperson${personCount15}')" style="background:transparent;border:none;color:var(--danger);cursor:pointer;font-size:.9rem;">✕</button>
+        </div>
+        <div>
+          <label>Name</label>
+          <input class="gpName15" type="text" placeholder="Person ${personCount15}" value="Person ${personCount15}">
+        </div>
+        <div>
+          <label>Consumption factor</label>
+          <input class="gpConsumption15" type="number" min="0.1" max="5" placeholder="1" value="" step="0.1">
+        </div>
+      `;
+      container.appendChild(div);
+      updateItemAssigned();
+    }
+
+    function removePerson15(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+      updateItemAssigned();
+    }
+
+    function collectPeople15() {
+      const people = [];
+      // Person 1
+      people.push({
+        name: document.getElementById('p1Name15').value.trim() || 'Person 1',
+        consumption: getNumber15('p1Consumption15') || 1
+      });
+      // Person 2
+      people.push({
+        name: document.getElementById('p2Name15').value.trim() || 'Person 2',
+        consumption: getNumber15('p2Consumption15') || 1
+      });
+      // Extra persons
+      document.querySelectorAll('#extraPeople15 .grid').forEach(el => {
+        const name = el.querySelector('.gpName15').value.trim() || 'Person';
+        const consumption = parseFloat(el.querySelector('.gpConsumption15').value) || 1;
+        people.push({ name, consumption });
+      });
+      return people;
+    }
+
+    // ---- items ----
+    let itemCount15 = 0;
+
+    function addItemTop15(name = '', price = 0, category = 'other', assigned = 'shared') {
+      itemCount15++;
+      const container = document.getElementById('itemList15');
+      const div = document.createElement('div');
+      div.className = 'item-row';
+      div.id = 'gitem' + itemCount15;
+      div.innerHTML = `
+        <input class="itemName15" type="text" placeholder="Item name" value="${name}">
+        <input class="itemPrice15" type="number" inputmode="decimal" min="0" placeholder="Price" value="${price}" step="0.01">
+        <select class="itemCategory15">
+          <option value="produce" ${category === 'produce' ? 'selected' : ''}>🥬 Produce</option>
+          <option value="dairy" ${category === 'dairy' ? 'selected' : ''}>🧀 Dairy</option>
+          <option value="meat" ${category === 'meat' ? 'selected' : ''}>🥩 Meat</option>
+          <option value="pantry" ${category === 'pantry' ? 'selected' : ''}>🥫 Pantry</option>
+          <option value="frozen" ${category === 'frozen' ? 'selected' : ''}>❄️ Frozen</option>
+          <option value="other" ${category === 'other' ? 'selected' : ''}>📦 Other</option>
+        </select>
+        <select class="itemAssigned15">
+          <option value="shared" ${assigned === 'shared' ? 'selected' : ''}>👥 Shared</option>
+          ${collectPeople15().map(p => `<option value="${p.name}" ${assigned === p.name ? 'selected' : ''}>${p.name}</option>`).join('')}
+        </select>
+        <button class="remove-item" onclick="removeItem15('gitem${itemCount15}')">✕</button>
+      `;
+      // Insert at the top (before the first child)
+      container.insertBefore(div, container.firstChild);
+      updateItemAssigned();
+    }
+
+    function removeItem15(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function addSampleItems15() {
+      const samples = [
+        ['Milk (gallon)', 4.99, 'dairy', 'shared'],
+        ['Bread', 3.49, 'pantry', 'shared'],
+        ['Eggs (dozen)', 5.99, 'dairy', 'shared'],
+        ['Chicken breast (2lbs)', 12.99, 'meat', 'shared'],
+        ['Apples (bag)', 6.99, 'produce', 'shared'],
+        ['Coffee beans', 14.99, 'pantry', 'shared'],
+        ['Pasta sauce', 4.49, 'pantry', 'shared'],
+        ['Cereal', 5.99, 'pantry', 'shared'],
+        ['Peanut butter', 6.99, 'pantry', 'shared'],
+        ['Ice cream', 5.99, 'frozen', 'shared']
+      ];
+      const people = collectPeople15();
+      // Add some personal items
+      if (people.length >= 2) {
+        samples.push([`${people[0].name}'s protein bars`, 12.99, 'pantry', people[0].name]);
+        samples.push([`${people[1].name}'s almond milk`, 4.99, 'dairy', people[1].name]);
+      }
+      // Add in reverse so they appear in the original order (top items first)
+      samples.reverse().forEach(([name, price, category, assigned]) => {
+        addItemTop15(name, price, category, assigned);
+      });
+    }
+
+    function updateItemAssigned() {
+      const people = collectPeople15();
+      document.querySelectorAll('.itemAssigned15').forEach(sel => {
+        const current = sel.value;
+        const options = ['<option value="shared">👥 Shared</option>'];
+        people.forEach(p => {
+          const selected = p.name === current ? 'selected' : '';
+          options.push(`<option value="${p.name}" ${selected}>${p.name}</option>`);
+        });
+        sel.innerHTML = options.join('');
+      });
+    }
+
+    // ---- show/hide custom ----
+    document.getElementById('groceryMethod15').addEventListener('change', function() {
+      document.getElementById('customGroceryDiv15').style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+
+    // ---- main calculation ----
+    function calculateGrocerySplit() {
+      const people = collectPeople15();
+      const method = document.getElementById('groceryMethod15').value;
+      const taxRate = getNumber15('taxRate15') / 100;
+      const tip = getNumber15('tipAmount15');
+
+      // Get items
+      const items = [];
+      document.querySelectorAll('#itemList15 .item-row').forEach(el => {
+        const name = el.querySelector('.itemName15').value.trim() || 'Item';
+        const price = parseFloat(el.querySelector('.itemPrice15').value) || 0;
+        const category = el.querySelector('.itemCategory15').value;
+        const assigned = el.querySelector('.itemAssigned15').value;
+        if (price > 0) {
+          items.push({ name, price, category, assigned });
+        }
+      });
+
+      if (items.length === 0) {
+        document.getElementById('result15').innerHTML = '<p>Please add at least one grocery item with a price.</p>';
+        return;
+      }
+
+      if (people.length < 2) {
+        document.getElementById('result15').innerHTML = '<p>Please add at least 2 people.</p>';
+        return;
+      }
+
+      // Calculate total
+      let subtotal = items.reduce((sum, item) => sum + item.price, 0);
+      const tax = subtotal * taxRate;
+      const total = subtotal + tax + tip;
+
+      // Calculate per-person shares based on method
+      let pTotals = {};
+      people.forEach(p => { pTotals[p.name] = 0; });
+
+      if (method === 'item') {
+        // By item - each person pays for their assigned items, shared items split equally
+        items.forEach(item => {
+          if (item.assigned === 'shared') {
+            // Split shared items equally among all people
+            const share = item.price / people.length;
+            people.forEach(p => { pTotals[p.name] += share; });
+          } else {
+            // Assigned to specific person
+            const person = people.find(p => p.name === item.assigned);
+            if (person) {
+              pTotals[person.name] += item.price;
+            } else {
+              // If person not found, split equally
+              const share = item.price / people.length;
+              people.forEach(p => { pTotals[p.name] += share; });
+            }
+          }
+        });
+      } else if (method === 'consumption') {
+        // By consumption factor
+        const totalConsumption = people.reduce((sum, p) => sum + p.consumption, 0);
+        items.forEach(item => {
+          if (item.assigned === 'shared') {
+            // Shared items split by consumption
+            people.forEach(p => {
+              const share = item.price * (p.consumption / totalConsumption);
+              pTotals[p.name] += share;
+            });
+          } else {
+            // Personal items assigned to specific person
+            const person = people.find(p => p.name === item.assigned);
+            if (person) {
+              pTotals[person.name] += item.price;
+            } else {
+              const share = item.price / people.length;
+              people.forEach(p => { pTotals[p.name] += share; });
+            }
+          }
+        });
+      } else if (method === 'equal') {
+        // Equal split
+        const share = subtotal / people.length;
+        people.forEach(p => { pTotals[p.name] = share; });
+      } else { // custom
+        const customPct = getNumber15('customGroceryPct15');
+        if (customPct <= 0 || customPct >= 100) {
+          document.getElementById('result15').innerHTML = '<p>Please enter a valid custom percentage (1-99).</p>';
+          return;
+        }
+        const p1Share = subtotal * (customPct / 100);
+        const p2Share = subtotal - p1Share;
+        people.forEach((p, idx) => {
+          pTotals[p.name] = idx === 0 ? p1Share : p2Share;
+        });
+      }
+
+      // Add tax and tip proportionally
+      const totalSubtotal = Object.values(pTotals).reduce((a, b) => a + b, 0);
+      if (totalSubtotal > 0) {
+        people.forEach(p => {
+          const pctOfTotal = pTotals[p.name] / totalSubtotal;
+          pTotals[p.name] += (tax + tip) * pctOfTotal;
+        });
+      }
+
+      // Calculate per-person percentages
+      let pShares = {};
+      people.forEach(p => {
+        pShares[p.name] = (pTotals[p.name] / total) * 100;
+      });
+
+      // Fairness assessment
+      const amounts = people.map(p => pTotals[p.name]);
+      const maxAmount = Math.max(...amounts);
+      const minAmount = Math.min(...amounts);
+      const diff = maxAmount - minAmount;
+      const fairnessScore = total > 0 ? Math.min(100, Math.max(0, 100 - (diff / (total / people.length)) * 50)) : 100;
+      let fairnessStatus, fairnessClass;
+      if (fairnessScore >= 75) {
+        fairnessStatus = 'Fair';
+        fairnessClass = 'status-fair';
+      } else if (fairnessScore >= 50) {
+        fairnessStatus = 'Partial';
+        fairnessClass = 'status-partial';
+      } else {
+        fairnessStatus = 'Unfair';
+        fairnessClass = 'status-unfair';
+      }
+
+      // Build item breakdown
+      let itemRows = items.map(item => {
+        const catClass = `cat-${item.category}`;
+        return `
+          <div class="comparison-row">
+            <span class="comparison-label">${item.name}</span>
+            <span>${money15(item.price)}</span>
+            <span><span class="category-tag ${catClass}">${item.category}</span></span>
+            <span>${item.assigned === 'shared' ? '👥 Shared' : item.assigned}</span>
+          </div>
+        `;
+      }).join('');
+
+      const methodLabels = {
+        'item': 'By item (individual tracking)',
+        'consumption': 'By consumption factor',
+        'equal': 'Equal split',
+        'custom': 'Custom percentage'
+      };
+
+      const resultDiv = document.getElementById('result15');
+
+      resultDiv.innerHTML = `
+        <div class="summary-line">
+          🛒 Grocery Split · ${methodLabels[method] || 'Custom'} · ${items.length} items
+        </div>
+
+        <div class="result-grid">
+          <div class="result-card">
+            <div class="label">📊 Subtotal</div>
+            <div class="amount">${money15(subtotal)}</div>
+            <div class="detail">${items.length} items</div>
+          </div>
+          <div class="result-card">
+            <div class="label">🧾 Tax &amp; tip</div>
+            <div class="amount" style="color: var(--orange);">${money15(tax + tip)}</div>
+            <div class="detail">Tax: ${(taxRate * 100).toFixed(0)}% · Tip: ${money15(tip)}</div>
+          </div>
+          <div class="result-card">
+            <div class="label">💰 Total groceries</div>
+            <div class="amount">${money15(total)}</div>
+            <div class="detail">${people.length} people</div>
+          </div>
+        </div>
+
+        <div class="result-grid" style="grid-template-columns: repeat(${Math.min(people.length, 4)}, 1fr);">
+          ${people.map((p, idx) => `
+            <div class="result-card" style="border-color: ${idx === 0 ? 'var(--accent)' : idx === 1 ? 'var(--purple)' : 'var(--green)'};">
+              <div class="label">${p.name}</div>
+              <div class="amount">${money15(pTotals[p.name])}</div>
+              <div class="detail">${pShares[p.name].toFixed(1)}% of total</div>
+              <div class="detail">${method === 'consumption' ? `Factor: ${p.consumption.toFixed(1)}` : ''}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="highlight-box ${fairnessScore >= 75 ? 'success' : fairnessScore >= 50 ? 'warning' : ''}">
+          <strong>⚖️ Fairness score: ${fairnessScore.toFixed(0)}%</strong>
+          <span class="status-badge ${fairnessClass}">${fairnessStatus}</span>
+          <br>
+          ${fairnessScore >= 75 
+            ? 'This grocery split is well-balanced and fair for everyone.' 
+            : fairnessScore >= 50 
+              ? 'This split is partially fair. Consider adjusting consumption factors or item assignments.' 
+              : 'This split is significantly unbalanced. Consider using a different method or adjusting assignments.'}
+        </div>
+
+        <div style="margin-top: 10px;">
+          <div style="font-weight:700; font-size:.82rem; margin-bottom:4px;">Item breakdown</div>
+          <div class="comparison-row" style="font-weight:700; border-bottom:2px solid var(--border);">
+            <span>Item</span>
+            <span>Price</span>
+            <span>Category</span>
+            <span>Assigned to</span>
+          </div>
+          ${itemRows}
+        </div>
+
+        <p class="note">
+          <strong>How it works:</strong> 
+          ${method === 'item' ? 'Each person pays for items assigned to them, and shared items are split equally.' : 
+            method === 'consumption' ? 'Shared items are split based on each person\'s consumption factor.' : 
+            method === 'equal' ? 'All costs are split equally among all people.' : 
+            'A custom percentage split has been applied.'}
+          ${taxRate > 0 || tip > 0 ? ` Tax (${(taxRate * 100).toFixed(0)}%) and tip (${money15(tip)}) are added proportionally.` : ''}
+          <br><br>
+          <strong>Recommendation:</strong> 
+          ${fairnessScore >= 75 
+            ? 'Your current split is fair. Consider saving this as a template for future grocery trips.' 
+            : fairnessScore >= 50 
+              ? 'Review item assignments and consumption factors to achieve a more balanced split.' 
+              : 'Consider using the "By item" method for more precise tracking, or review consumption factors.'}
+        </p>
+      `;
+    }
+
+    function resetGrocerySplit() {
+      document.querySelectorAll('.calculator input[type="number"]').forEach(input => {
+        if (input.id !== 'groceryMethod15') {
+          input.value = '';
+        }
+      });
+      document.querySelectorAll('#extraPeople15 .grid').forEach(el => el.remove());
+      document.querySelectorAll('#itemList15 .item-row').forEach(el => el.remove());
+      personCount15 = 2;
+      itemCount15 = 0;
+      document.getElementById('result15').innerHTML = '';
+    }
+
+    async function copyResult15() {
+      const result = document.getElementById('result15');
+      if (!result.innerText.trim()) { alert('Calculate the split first.'); return; }
+      try {
+        await navigator.clipboard.writeText(result.innerText.trim());
+        alert('Result copied.');
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = result.innerText.trim();
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+        alert('Result copied.');
+      }
+    }
+
+    // Initialize with some sample items
+    document.addEventListener('DOMContentLoaded', function() {
+      addSampleItems15();
+    });
+  </script>
+  <script src="/components/shared.js"></script>
+</body>
+</html>
