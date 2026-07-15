@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+  <!-- Google AdSense tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1724135069833024"
+       crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR5ESWGW9Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VR5ESWGW9Y');
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/files/favicon.png">
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Fair split calculator for couples where one pays rent and the other pays all other bills. Find the fair balance for your relationship.">
+  <title>One Pays Rent, One Pays Everything Else Calculator | WellSplit</title>
+  <link rel="stylesheet" href="/components/styles.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #2f343c; --panel: #3a4048; --panel-2: #454c56;
+      --field: #505863; --text: #f3f4f6; --muted: #c6ccd4;
+      --border: #606977; --accent: #7dd3fc; --accent-2: #38bdf8;
+      --danger: #f87171; --shadow: 0 18px 50px rgba(0,0,0,.18);
+      --radius: 16px;
+    }
+    html[data-theme="light"] {
+      --bg: #f6f7f9; --panel: #fff; --panel-2: #f1f5f9;
+      --field: #fff; --text: #111827; --muted: #5e6b78;
+      --border: #dce3eb; --accent: #0369a1; --accent-2: #0284c7;
+      --danger: #b91c1c; --shadow: 0 18px 45px rgba(15,23,42,.08);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh; background: var(--bg); color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    main { padding: 42px 6% 32px; }
+    .content-layout {
+      width: min(100%, 1180px);
+      display: grid;
+      grid-template-columns: minmax(0, 780px) minmax(280px, 1fr);
+      gap: 30px; align-items: start;
+    }
+    .page-shell { width: 100%; min-width: 0; }
+    .ad-space { min-height: 600px; }
+    .ad-column { display: block; }
+    .hero { margin-bottom: 18px; }
+    h1 {
+      max-width: 780px; font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+      line-height: 1.02; letter-spacing: -.06em; margin-bottom: 10px;
+    }
+    .hero p { max-width: 720px; color: var(--muted); font-size: .88rem; }
+    .calculator {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .section-title { font-size: 1.02rem; letter-spacing: -.035em; margin-bottom: 3px; }
+    .section-description {
+      color: var(--muted); font-size: .8rem;
+      line-height: 1.4; margin-bottom: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+    label {
+      display: block; margin-bottom: 3px; color: var(--muted);
+      font-size: .7rem; font-weight: 800;
+    }
+    input, select {
+      width: 100%; min-height: 38px; background: var(--field);
+      color: var(--text); border: 1px solid var(--border);
+      border-radius: 10px; padding: 7px 10px; outline: none;
+      font-size: .85rem;
+    }
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+    .result {
+      margin-top: 12px; padding: 12px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 12px; min-height: 50px; overflow-x: auto;
+    }
+    .result:empty::before {
+      content: "Your fair split will appear here.";
+      color: var(--muted); font-weight: 600;
+    }
+    .summary-line {
+      color: var(--muted); font-size: .78rem; margin-bottom: 10px;
+    }
+    .result-table {
+      width: 100%; min-width: 480px; border-collapse: collapse;
+      font-size: .82rem;
+    }
+    .result-table th, .result-table td {
+      padding: 7px 6px; border-bottom: 1px solid var(--border);
+      text-align: left; vertical-align: top;
+    }
+    .result-table th {
+      color: var(--muted); font-size: .68rem;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .result-table tr:last-child td { border-bottom: 0; }
+    .money-cell { font-weight: 900; color: var(--accent); white-space: nowrap; }
+    .note {
+      margin-top: 10px; color: var(--muted); font-size: .76rem;
+      line-height: 1.4;
+    }
+    .btns {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px;
+    }
+    button {
+      border: 0; cursor: pointer; border-radius: 10px;
+      padding: 8px 12px; font-size: .82rem; font-weight: 900;
+      transition: .16s;
+    }
+    button:hover { transform: translateY(-1px); }
+    .primary { background: var(--accent); color: #061018; }
+    .primary:hover { background: var(--accent-2); }
+    .secondary {
+      background: var(--panel-2); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .content-section {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .content-section h2 { font-size: 1.3rem; letter-spacing: -.035em; margin-bottom: 8px; }
+    .content-section h3 { font-size: .98rem; margin: 14px 0 5px; }
+    .content-section p { color: var(--muted); font-size: .85rem; margin-bottom: 8px; }
+    .content-section ul { margin: 6px 0 8px 18px; color: var(--muted); font-size: .85rem; }
+    .content-section li { margin-bottom: 4px; }
+    #faqs h2 { font-size: 1.6rem; margin-bottom: 6px; letter-spacing: -.03em; }
+    .faq-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .faq-item {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .faq-item:hover { border-color: var(--accent); }
+    .faq-item[open] { background: var(--panel-2); }
+    .faq-item summary {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+      list-style: none; user-select: none; padding: 10px 14px;
+      font-size: .88rem; font-weight: 700; line-height: 1.3; color: var(--text);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before {
+      content: "▶"; font-size: .7rem; flex-shrink: 0;
+      color: var(--text); transition: transform .22s ease;
+    }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-answer { padding: 0 18px 12px 42px; }
+    .faq-answer p { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    footer { padding: 20px 6%; color: var(--muted); border-top: 1px solid var(--border); font-size: .85rem; text-align: center; }
+    @media (max-width:900px) { .content-layout { display: block; width: 100%; } .ad-column { display: none; } }
+    @media (max-width:780px) {
+      main { padding: 28px 14px 20px; }
+      h1 { font-size: clamp(1.6rem, 8vw, 2.5rem); }
+      .calculator, .content-section { padding: 12px; }
+      .grid, .grid-3 { grid-template-columns: 1fr; }
+      .btns button { flex: 1 1 130px; }
+      .faq-answer { padding: 0 14px 10px 34px; }
+      .faq-answer p { font-size: .82rem; }
+      #faqs h2 { font-size: 1.4rem; }
+      .faq-item summary { padding: 8px 12px; gap: 8px; font-size: .84rem; }
+    }
+    @media (max-width:420px) { .btns button { flex: 1 1 100%; } }
+    .highlight-box {
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      border-left: 3px solid var(--accent);
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 6px;
+      font-size: .85rem;
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 8px 0;
+    }
+    .result-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+    .result-card .label {
+      color: var(--muted);
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-weight: 800;
+    }
+    .result-card .amount {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .result-card .detail {
+      color: var(--muted);
+      font-size: .75rem;
+      margin-top: 4px;
+    }
+    .person-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .person-row:last-child { border-bottom: 0; }
+    .person-name { font-weight: 700; }
+    .person-amount { font-weight: 900; color: var(--accent); }
+    @media (max-width:600px) {
+      .result-grid { grid-template-columns: 1fr; }
+      .result-card .amount { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar-container"></div>
+  <main>
+    <div class="content-layout">
+      <div class="page-shell">
+        <section class="hero">
+          <h1>One Pays Rent, One Pays Everything Else</h1>
+          <p>Find out if your split is fair when one partner covers rent and the other covers all other shared expenses.</p>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">1. Enter your expenses</h2>
+          <p class="section-description">Tell us your monthly rent and all other shared bills to see if the split is balanced.</p>
+          <div class="grid">
+            <div>
+              <label for="monthlyRent">Monthly rent</label>
+              <input id="monthlyRent" type="number" inputmode="decimal" min="0" placeholder="2000" value="">
+            </div>
+            <div>
+              <label for="otherExpenses">All other shared expenses per month</label>
+              <input id="otherExpenses" type="number" inputmode="decimal" min="0" placeholder="800" value="">
+            </div>
+            <div>
+              <label for="currencySymbol4">Currency</label>
+              <select id="currencySymbol4">
+                <option value="$">$ (USD)</option>
+                <option value="€">€ (EUR)</option>
+                <option value="£">£ (GBP)</option>
+                <option value="CA$">CA$ (CAD)</option>
+                <option value="AU$">AU$ (AUD)</option>
+                <option value="¥">¥ (JPY)</option>
+                <option value="CHF">CHF (CHF)</option>
+                <option value="kr">kr (SEK)</option>
+                <option value="NZ$">NZ$ (NZD)</option>
+                <option value="₹">₹ (INR)</option>
+                <option value="R">R (ZAR)</option>
+                <option value="S$">S$ (SGD)</option>
+                <option value="HK$">HK$ (HKD)</option>
+              </select>
+            </div>
+            <div>
+              <label for="splitMethod4">Split method</label>
+              <select id="splitMethod4">
+                <option value="equal">Equal total contribution</option>
+                <option value="income">Proportional by income</option>
+                <option value="custom">Custom percentage</option>
+              </select>
+            </div>
+            <div id="customPercentDiv4" style="display:none;">
+              <label for="customPercent4">Rent-payer's target share (%)</label>
+              <input id="customPercent4" type="number" min="0" max="100" placeholder="60" value="" step="1">
+            </div>
+          </div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">2. Income details (for proportional split)</h2>
+          <p class="section-description">If using proportional split, enter each person's monthly income.</p>
+          <div class="grid">
+            <div>
+              <label for="person1Name">Person 1 (Rent payer)</label>
+              <input id="person1Name" type="text" placeholder="Alex" value="Alex">
+            </div>
+            <div>
+              <label for="person1Income">Monthly income</label>
+              <input id="person1Income" type="number" inputmode="decimal" min="0" placeholder="4000" value="">
+            </div>
+            <div>
+              <label for="person2Name">Person 2 (Pays everything else)</label>
+              <input id="person2Name" type="text" placeholder="Jordan" value="Jordan">
+            </div>
+            <div>
+              <label for="person2Income">Monthly income</label>
+              <input id="person2Income" type="number" inputmode="decimal" min="0" placeholder="3000" value="">
+            </div>
+          </div>
+          <div class="btns">
+            <button class="primary" onclick="calculateSplit4()" type="button">Calculate</button>
+            <button class="secondary" onclick="copyResult4()" type="button">Copy result</button>
+          </div>
+          <div class="result" id="result4"></div>
+        </section>
+
+        <section class="content-section" id="about4">
+          <h2>About the "One Pays Rent, One Pays Everything Else" Calculator</h2>
+          <p>This calculator helps couples determine if their current arrangement is fair when one person pays the entire rent and the other covers all other shared expenses like utilities, groceries, internet, and insurance.</p>
+          <p>Many couples use this arrangement for simplicity, but it can become unbalanced over time. This tool shows you the actual numbers and suggests adjustments to make the split more equitable.</p>
+          <h3>How to use this calculator</h3>
+          <ul>
+            <li>Enter your monthly rent and all other shared bills.</li>
+            <li>Choose your preferred split method: equal total contribution, proportional by income, or custom percentage.</li>
+            <li>If using income-based splitting, enter each person's monthly income.</li>
+            <li>Calculate to see each person's share and recommended adjustments.</li>
+          </ul>
+        </section>
+
+        <section class="content-section" id="faqs4">
+          <h2>"One Pays Rent, One Pays Everything Else" FAQs</h2>
+          <p>Common questions about this split arrangement.</p>
+          <div class="faq-list">
+            <details class="faq-item"><summary>Is it fair if one pays rent and the other pays everything else?</summary><div class="faq-answer"><p>It depends on the amounts. If rent is $2,000 and other bills are $800, the rent payer contributes significantly more. This calculator shows the exact difference and suggests how to balance things fairly using methods like proportional income splitting.</p></div></details>
+            <details class="faq-item"><summary>What's the best way to balance this arrangement?</summary><div class="faq-answer"><p>The most common approach is to aim for equal total contribution — each person pays the same amount overall. Alternatively, you can use proportional income splitting where each person's contribution matches their income percentage. The calculator shows both options.</p></div></details>
+            <details class="faq-item"><summary>What counts as "everything else"?</summary><div class="faq-answer"><p>Typically this includes utilities (electricity, water, gas), internet, cable/streaming services, groceries, household supplies, insurance, and sometimes parking fees or HOA dues. The key is to agree on what's included so there's no confusion.</p></div></details>
+            <details class="faq-item"><summary>What if the rent payer also pays some bills?</summary><div class="faq-answer"><p>This calculator assumes a clean split: one person pays rent, the other pays all other shared expenses. If there's overlap, simply add the shared bills into the "everything else" total and adjust accordingly. The calculator is flexible — just enter the actual totals.</p></div></details>
+            <details class="faq-item"><summary>How do we handle variable bills?</summary><div class="faq-answer"><p>Use an average monthly amount based on the past 3-6 months. You can also review and adjust quarterly when bills change seasonally. The calculator works with monthly averages for simplicity.</p></div></details>
+            <details class="faq-item"><summary>What if incomes are very different?</summary><div class="faq-answer"><p>This is where the proportional by income method shines. If one person earns 60% of household income, they pay 60% of total shared expenses. This ensures both partners have similar disposable income percentages and can save fairly.</p></div></details>
+            <details class="faq-item"><summary>What if we want a 50/50 split regardless of income?</summary><div class="faq-answer"><p>That's completely valid! The equal total contribution method ensures both partners pay the same amount overall. In this case, the rent payer would need to contribute extra to other bills, or the bill-payer would need to contribute toward rent.</p></div></details>
+            <details class="faq-item"><summary>How does the equal total contribution method work?</summary><div class="faq-answer"><p>It calculates the total of all expenses, divides by 2, and shows the difference between what each person currently pays and their target amount. The calculator then suggests adjustments — for example, the rent payer might transfer some money to the bill-payer to even things out.</p></div></details>
+            <details class="faq-item"><summary>What's the custom percentage option for?</summary><div class="faq-answer"><p>Some couples prefer a specific split like 60/40 even if incomes differ differently. The custom percentage gives you total flexibility to choose exactly how much the rent payer should contribute toward total expenses, and the calculator handles the rest.</p></div></details>
+            <details class="faq-item"><summary>Should we include personal expenses like phone bills?</summary><div class="faq-answer"><p>Only if they're shared plans. Personal phone bills, gym memberships, or subscriptions are typically paid individually and not included in shared expenses. This calculator focuses on shared household costs only.</p></div></details>
+            <details class="faq-item"><summary>What about groceries — are they included?</summary><div class="faq-answer"><p>Yes, if you shop and eat together, groceries should be included in "everything else." If you buy separate groceries, you might exclude them and handle them separately. The calculator is flexible — include what makes sense for your household.</p></div></details>
+            <details class="faq-item"><summary>What if one person owns the property?</summary><div class="faq-answer"><p>If one person owns the property, they might pay the mortgage (which could be higher than market rent) while the other pays bills. In this case, consider whether you're splitting ownership investment or just monthly housing costs. The calculator still works — just use the actual amounts.</p></div></details>
+            <details class="faq-item"><summary>How often should we review this arrangement?</summary><div class="faq-answer"><p>Most couples review quarterly or whenever there's a significant change — a new job, raise, promotion, or move. Regular check-ins help prevent resentment and ensure the arrangement still works for both partners.</p></div></details>
+            <details class="faq-item"><summary>What if the rent is much higher than other bills?</summary><div class="faq-answer"><p>This is common. If rent is $2,500 and other bills are $600, the rent payer is contributing significantly more. The calculator will show the difference and suggest either a contribution from the other partner toward rent, or having the rent payer contribute less to other bills.</p></div></details>
+            <details class="faq-item"><summary>What if other bills are higher than rent?</summary><div class="faq-answer"><p>Less common but possible (especially with high utility costs or if rent is very low). In this case, the bill-payer is contributing more. The calculator will show this and suggest balancing adjustments — perhaps the rent payer contributes to some bills, or the bill-payer contributes to rent.</p></div></details>
+            <details class="faq-item"><summary>Does this work for roommates too?</summary><div class="faq-answer"><p>Yes, this works for any shared living situation. It's particularly helpful for couples, but roommates can also use it to split expenses fairly, especially when one person handles all the bills and the other handles rent.</p></div></details>
+            <details class="faq-item"><summary>What about shared savings or joint accounts?</summary><div class="faq-answer"><p>This calculator focuses on monthly expenses. For shared savings, you might set up automatic transfers after expenses are covered. Some couples also include a savings category in their monthly bills — you can include it in "everything else" if you agree on a monthly savings amount.</p></div></details>
+            <details class="faq-item"><summary>What if one partner pays rent but also does more chores?</summary><div class="faq-answer"><p>Financial and household contributions are related but separate. This calculator focuses purely on money. If one partner contributes significantly more through chores, that's a separate conversation about fairness in labor distribution. Many couples use a holistic approach that considers both.</p></div></details>
+            <details class="faq-item"><summary>Can this calculator handle more than 2 people?</summary><div class="faq-answer"><p>This version is designed for two people. For 3+ people, consider our Rent + Bills Split Calculator which can handle multiple roommates and is better suited for group living arrangements.</p></div></details>
+            <details class="faq-item"><summary>Is this calculator free to use?</summary><div class="faq-answer"><p>Yes, completely free. We believe financial fairness in relationships is important and shouldn't cost money. The calculator is supported by ads to keep it accessible.</p></div></details>
+          </div>
+        </section>
+      </div>
+      <aside class="ad-column" aria-label="Advertisement"><div class="ad-space"><!-- AdSense ad code --></div></aside>
+    </div>
+  </main>
+  <div id="footer-container"></div>
+  <script>
+    function money4(value) {
+      const sym = document.getElementById('currencySymbol4').value || '$';
+      return sym + Number(value || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function getNumber4(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+    // ---- show/hide custom percent ----
+    document.getElementById('splitMethod4').addEventListener('change', function() {
+      document.getElementById('customPercentDiv4').style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+
+    // ---- main calculation ----
+    function calculateSplit4() {
+      const rent = getNumber4('monthlyRent');
+      const other = getNumber4('otherExpenses');
+      const total = rent + other;
+      const method = document.getElementById('splitMethod4').value;
+
+      const p1Name = document.getElementById('person1Name').value.trim() || 'Person 1';
+      const p2Name = document.getElementById('person2Name').value.trim() || 'Person 2';
+      const p1Income = getNumber4('person1Income');
+      const p2Income = getNumber4('person2Income');
+      const totalIncome = p1Income + p2Income;
+
+      if (total <= 0) {
+        document.getElementById('result4').innerHTML = '<p>Please enter valid rent and other expenses.</p>';
+        return;
+      }
+
+      // Current contributions
+      const p1Current = rent;
+      const p2Current = other;
+
+      let p1Target, p2Target, p1Pct, p2Pct;
+
+      if (method === 'equal') {
+        const half = total / 2;
+        p1Target = half;
+        p2Target = half;
+        p1Pct = 50;
+        p2Pct = 50;
+      } else if (method === 'custom') {
+        const customPct = getNumber4('customPercent4');
+        if (customPct <= 0 || customPct >= 100) {
+          document.getElementById('result4').innerHTML = '<p>Please enter a valid custom percentage (1-99).</p>';
+          return;
+        }
+        p1Target = total * (customPct / 100);
+        p2Target = total - p1Target;
+        p1Pct = customPct;
+        p2Pct = 100 - customPct;
+      } else { // income
+        if (totalIncome <= 0) {
+          document.getElementById('result4').innerHTML = '<p>Please enter valid incomes for both people.</p>';
+          return;
+        }
+        p1Pct = (p1Income / totalIncome) * 100;
+        p2Pct = (p2Income / totalIncome) * 100;
+        p1Target = total * (p1Income / totalIncome);
+        p2Target = total * (p2Income / totalIncome);
+      }
+
+      // Difference between current and target
+      const p1Diff = p1Target - p1Current;
+      const p2Diff = p2Target - p2Current;
+
+      const resultDiv = document.getElementById('result4');
+
+      let adjustmentText = '';
+      if (p1Diff > 0) {
+        adjustmentText = `${p2Name} should contribute ${money4(p1Diff)} toward rent, or ${p1Name} should pay ${money4(p1Diff)} less toward other bills.`;
+      } else if (p2Diff > 0) {
+        adjustmentText = `${p1Name} should contribute ${money4(p2Diff)} toward other bills, or ${p2Name} should pay ${money4(p2Diff)} less toward rent.`;
+      } else {
+        adjustmentText = 'You're already perfectly balanced! No adjustment needed.';
+      }
+
+      const methodLabel = method === 'equal' ? 'Equal total contribution' : 
+                          method === 'custom' ? 'Custom percentage' : 
+                          'Proportional by income';
+
+      resultDiv.innerHTML = `
+        <div class="summary-line">
+          Total expenses: ${money4(total)} · ${methodLabel}
+        </div>
+
+        <div class="result-grid">
+          <div class="result-card">
+            <div class="label">${p1Name} (Rent payer)</div>
+            <div class="amount">${money4(p1Current)}</div>
+            <div class="detail">Currently pays ${money4(p1Current)}</div>
+            <div class="detail">Target: ${money4(p1Target)} (${p1Pct.toFixed(1)}%)</div>
+            <div class="detail" style="color: ${p1Diff > 0 ? 'var(--danger)' : 'var(--accent)'};">
+              ${p1Diff > 0 ? 'Underpaying by' : 'Overpaying by'} ${money4(Math.abs(p1Diff))}
+            </div>
+          </div>
+          <div class="result-card">
+            <div class="label">${p2Name} (Pays everything else)</div>
+            <div class="amount">${money4(p2Current)}</div>
+            <div class="detail">Currently pays ${money4(p2Current)}</div>
+            <div class="detail">Target: ${money4(p2Target)} (${p2Pct.toFixed(1)}%)</div>
+            <div class="detail" style="color: ${p2Diff > 0 ? 'var(--danger)' : 'var(--accent)'};">
+              ${p2Diff > 0 ? 'Underpaying by' : 'Overpaying by'} ${money4(Math.abs(p2Diff))}
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          <strong>💡 Recommendation:</strong> ${adjustmentText}
+        </div>
+
+        <div style="margin-top: 10px; font-size: .82rem; color: var(--muted);">
+          <strong>Current split:</strong> ${p1Name} pays ${((p1Current/total)*100).toFixed(1)}% · ${p2Name} pays ${((p2Current/total)*100).toFixed(1)}%
+          <br>
+          <strong>Target split:</strong> ${p1Name} pays ${p1Pct.toFixed(1)}% · ${p2Name} pays ${p2Pct.toFixed(1)}%
+        </div>
+      `;
+    }
+
+    async function copyResult4() {
+      const result = document.getElementById('result4');
+      if (!result.innerText.trim()) { alert('Calculate the split first.'); return; }
+      try {
+        await navigator.clipboard.writeText(result.innerText.trim());
+        alert('Result copied.');
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = result.innerText.trim();
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+        alert('Result copied.');
+      }
+    }
+  </script>
+  <script src="/components/shared.js"></script>
+</body>
+</html>
