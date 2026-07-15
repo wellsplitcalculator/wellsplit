@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+  <!-- Google AdSense tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1724135069833024"
+       crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR5ESWGW9Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VR5ESWGW9Y');
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/files/favicon.png">
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Household wear-and-tear contribution calculator. Fairly allocate costs for maintenance, repairs, and replacement of shared household items.">
+  <title>Household Wear-and-Tear Contribution · WellSplit</title>
+  <link rel="stylesheet" href="/components/styles.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #2f343c; --panel: #3a4048; --panel-2: #454c56;
+      --field: #505863; --text: #f3f4f6; --muted: #c6ccd4;
+      --border: #606977; --accent: #7dd3fc; --accent-2: #38bdf8;
+      --danger: #f87171; --shadow: 0 18px 50px rgba(0,0,0,.18);
+      --radius: 16px;
+      --green: #6ee7b7;
+      --orange: #fcd34d;
+      --purple: #c4b5fd;
+      --pink: #f9a8d4;
+    }
+    html[data-theme="light"] {
+      --bg: #f6f7f9; --panel: #fff; --panel-2: #f1f5f9;
+      --field: #fff; --text: #111827; --muted: #5e6b78;
+      --border: #dce3eb; --accent: #0369a1; --accent-2: #0284c7;
+      --danger: #b91c1c; --shadow: 0 18px 45px rgba(15,23,42,.08);
+      --green: #059669;
+      --orange: #d97706;
+      --purple: #7c3aed;
+      --pink: #db2777;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh; background: var(--bg); color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    main { padding: 42px 6% 32px; }
+    .content-layout {
+      width: min(100%, 1180px);
+      display: grid;
+      grid-template-columns: minmax(0, 780px) minmax(280px, 1fr);
+      gap: 30px; align-items: start;
+    }
+    .page-shell { width: 100%; min-width: 0; }
+    .ad-space { min-height: 600px; }
+    .ad-column { display: block; }
+    .hero { margin-bottom: 18px; }
+    h1 {
+      max-width: 780px; font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+      line-height: 1.02; letter-spacing: -.06em; margin-bottom: 10px;
+    }
+    .hero p { max-width: 720px; color: var(--muted); font-size: .88rem; }
+    .calculator {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .section-title { font-size: 1.02rem; letter-spacing: -.035em; margin-bottom: 3px; }
+    .section-description {
+      color: var(--muted); font-size: .8rem;
+      line-height: 1.4; margin-bottom: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+    label {
+      display: block; margin-bottom: 3px; color: var(--muted);
+      font-size: .7rem; font-weight: 800;
+    }
+    input, select {
+      width: 100%; min-height: 38px; background: var(--field);
+      color: var(--text); border: 1px solid var(--border);
+      border-radius: 10px; padding: 7px 10px; outline: none;
+      font-size: .85rem;
+    }
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+    .result {
+      margin-top: 12px; padding: 12px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 12px; min-height: 50px; overflow-x: auto;
+    }
+    .result:empty::before {
+      content: "Your wear-and-tear contribution analysis will appear here.";
+      color: var(--muted); font-weight: 600;
+    }
+    .summary-line {
+      color: var(--muted); font-size: .78rem; margin-bottom: 10px;
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin: 8px 0;
+    }
+    .result-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+    .result-card .label {
+      color: var(--muted);
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-weight: 800;
+    }
+    .result-card .amount {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .result-card .amount.green { color: var(--green); }
+    .result-card .amount.orange { color: var(--orange); }
+    .result-card .detail {
+      color: var(--muted);
+      font-size: .75rem;
+      margin-top: 4px;
+    }
+    .comparison-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .8rem;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .comparison-row:last-child { border-bottom: 0; }
+    .comparison-label { color: var(--muted); }
+    .status-badge {
+      display: inline-block;
+      padding: 2px 12px;
+      border-radius: 20px;
+      font-size: .7rem;
+      font-weight: 700;
+    }
+    .status-fair { background: color-mix(in srgb, var(--green) 20%, transparent); color: var(--green); }
+    .status-partial { background: color-mix(in srgb, var(--orange) 20%, transparent); color: var(--orange); }
+    .status-unfair { background: color-mix(in srgb, var(--danger) 20%, transparent); color: var(--danger); }
+    .note {
+      margin-top: 10px; color: var(--muted); font-size: .76rem;
+      line-height: 1.4;
+    }
+    .btns {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px;
+    }
+    button {
+      border: 0; cursor: pointer; border-radius: 10px;
+      padding: 8px 12px; font-size: .82rem; font-weight: 900;
+      transition: .16s;
+    }
+    button:hover { transform: translateY(-1px); }
+    .primary { background: var(--accent); color: #061018; }
+    .primary:hover { background: var(--accent-2); }
+    .secondary {
+      background: var(--panel-2); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .content-section {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .content-section h2 { font-size: 1.3rem; letter-spacing: -.035em; margin-bottom: 8px; }
+    .content-section h3 { font-size: .98rem; margin: 14px 0 5px; }
+    .content-section p { color: var(--muted); font-size: .85rem; margin-bottom: 8px; }
+    .content-section ul { margin: 6px 0 8px 18px; color: var(--muted); font-size: .85rem; }
+    .content-section li { margin-bottom: 4px; }
+    #faqs h2 { font-size: 1.6rem; margin-bottom: 6px; letter-spacing: -.03em; }
+    .faq-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .faq-item {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .faq-item:hover { border-color: var(--accent); }
+    .faq-item[open] { background: var(--panel-2); }
+    .faq-item summary {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+      list-style: none; user-select: none; padding: 10px 14px;
+      font-size: .88rem; font-weight: 700; line-height: 1.3; color: var(--text);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before {
+      content: "▶"; font-size: .7rem; flex-shrink: 0;
+      color: var(--text); transition: transform .22s ease;
+    }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-answer { padding: 0 18px 12px 42px; }
+    .faq-answer p { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    footer { padding: 20px 6%; color: var(--muted); border-top: 1px solid var(--border); font-size: .85rem; text-align: center; }
+    @media (max-width:900px) { .content-layout { display: block; width: 100%; } .ad-column { display: none; } }
+    @media (max-width:780px) {
+      main { padding: 28px 14px 20px; }
+      h1 { font-size: clamp(1.6rem, 8vw, 2.5rem); }
+      .calculator, .content-section { padding: 12px; }
+      .grid, .grid-3 { grid-template-columns: 1fr; }
+      .btns button { flex: 1 1 130px; }
+      .faq-answer { padding: 0 14px 10px 34px; }
+      .faq-answer p { font-size: .82rem; }
+      #faqs h2 { font-size: 1.4rem; }
+      .faq-item summary { padding: 8px 12px; gap: 8px; font-size: .84rem; }
+    }
+    @media (max-width:420px) { .btns button { flex: 1 1 100%; } }
+    .highlight-box {
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      border-left: 3px solid var(--accent);
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 6px;
+      font-size: .85rem;
+    }
+    .highlight-box.success {
+      background: color-mix(in srgb, var(--green) 15%, transparent);
+      border-left-color: var(--green);
+    }
+    .highlight-box.warning {
+      background: color-mix(in srgb, var(--orange) 15%, transparent);
+      border-left-color: var(--orange);
+    }
+    .highlight-box.danger {
+      background: color-mix(in srgb, var(--danger) 15%, transparent);
+      border-left-color: var(--danger);
+    }
+    .item-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding: 4px 0;
+      flex-wrap: wrap;
+    }
+    .item-row input[type="text"] { flex: 1; min-width: 80px; }
+    .item-row input[type="number"] { width: 80px; min-width: 60px; }
+    .item-row select { width: 100px; min-width: 80px; }
+    .item-row .remove-item {
+      background: transparent;
+      border: none;
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0 4px;
+      min-width: 30px;
+    }
+    .item-row .remove-item:hover { transform: scale(1.2); }
+    .category-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: .65rem;
+      font-weight: 700;
+    }
+    .cat-appliances { background: color-mix(in srgb, var(--accent) 20%, transparent); color: var(--accent); }
+    .cat-furniture { background: color-mix(in srgb, var(--green) 20%, transparent); color: var(--green); }
+    .cat-flooring { background: color-mix(in srgb, var(--orange) 20%, transparent); color: var(--orange); }
+    .cat-plumbing { background: color-mix(in srgb, var(--purple) 20%, transparent); color: var(--purple); }
+    .cat-paint { background: color-mix(in srgb, var(--pink) 20%, transparent); color: var(--pink); }
+    .cat-other { background: color-mix(in srgb, var(--muted) 20%, transparent); color: var(--muted); }
+    
+    /* Mobile responsive styles */
+    @media (max-width: 768px) {
+      .item-row {
+        flex-direction: column;
+        align-items: stretch;
+        background: var(--panel-2);
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 6px;
+        border: 1px solid var(--border);
+      }
+      .item-row input[type="text"],
+      .item-row input[type="number"],
+      .item-row select {
+        width: 100% !important;
+        min-width: unset;
+      }
+      .item-row .remove-item {
+        align-self: flex-end;
+        padding: 4px 8px;
+        font-size: 1.2rem;
+      }
+      .item-row .field-label-mobile {
+        display: block;
+        font-size: .6rem;
+        color: var(--muted);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        margin-bottom: 2px;
+      }
+      #itemHeaderRow {
+        display: none !important;
+      }
+      .result-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .comparison-row {
+        flex-wrap: wrap;
+        gap: 2px;
+        padding: 4px 0;
+      }
+      .comparison-row span {
+        font-size: .75rem;
+      }
+      .highlight-box {
+        font-size: .78rem;
+        padding: 8px 10px;
+      }
+      .result-card .amount {
+        font-size: 1.2rem;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (min-width: 769px) {
+      .item-row .field-label-mobile {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar-container"></div>
+  <main>
+    <div class="content-layout">
+      <div class="page-shell">
+        <section class="hero">
+          <h1>Household Wear-and-Tear Contribution</h1>
+          <p>Fairly allocate costs for maintenance, repairs, and replacement of shared household items. Plan for the inevitable wear and tear of daily living.</p>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">1. Household members</h2>
+          <p class="section-description">Enter the names and income of people sharing household costs.</p>
+          <div class="grid">
+            <div>
+              <label for="p1Name20">Person 1 name</label>
+              <input id="p1Name20" type="text" placeholder="e.g. Alex" value="">
+            </div>
+            <div>
+              <label for="p2Name20">Person 2 name</label>
+              <input id="p2Name20" type="text" placeholder="e.g. Jordan" value="">
+            </div>
+            <div>
+              <label for="p1Income20">Person 1 monthly income</label>
+              <input id="p1Income20" type="number" inputmode="decimal" min="0" placeholder="e.g. 4000" value="">
+            </div>
+            <div>
+              <label for="p2Income20">Person 2 monthly income</label>
+              <input id="p2Income20" type="number" inputmode="decimal" min="0" placeholder="e.g. 3500" value="">
+            </div>
+            <div>
+              <label for="currencySymbol20">Currency</label>
+              <select id="currencySymbol20">
+                <option value="$">$ (USD)</option>
+                <option value="€">€ (EUR)</option>
+                <option value="£">£ (GBP)</option>
+                <option value="CA$">CA$ (CAD)</option>
+                <option value="AU$">AU$ (AUD)</option>
+                <option value="¥">¥ (JPY)</option>
+                <option value="CHF">CHF (CHF)</option>
+                <option value="kr">kr (SEK)</option>
+                <option value="NZ$">NZ$ (NZD)</option>
+                <option value="₹">₹ (INR)</option>
+                <option value="R">R (ZAR)</option>
+                <option value="S$">S$ (SGD)</option>
+                <option value="HK$">HK$ (HKD)</option>
+              </select>
+            </div>
+            <div>
+              <label for="timeframe20">Contribution timeframe</label>
+              <select id="timeframe20">
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="yearly">Yearly</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">2. Wear-and-tear items</h2>
+          <p class="section-description">Add items that experience wear and tear, with replacement cost and expected lifespan.</p>
+          
+          <div style="margin-bottom: 8px; display: flex; flex-wrap: wrap; gap: 6px;">
+            <button class="secondary" onclick="addWearItemTop20()" type="button" style="font-size:.78rem;">+ Add Item (top)</button>
+            <button class="secondary" onclick="addSampleWearItems20()" type="button" style="font-size:.78rem;">📋 Sample Items</button>
+          </div>
+
+          <div id="itemHeaderRow" style="display:flex; gap:6px; padding:4px 0; font-size:.7rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid var(--border); margin-bottom:4px;">
+            <span style="flex:1;">Item Name</span>
+            <span style="width:90px;">Replacement Cost</span>
+            <span style="width:80px;">Lifespan (yrs)</span>
+            <span style="width:100px;">Category</span>
+            <span style="width:120px;">Used By</span>
+            <span style="width:30px;"></span>
+          </div>
+          
+          <div id="wearItemList20">
+            <!-- Items will be added here dynamically -->
+          </div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">3. Contribution settings</h2>
+          <p class="section-description">Choose how to allocate wear-and-tear costs.</p>
+          <div class="grid">
+            <div>
+              <label for="splitMethod20">Allocation method</label>
+              <select id="splitMethod20">
+                <option value="equal">Equal split (50/50)</option>
+                <option value="income">Proportional by income</option>
+                <option value="usage">By usage factor</option>
+                <option value="custom">Custom percentage</option>
+              </select>
+            </div>
+            <div id="customWearDiv20" style="display:none;">
+              <label for="customWearPct20">Person 1's share (%)</label>
+              <input id="customWearPct20" type="number" min="0" max="100" placeholder="e.g. 60" value="" step="1">
+            </div>
+            <div>
+              <label for="p1Usage20">Person 1 usage factor</label>
+              <input id="p1Usage20" type="number" min="0.1" max="5" placeholder="e.g. 1" value="" step="0.1">
+            </div>
+            <div>
+              <label for="p2Usage20">Person 2 usage factor</label>
+              <input id="p2Usage20" type="number" min="0.1" max="5" placeholder="e.g. 1.2" value="" step="0.1">
+            </div>
+            <div>
+              <label for="depreciationRate20">Annual depreciation rate (%)</label>
+              <input id="depreciationRate20" type="number" min="0" max="50" placeholder="e.g. 10" value="" step="1">
+            </div>
+            <div>
+              <label for="inflationRate20">Annual inflation rate (%)</label>
+              <input id="inflationRate20" type="number" min="0" max="20" placeholder="e.g. 3" value="" step="0.1">
+            </div>
+          </div>
+        </section>
+
+        <section class="calculator">
+          <div class="btns">
+            <button class="primary" onclick="calculateWearTear()" type="button">Calculate Contribution</button>
+            <button class="secondary" onclick="copyResult20()" type="button">Copy result</button>
+            <button class="secondary" onclick="resetWearTear()" type="button">Reset</button>
+          </div>
+          <div class="result" id="result20"></div>
+        </section>
+
+        <section class="content-section" id="about20">
+          <h2>About the Wear-and-Tear Contribution Calculator</h2>
+          <p>Everything in a household experiences wear and tear — from carpets and appliances to furniture and plumbing. This calculator helps households fairly plan for replacement and maintenance costs by spreading them over time and allocating them fairly among residents.</p>
+          <h3>How to use this calculator</h3>
+          <ul>
+            <li>Enter household members and their income (for income-based allocation).</li>
+            <li>Add items with replacement cost, lifespan, and who uses them.</li>
+            <li>Choose allocation method (equal, by income, by usage, or custom).</li>
+            <li>Add depreciation and inflation rates for more accurate planning.</li>
+            <li>Calculate to see each person's fair contribution.</li>
+          </ul>
+        </section>
+
+        <section class="content-section" id="faqs20">
+          <h2>Wear-and-Tear FAQs</h2>
+          <p>Common questions about household wear-and-tear planning.</p>
+          <div class="faq-list">
+            <details class="faq-item"><summary>Why plan for wear and tear?</summary><div class="faq-answer"><p>Everything in your home eventually needs repair or replacement. Planning for these costs prevents financial surprises and ensures fair distribution of expenses that benefit everyone.</p></div></details>
+            <details class="faq-item"><summary>What's the difference between depreciation and wear and tear?</summary><div class="faq-answer"><p>Depreciation is the financial value loss over time. Wear and tear is the physical deterioration from use. This calculator uses both concepts to determine fair contributions for replacement.</p></div></details>
+            <details class="faq-item"><summary>How is usage factor calculated?</summary><div class="faq-answer"><p>Usage factor reflects how much someone uses household items. A factor of 1.2 means they use 20% more than average. This is useful when one person works from home or has different habits.</p></div></details>
+            <details class="faq-item"><summary>Should we include appliances in wear and tear?</summary><div class="faq-answer"><p>Yes, appliances like refrigerators, washing machines, and dishwashers experience wear and tear and need replacement. Include them with their expected lifespan.</p></div></details>
+            <details class="faq-item"><summary>What about furniture?</summary><div class="faq-answer"><p>Furniture is a major category. Sofas, beds, chairs, and tables all experience wear from daily use. Include them in the calculator.</p></div></details>
+            <details class="faq-item"><summary>How do we handle flooring and carpets?</summary><div class="faq-answer"><p>Flooring wears down over time, especially in high-traffic areas. Include replacement costs and expected lifespan. Different rooms may have different usage.</p></div></details>
+            <details class="faq-item"><summary>What's a reasonable lifespan for appliances?</summary><div class="faq-answer"><p>Typical lifespans: Refrigerators 10-15 years, washing machines 10-13 years, dishwashers 8-12 years, ovens 10-15 years. Adjust based on quality and usage.</p></div></details>
+            <details class="faq-item"><summary>Should we include inflation in our planning?</summary><div class="faq-answer"><p>Yes, inflation increases replacement costs over time. Including a modest inflation rate (2-4%) gives a more realistic long-term plan.</p></div></details>
+            <details class="faq-item"><summary>How often should we review our wear-and-tear plan?</summary><div class="faq-answer"><p>Review annually or when major items are replaced. The plan should evolve as your household changes.</p></div></details>
+            <details class="faq-item"><summary>What if someone moves out?</summary><div class="faq-answer"><p>Re-run the calculator with updated members. The contribution amounts will adjust to reflect who's still using the items.</p></div></details>
+            <details class="faq-item"><summary>Should we include exterior maintenance?</summary><div class="faq-answer"><p>Yes, if it applies to shared spaces. Include items like outdoor furniture, garden tools, and exterior paint.</p></div></details>
+            <details class="faq-item"><summary>How do we handle items used by only one person?</summary><div class="faq-answer"><p>Assign them to that person in the "Used By" field. They'll pay the full cost of those items.</p></div></details>
+            <details class="faq-item"><summary>What about shared items like a communal TV?</summary><div class="faq-answer"><p>Mark them as "Shared" in the "Used By" field. The cost will be split according to your chosen method.</p></div></details>
+            <details class="faq-item"><summary>Can this calculator handle more than 2 people?</summary><div class="faq-answer"><p>Yes! Use the "Add Person" button to add as many household members as you need.</p></div></details>
+            <details class="faq-item"><summary>Is this calculator free to use?</summary><div class="faq-answer"><p>Yes, completely free. We believe fair household planning should be accessible to everyone.</p></div></details>
+          </div>
+        </section>
+      </div>
+      <aside class="ad-column" aria-label="Advertisement"><div class="ad-space"><!-- AdSense ad code --></div></aside>
+    </div>
+  </main>
+  <div id="footer-container"></div>
+  <script>
+    function money20(value) {
+      const sym = document.getElementById('currencySymbol20').value || '$';
+      return sym + Number(value || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function getNumber20(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+    // ---- extra people ----
+    let personCount20 = 2;
+
+    function addPerson20() {
+      personCount20++;
+      const container = document.getElementById('extraPeople20');
+      const div = document.createElement('div');
+      div.className = 'grid';
+      div.id = 'wperson' + personCount20;
+      div.style.marginTop = '6px';
+      div.innerHTML = `
+        <div style="grid-column: 1 / -1; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-weight:700; font-size:.85rem;">👤 Person ${personCount20}</span>
+          <button onclick="removePerson20('wperson${personCount20}')" style="background:transparent;border:none;color:var(--danger);cursor:pointer;font-size:.9rem;">✕</button>
+        </div>
+        <div>
+          <label>Name</label>
+          <input class="wpName20" type="text" placeholder="Person ${personCount20}" value="">
+        </div>
+        <div>
+          <label>Income</label>
+          <input class="wpIncome20" type="number" inputmode="decimal" min="0" placeholder="e.g. 3000" value="">
+        </div>
+        <div>
+          <label>Usage factor</label>
+          <input class="wpUsage20" type="number" min="0.1" max="5" placeholder="e.g. 1" value="" step="0.1">
+        </div>
+      `;
+      container.appendChild(div);
+      updateWearAssigned20();
+    }
+
+    function removePerson20(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+      updateWearAssigned20();
+    }
+
+    function collectPeople20() {
+      const people = [];
+      people.push({
+        name: document.getElementById('p1Name20').value.trim() || 'Person 1',
+        income: getNumber20('p1Income20') || 0,
+        usage: getNumber20('p1Usage20') || 1
+      });
+      people.push({
+        name: document.getElementById('p2Name20').value.trim() || 'Person 2',
+        income: getNumber20('p2Income20') || 0,
+        usage: getNumber20('p2Usage20') || 1
+      });
+      document.querySelectorAll('#extraPeople20 .grid').forEach(el => {
+        const name = el.querySelector('.wpName20').value.trim() || 'Person';
+        const income = parseFloat(el.querySelector('.wpIncome20').value) || 0;
+        const usage = parseFloat(el.querySelector('.wpUsage20').value) || 1;
+        people.push({ name, income, usage });
+      });
+      return people;
+    }
+
+    // ---- wear items ----
+    let wearItemCount20 = 0;
+
+    function addWearItemTop20(name = '', cost = 0, lifespan = 0, category = 'appliances', usedBy = 'shared') {
+      wearItemCount20++;
+      const container = document.getElementById('wearItemList20');
+      const div = document.createElement('div');
+      div.className = 'item-row';
+      div.id = 'witem' + wearItemCount20;
+      const people = collectPeople20();
+      div.innerHTML = `
+        <span class="field-label-mobile">Item Name</span>
+        <input class="wItemName20" type="text" placeholder="Item name" value="${name}">
+        <span class="field-label-mobile">Replacement Cost</span>
+        <input class="wItemCost20" type="number" inputmode="decimal" min="0" placeholder="Cost" value="${cost}" step="0.01">
+        <span class="field-label-mobile">Lifespan (yrs)</span>
+        <input class="wItemLifespan20" type="number" min="0" placeholder="Years" value="${lifespan}" step="0.5">
+        <span class="field-label-mobile">Category</span>
+        <select class="wItemCategory20">
+          <option value="appliances" ${category === 'appliances' ? 'selected' : ''}>🔌 Appliances</option>
+          <option value="furniture" ${category === 'furniture' ? 'selected' : ''}>🛋️ Furniture</option>
+          <option value="flooring" ${category === 'flooring' ? 'selected' : ''}>🚪 Flooring</option>
+          <option value="plumbing" ${category === 'plumbing' ? 'selected' : ''}>🚰 Plumbing</option>
+          <option value="paint" ${category === 'paint' ? 'selected' : ''}>🎨 Paint/Walls</option>
+          <option value="other" ${category === 'other' ? 'selected' : ''}>📦 Other</option>
+        </select>
+        <span class="field-label-mobile">Used By</span>
+        <select class="wItemUsedBy20">
+          <option value="shared" ${usedBy === 'shared' ? 'selected' : ''}>👥 Shared</option>
+          ${people.map(p => `<option value="${p.name}" ${usedBy === p.name ? 'selected' : ''}>${p.name}</option>`).join('')}
+        </select>
+        <button class="remove-item" onclick="removeWearItem20('witem${wearItemCount20}')">✕</button>
+      `;
+      container.insertBefore(div, container.firstChild);
+    }
+
+    function removeWearItem20(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function updateWearAssigned20() {
+      const people = collectPeople20();
+      document.querySelectorAll('.wItemUsedBy20').forEach(sel => {
+        const current = sel.value;
+        const options = ['<option value="shared">👥 Shared</option>'];
+        people.forEach(p => {
+          const selected = p.name === current ? 'selected' : '';
+          options.push(`<option value="${p.name}" ${selected}>${p.name}</option>`);
+        });
+        sel.innerHTML = options.join('');
+      });
+    }
+
+    function addSampleWearItems20() {
+      const people = collectPeople20();
+      const samples = [
+        ['Refrigerator', 1200, 12, 'appliances', 'shared'],
+        ['Washing Machine', 800, 10, 'appliances', 'shared'],
+        ['Sofa (3-seater)', 900, 8, 'furniture', 'shared'],
+        ['Dining Table + Chairs', 600, 10, 'furniture', 'shared'],
+        ['Queen Mattress', 700, 8, 'furniture', 'shared'],
+        ['Carpet (living room)', 500, 7, 'flooring', 'shared'],
+        ['Water Heater', 650, 12, 'plumbing', 'shared']
+      ];
+      if (people.length >= 2) {
+        samples.push([`${people[0]}'s office chair`, 200, 5, 'furniture', people[0]]);
+        samples.push([`${people[1]}'s desk lamp`, 50, 4, 'other', people[1]]);
+      }
+      samples.reverse().forEach(([name, cost, lifespan, category, usedBy]) => {
+        addWearItemTop20(name, cost, lifespan, category, usedBy);
+      });
+    }
+
+    // ---- show/hide custom ----
+    document.getElementById('splitMethod20').addEventListener('change', function() {
+      document.getElementById('customWearDiv20').style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+
+    // ---- main calculation ----
+    function calculateWearTear() {
+      const people = collectPeople20();
+      const method = document.getElementById('splitMethod20').value;
+      const depreciationRate = getNumber20('depreciationRate20') / 100;
+      const inflationRate = getNumber20('inflationRate20') / 100;
+      const timeframe = document.getElementById('timeframe20').value;
+
+      const items = [];
+      document.querySelectorAll('#wearItemList20 .item-row').forEach(el => {
+        const name = el.querySelector('.wItemName20').value.trim() || 'Item';
+        const cost = parseFloat(el.querySelector('.wItemCost20').value) || 0;
+        const lifespan = parseFloat(el.querySelector('.wItemLifespan20').value) || 0;
+        const category = el.querySelector('.wItemCategory20').value;
+        const usedBy = el.querySelector('.wItemUsedBy20').value;
+        if (cost > 0 && lifespan > 0) {
+          items.push({ name, cost, lifespan, category, usedBy });
+        }
+      });
+
+      if (items.length === 0) {
+        document.getElementById('result20').innerHTML = '<p>Please add at least one item with replacement cost and lifespan.</p>';
+        return;
+      }
+
+      if (people.length < 2) {
+        document.getElementById('result20').innerHTML = '<p>Please add at least 2 people.</p>';
+        return;
+      }
+
+      // Calculate total annual wear-and-tear cost
+      const totalIncome = people.reduce((sum, p) => sum + p.income, 0);
+      let totalAnnualCost = 0;
+      let itemDetails = [];
+
+      items.forEach(item => {
+        const annualDep = item.cost / item.lifespan;
+        const adjustedAnnual = annualDep * (1 + inflationRate) * (1 + depreciationRate);
+        totalAnnualCost += adjustedAnnual;
+        itemDetails.push({ ...item, annualCost: adjustedAnnual });
+      });
+
+      // Calculate per-person shares
+      let pShares = {};
+      people.forEach(p => { pShares[p.name] = 0; });
+
+      itemDetails.forEach(item => {
+        let p1Split = 0.5;
+        let p2Split = 0.5;
+        let relevantPeople = [];
+
+        if (item.usedBy === 'shared') {
+          relevantPeople = people;
+        } else {
+          const person = people.find(p => p.name === item.usedBy);
+          if (person) {
+            relevantPeople = [person];
+          } else {
+            relevantPeople = people;
+          }
+        }
+
+        if (method === 'equal') {
+          const share = item.annualCost / relevantPeople.length;
+          relevantPeople.forEach(p => { pShares[p.name] += share; });
+        } else if (method === 'income') {
+          const totalRelevantIncome = relevantPeople.reduce((sum, p) => sum + p.income, 0);
+          if (totalRelevantIncome > 0) {
+            relevantPeople.forEach(p => {
+              const share = item.annualCost * (p.income / totalRelevantIncome);
+              pShares[p.name] += share;
+            });
+          } else {
+            const share = item.annualCost / relevantPeople.length;
+            relevantPeople.forEach(p => { pShares[p.name] += share; });
+          }
+        } else if (method === 'usage') {
+          const totalUsage = relevantPeople.reduce((sum, p) => sum + p.usage, 0);
+          if (totalUsage > 0) {
+            relevantPeople.forEach(p => {
+              const share = item.annualCost * (p.usage / totalUsage);
+              pShares[p.name] += share;
+            });
+          } else {
+            const share = item.annualCost / relevantPeople.length;
+            relevantPeople.forEach(p => { pShares[p.name] += share; });
+          }
+        } else { // custom
+          const customPct = getNumber20('customWearPct20');
+          if (customPct <= 0 || customPct >= 100) {
+            document.getElementById('result20').innerHTML = '<p>Please enter a valid custom percentage (1-99).</p>';
+            return;
+          }
+          // Custom applies to overall split, not per item
+          // We'll calculate after
+        }
+      });
+
+      // If custom method, override with custom percentages
+      if (method === 'custom') {
+        const customPct = getNumber20('customWearPct20');
+        if (customPct <= 0 || customPct >= 100) {
+          document.getElementById('result20').innerHTML = '<p>Please enter a valid custom percentage (1-99).</p>';
+          return;
+        }
+        const p1Share = totalAnnualCost * (customPct / 100);
+        const p2Share = totalAnnualCost - p1Share;
+        people.forEach((p, idx) => {
+          pShares[p.name] = idx === 0 ? p1Share : p2Share;
+        });
+      }
+
+      // Adjust for timeframe
+      const timeframeMultiplier = { monthly: 1/12, quarterly: 1/4, yearly: 1 };
+      const multiplier = timeframeMultiplier[timeframe] || 1;
+      const adjustedShares = {};
+      people.forEach(p => {
+        adjustedShares[p.name] = pShares[p.name] * multiplier;
+      });
+
+      // Build item breakdown
+      let itemRows = itemDetails.map(item => {
+        const catClass = `cat-${item.category}`;
+        return `
+          <div class="comparison-row">
+            <span class="comparison-label">${item.name}</span>
+            <span>${money20(item.cost)}</span>
+            <span>${item.lifespan.toFixed(1)} yrs</span>
+            <span><span class="category-tag ${catClass}">${item.category}</span></span>
+            <span>${item.usedBy === 'shared' ? '👥 Shared' : item.usedBy}</span>
+          </div>
+        `;
+      }).join('');
+
+      // Calculate totals
+      const totalAdjusted = Object.values(adjustedShares).reduce((a, b) => a + b, 0);
+      const methodLabels = {
+        'equal': 'Equal split',
+        'income': 'Proportional by income',
+        'usage': 'By usage factor',
+        'custom': 'Custom percentage'
+      };
+
+      // Determine fairness
+      const amounts = people.map(p => adjustedShares[p.name] || 0);
+      const maxAmount = Math.max(...amounts);
+      const minAmount = Math.min(...amounts);
+      const diff = maxAmount - minAmount;
+      const fairnessScore = totalAdjusted > 0 ? Math.min(100, Math.max(0, 100 - (diff / (totalAdjusted / people.length)) * 50)) : 100;
+      let fairnessStatus, fairnessClass;
+      if (fairnessScore >= 75) {
+        fairnessStatus = 'Fair';
+        fairnessClass = 'status-fair';
+      } else if (fairnessScore >= 50) {
+        fairnessStatus = 'Partial';
+        fairnessClass = 'status-partial';
+      } else {
+        fairnessStatus = 'Unfair';
+        fairnessClass = 'status-unfair';
+      }
+
+      const resultDiv = document.getElementById('result20');
+
+      resultDiv.innerHTML = `
+        <div class="summary-line">
+          🏠 Wear-and-Tear · ${methodLabels[method] || 'Custom'} · ${items.length} items · ${timeframe} contribution
+        </div>
+
+        <div class="result-grid">
+          <div class="result-card">
+            <div class="label">🏠 Annual replacement cost</div>
+            <div class="amount">${money20(totalAnnualCost)}</div>
+            <div class="detail">${items.length} items</div>
+          </div>
+          <div class="result-card">
+            <div class="label">📊 Total ${timeframe} contribution</div>
+            <div class="amount" style="color: var(--orange);">${money20(totalAdjusted)}</div>
+            <div class="detail">${timeframe} contribution for all people</div>
+          </div>
+          <div class="result-card">
+            <div class="label">⚖️ Fairness score</div>
+            <div class="amount" style="color: ${fairnessScore >= 75 ? 'var(--green)' : fairnessScore >= 50 ? 'var(--orange)' : 'var(--red)'};">${fairnessScore.toFixed(0)}%</div>
+            <div class="detail"><span class="status-badge ${fairnessClass}">${fairnessStatus}</span></div>
+          </div>
+        </div>
+
+        <div class="result-grid" style="grid-template-columns: ${Math.min(people.length, 4) > 2 ? `repeat(${Math.min(people.length, 4)}, 1fr)` : '1fr 1fr'};">
+          ${people.map((p, idx) => `
+            <div class="result-card" style="border-color: ${idx === 0 ? 'var(--accent)' : idx === 1 ? 'var(--purple)' : 'var(--green)'};">
+              <div class="label">${p.name}</div>
+              <div class="amount">${money20(adjustedShares[p.name] || 0)}</div>
+              <div class="detail">${totalAdjusted > 0 ? ((adjustedShares[p.name] / totalAdjusted) * 100).toFixed(1) : 0}% of total</div>
+              ${method === 'income' ? `<div class="detail">Income: ${money20(p.income)}</div>` : ''}
+              ${method === 'usage' ? `<div class="detail">Usage: ${p.usage.toFixed(1)}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="highlight-box ${fairnessScore >= 75 ? 'success' : fairnessScore >= 50 ? 'warning' : 'danger'}">
+          <strong>${fairnessScore >= 75 ? '✅ Well-balanced allocation' : fairnessScore >= 50 ? '⚠️ Partially balanced' : '❌ Unbalanced allocation'}</strong>
+          <br>
+          ${fairnessScore >= 75 
+            ? 'The wear-and-tear contributions are fairly distributed among household members.' 
+            : fairnessScore >= 50 
+              ? 'Consider adjusting the allocation method or usage factors for a more balanced distribution.' 
+              : 'The allocation is significantly unbalanced. Consider using a different method or reviewing item assignments.'}
+          ${depreciationRate > 0 ? ` Depreciation (${(depreciationRate * 100).toFixed(0)}%) and inflation (${(inflationRate * 100).toFixed(1)}%) are included.` : ''}
+        </div>
+
+        <div style="margin-top: 10px;">
+          <div style="font-weight:700; font-size:.82rem; margin-bottom:4px;">Item breakdown</div>
+          <div class="comparison-row" style="font-weight:700; border-bottom:2px solid var(--border);">
+            <span>Item</span>
+            <span>Cost</span>
+            <span>Lifespan</span>
+            <span>Category</span>
+            <span>Used By</span>
+          </div>
+          ${itemRows}
+          <div class="comparison-row" style="font-weight:700; border-top:2px solid var(--border); margin-top:4px; padding-top:6px;">
+            <span>TOTAL</span>
+            <span>${money20(items.reduce((sum, i) => sum + i.cost, 0))}</span>
+            <span>—</span>
+            <span>—</span>
+            <span>—</span>
+          </div>
+        </div>
+
+        <p class="note">
+          <strong>How it works:</strong> 
+          ${method === 'equal' ? 'Costs are split equally among all people who use each item.' : 
+            method === 'income' ? 'Costs are split proportionally by income for people who use each item.' : 
+            method === 'usage' ? 'Costs are split based on usage factors for people who use each item.' : 
+            'A custom percentage split is applied.'}
+          ${depreciationRate > 0 || inflationRate > 0 ? ` Depreciation (${(depreciationRate * 100).toFixed(0)}%) and inflation (${(inflationRate * 100).toFixed(1)}%) adjust the annual costs.` : ''}
+          <br><br>
+          <strong>Recommendation:</strong> 
+          ${fairnessScore >= 75 
+            ? 'Your wear-and-tear allocation is fair. Consider reviewing it annually or when major items are replaced.' 
+            : fairnessScore >= 50 
+              ? 'Review usage factors and item assignments to create a more balanced allocation.' 
+              : 'Consider using a different allocation method or adjusting usage factors to achieve a fairer distribution.'}
+        </p>
+      `;
+    }
+
+    function resetWearTear() {
+      document.querySelectorAll('.calculator input[type="number"]').forEach(input => {
+        if (input.id !== 'splitMethod20' && input.id !== 'timeframe20') {
+          input.value = '';
+        }
+      });
+      document.querySelectorAll('#extraPeople20 .grid').forEach(el => el.remove());
+      document.querySelectorAll('#wearItemList20 .item-row').forEach(el => el.remove());
+      personCount20 = 2;
+      wearItemCount20 = 0;
+      document.getElementById('result20').innerHTML = '';
+    }
+
+    async function copyResult20() {
+      const result = document.getElementById('result20');
+      if (!result.innerText.trim()) { alert('Calculate the wear-and-tear contribution first.'); return; }
+      try {
+        await navigator.clipboard.writeText(result.innerText.trim());
+        alert('Result copied.');
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = result.innerText.trim();
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+        alert('Result copied.');
+      }
+    }
+
+    // Initialize with sample items
+    document.addEventListener('DOMContentLoaded', function() {
+      addSampleWearItems20();
+    });
+  </script>
+  <script src="/components/shared.js"></script>
+</body>
+</html>
