@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+
+
+<!-- Google adsense tag -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1724135069833024"
+     crossorigin="anonymous"></script>
+  
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VR5ESWGW9Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VR5ESWGW9Y');
+</script>
+
+
+  <!-- favicon -->
+<link rel="icon" type="image/png" href="/files/favicon.png">
+
+  
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="Personal Spending Allowance Calculator for Couples - Determine fair no-guilt spending money after shared obligations. Free tool by WellSplit." name="description"/>
+  <title>Personal Spending Allowance Calculator for Couples | WellSplit</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #2f343c;
+      --panel: #3a4048;
+      --panel-2: #454c56;
+      --field: #505863;
+      --text: #f3f4f6;
+      --muted: #c6ccd4;
+      --border: #606977;
+      --accent: #7dd3fc;
+      --accent-2: #38bdf8;
+      --good: #86efac;
+      --warn: #facc15;
+      --danger: #f87171;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+      --radius: 16px;
+    }
+
+    html[data-theme="light"] {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --panel-2: #f1f5f9;
+      --field: #ffffff;
+      --text: #111827;
+      --muted: #5e6b78;
+      --border: #dce3eb;
+      --accent: #0369a1;
+      --accent-2: #0284c7;
+      --good: #15803d;
+      --warn: #a16207;
+      --danger: #b91c1c;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+      padding: 42px 6% 28px;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .page-shell {
+      width: min(100%, 660px);
+      margin: 0;
+    }
+
+    .hero {
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      max-width: 620px;
+      font-size: clamp(2rem, 5vw, 3.1rem);
+      line-height: 1.02;
+      letter-spacing: -0.065em;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      max-width: 610px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .calculator {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .calc-head {
+      display: flex;
+      align-items: start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .calc-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 27px;
+      height: 27px;
+      border-radius: 9px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 900;
+      flex: 0 0 auto;
+      margin-top: 2px;
+    }
+
+    .calculator h2 {
+      font-size: 1.25rem;
+      line-height: 1.18;
+      letter-spacing: -0.035em;
+      margin-bottom: 4px;
+    }
+
+    .calculator .description {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .label-with-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .info-badge {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      cursor: help;
+      transition: color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .info-badge:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 42px;
+      background: var(--field);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 12px;
+      outline: none;
+      font-size: 0.9rem;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+
+    input::placeholder {
+      color: color-mix(in srgb, var(--muted) 70%, transparent);
+    }
+
+    .btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.86rem;
+      font-weight: 900;
+      transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .primary {
+      background: var(--accent);
+      color: #061018;
+    }
+
+    .primary:hover {
+      background: var(--accent-2);
+    }
+
+    .secondary {
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .result {
+      padding: 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      white-space: pre-line;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      font-weight: 650;
+      min-height: 60px;
+    }
+
+    .result:empty::before {
+      content: "Your spending allowance breakdown will appear here.";
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .result-highlight {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .highlight-card {
+      flex: 1 1 140px;
+      background: var(--field);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .highlight-card .big-number {
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+
+    .highlight-card .card-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--muted);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .divider {
+      border: 0;
+      border-top: 1px solid var(--border);
+      margin: 14px 0;
+    }
+
+    .content-section {
+      width: min(100%, 660px);
+      margin: 36px 0 0 0;
+    }
+
+    .content-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .content-card h2 {
+      font-size: 1.2rem;
+      letter-spacing: -0.045em;
+      margin-bottom: 8px;
+    }
+
+    .content-card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .content-card ol,
+    .content-card ul {
+      color: var(--muted);
+      font-size: 0.92rem;
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+
+    .content-card li {
+      margin-bottom: 6px;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    details {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 13px 14px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 850;
+      letter-spacing: -0.02em;
+    }
+
+    details p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 9px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 40;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (min-width: 1024px) {
+      body {
+        padding: 52px 10% 36px;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+      body {
+        padding: 42px 8% 30px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      body {
+        padding: 28px 16px 20px;
+      }
+
+      .page-shell,
+      .content-section {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .grid,
+      .grid.three {
+        grid-template-columns: 1fr;
+      }
+
+      .calculator {
+        padding: 16px;
+      }
+
+      .btns button {
+        flex: 1 1 100%;
+      }
+
+      .highlight-card {
+        flex: 1 1 100%;
+      }
+
+      h1 {
+        font-size: clamp(1.8rem, 8vw, 2.4rem);
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="navbar-container"></div>
+  
+  <div class="page-shell">
+    <section class="hero">
+      <h1>Personal Spending Allowance for Couples</h1>
+      <p>Figure out how much each person can spend freely every month after shared bills, savings, and joint goals are covered. No guilt, no tracking — just a clear number.</p>
+    </section>
+
+    <section aria-labelledby="allowance-title" class="calculator">
+      <div class="calc-head">
+        <span class="calc-number">1</span>
+        <div>
+          <h2 id="allowance-title">Spending Allowance Calculator</h2>
+          <p class="description">Enter your combined finances to see each person's no-strings-attached monthly allowance.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label for="incomeA">Person A Monthly Income</label>
+          <input id="incomeA" inputmode="decimal" min="0" placeholder="4500" type="number"/>
+        </div>
+        <div>
+          <label for="incomeB">Person B Monthly Income</label>
+          <input id="incomeB" inputmode="decimal" min="0" placeholder="3500" type="number"/>
+        </div>
+        <div>
+          <label for="sharedExpenses">Shared Monthly Expenses</label>
+          <input id="sharedExpenses" inputmode="decimal" min="0" placeholder="2800" type="number"/>
+        </div>
+        <div>
+          <label for="jointSavings">Joint Savings Target</label>
+          <input id="jointSavings" inputmode="decimal" min="0" placeholder="1200" type="number"/>
+        </div>
+        <div>
+          <label for="splitMethod">Expense Split Method</label>
+          <select id="splitMethod">
+            <option value="income">Proportional to income</option>
+            <option value="equal">50 / 50 equal split</option>
+          </select>
+        </div>
+        <div>
+          <div class="label-with-info">
+            <label for="bufferPercent">Buffer / Flex %</label>
+            <span class="info-badge" title="Extra cushion deducted from the leftover pool before splitting into allowances. Covers unexpected costs.">?</span>
+          </div>
+          <select id="bufferPercent">
+            <option value="0">0% — no buffer</option>
+            <option value="5" selected>5% — small cushion</option>
+            <option value="10">10% — comfortable</option>
+            <option value="15">15% — extra safe</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btns">
+        <button class="primary" onclick="calculateAllowance()" type="button">Calculate Allowance</button>
+        <button class="secondary" onclick="copyResult('allowanceResult')" type="button">Copy Result</button>
+      </div>
+
+      <div class="result" id="allowanceResult"></div>
+    </section>
+
+    <section class="content-section">
+      <div class="content-card">
+        <h2>About this calculator</h2>
+        <p>
+          Many couples merge finances for shared goals but still want personal spending money that doesn't require permission or justification. This tool takes your combined income, deducts shared obligations and savings, then splits the remaining pool into individual allowances. You can choose an income‑proportional split (each contributes to shared costs according to earning power) or a 50/50 split. A built‑in buffer helps leave room for unexpected expenses.
+        </p>
+      </div>
+
+      <div class="content-card">
+        <h2>How to use the spending allowance calculator</h2>
+        <p>Follow these simple steps to find each partner's fair personal spending allowance:</p>
+        <ol>
+          <li><strong>Enter both incomes</strong> — Add Person A and Person B's monthly take-home pay. If only one person earns, enter zero for the other.</li>
+          <li><strong>Add shared monthly expenses</strong> — Include rent, utilities, groceries, insurance, and any other recurring household costs you both share.</li>
+          <li><strong>Set a joint savings target</strong> — Decide how much you want to save together each month for emergencies, vacations, or future goals.</li>
+          <li><strong>Choose an expense split method</strong> — Pick "Proportional to income" if you want each person to contribute based on what they earn, or "50/50 equal split" for a straight down-the-middle approach.</li>
+          <li><strong>Select a buffer percentage</strong> — A small cushion (5–15%) helps cover surprise costs without derailing your allowances.</li>
+          <li><strong>Hit Calculate</strong> — The tool shows each person's allowance, the buffer amount, and a full breakdown of the math. Copy the result to share or save it.</li>
+        </ol>
+        <p style="margin-top: 8px;">The allowance is money each person can spend on hobbies, clothes, gadgets, gifts, or anything personal — no questions asked.</p>
+      </div>
+
+      <div class="content-card">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+          <details>
+            <summary>What is a personal spending allowance for couples?</summary>
+            <p>It's an agreed monthly amount each partner can spend on hobbies, clothes, gadgets, gifts, or anything personal — without needing to check with the other person. It sits outside shared bills and joint savings.</p>
+          </details>
+          <details>
+            <summary>Should allowances be equal or based on income?</summary>
+            <p>There's no single right answer. Proportional-to-income splits can feel fair when earnings differ significantly, because both partners contribute to shared costs at a similar relative rate. Equal allowances work well when partners view all income as fully shared. The calculator lets you compare both methods.</p>
+          </details>
+          <details>
+            <summary>What does the buffer percentage do?</summary>
+            <p>The buffer sets aside a percentage of the leftover money (after bills and savings) as a household cushion. It reduces the individual allowances slightly but helps cover surprise expenses, keeping the budget realistic.</p>
+          </details>
+          <details>
+            <summary>How is the allowance amount calculated?</summary>
+            <p>First we subtract shared expenses and joint savings from total household income. Then we apply your chosen buffer percentage to the remaining amount. What's left is split into two personal allowances using your selected method (income‑based or 50/50).</p>
+          </details>
+          <details>
+            <summary>What counts as a shared expense?</summary>
+            <p>Rent or mortgage, utilities, groceries, insurance, car payments, childcare, streaming services you both use, and any other recurring household costs. Personal items like individual phone plans or solo hobbies are not shared expenses — those come from your allowance.</p>
+          </details>
+          <details>
+            <summary>Can we use this calculator if only one person earns income?</summary>
+            <p>Absolutely. Enter the earned income for one partner and zero for the other. A proportional split will assign the full shared-cost burden to the earning partner, while an equal split treats both as contributing equally from the pooled household income. The tool works either way.</p>
+          </details>
+          <details>
+            <summary>Is this the same as the 50/30/20 budget rule?</summary>
+            <p>It follows a similar philosophy but is tailored for couples. The 50/30/20 rule says 50% for needs, 30% for wants, 20% for savings. This calculator focuses specifically on the "wants" portion and divides it fairly between two people after covering shared needs and savings.</p>
+          </details>
+          <details>
+            <summary>How often should we recalculate our allowances?</summary>
+            <p>A good habit is to revisit whenever income changes, a new shared expense appears, or savings goals shift. Many couples check in quarterly or after major life events like a raise, move, or new baby.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast">Result copied.</div>
+
+  <script>
+    function money(value) {
+      const number = Number(value || 0);
+      return "$" + number.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    function getValue(id) {
+      return parseFloat(document.getElementById(id).value) || 0;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => {
+        toast.classList.remove("show");
+      }, 1600);
+    }
+
+    async function copyResult(id) {
+      const resultEl = document.getElementById(id);
+      const result = resultEl.innerText.trim();
+
+      if (!result || result === "Your spending allowance breakdown will appear here.") {
+        showToast("Calculate first.");
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(result);
+        showToast("Result copied.");
+      } catch (error) {
+        const textarea = document.createElement("textarea");
+        textarea.value = result;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+        showToast("Result copied.");
+      }
+    }
+
+    function calculateAllowance() {
+      const incomeA = getValue("incomeA");
+      const incomeB = getValue("incomeB");
+      const sharedExpenses = getValue("sharedExpenses");
+      const jointSavings = getValue("jointSavings");
+      const splitMethod = document.getElementById("splitMethod").value;
+      const bufferPercent = parseFloat(document.getElementById("bufferPercent").value) || 0;
+
+      const output = document.getElementById("allowanceResult");
+      const totalIncome = incomeA + incomeB;
+
+      if (totalIncome <= 0) {
+        output.innerHTML = '<span style="color: var(--danger);">Please enter at least one income greater than zero.</span>';
+        return;
+      }
+
+      if (sharedExpenses < 0 || jointSavings < 0) {
+        output.innerHTML = '<span style="color: var(--danger);">Expenses and savings cannot be negative.</span>';
+        return;
+      }
+
+      const totalObligations = sharedExpenses + jointSavings;
+      const leftover = totalIncome - totalObligations;
+
+      if (leftover <= 0) {
+        output.innerHTML = `<span style="color: var(--warn);">⚠️ Your shared expenses and savings (${money(totalObligations)}) equal or exceed your combined income (${money(totalIncome)}). There's nothing left for personal allowances. Try reducing expenses or the savings target.</span>`;
+        return;
+      }
+
+      const bufferAmount = leftover * (bufferPercent / 100);
+      const distributablePool = leftover - bufferAmount;
+
+      let contributionA, contributionB, allowanceA, allowanceB;
+
+      if (splitMethod === "income") {
+        const ratioA = totalIncome > 0 ? incomeA / totalIncome : 0;
+        const ratioB = totalIncome > 0 ? incomeB / totalIncome : 0;
+
+        contributionA = totalObligations * ratioA;
+        contributionB = totalObligations * ratioB;
+        allowanceA = incomeA - contributionA;
+        allowanceB = incomeB - contributionB;
+      } else {
+        // 50/50 split
+        contributionA = totalObligations / 2;
+        contributionB = totalObligations / 2;
+        allowanceA = distributablePool / 2;
+        allowanceB = distributablePool / 2;
+      }
+
+      const effectiveAllowanceA = splitMethod === "income" ? allowanceA : distributablePool / 2;
+      const effectiveAllowanceB = splitMethod === "income" ? allowanceB : distributablePool / 2;
+
+      let html = '';
+
+      // Highlight cards
+      html += '<div class="result-highlight">';
+      html += `<div class="highlight-card"><div class="big-number">${money(effectiveAllowanceA)}</div><div class="card-label">Person A Allowance</div></div>`;
+      html += `<div class="highlight-card"><div class="big-number">${money(effectiveAllowanceB)}</div><div class="card-label">Person B Allowance</div></div>`;
+      html += `<div class="highlight-card"><div class="big-number">${money(bufferAmount)}</div><div class="card-label">Buffer / Flex</div></div>`;
+      html += '</div>';
+
+      html += '<hr class="divider">';
+
+      // Breakdown details
+      html += `<strong>Combined Income:</strong> ${money(totalIncome)}<br>`;
+      html += `<strong>Shared Expenses:</strong> ${money(sharedExpenses)}<br>`;
+      html += `<strong>Joint Savings:</strong> ${money(jointSavings)}<br>`;
+      html += `<strong>Total Obligations:</strong> ${money(totalObligations)}<br>`;
+      html += `<strong>Leftover After Obligations:</strong> ${money(leftover)}<br>`;
+      html += `<strong>Buffer (${bufferPercent}%):</strong> ${money(bufferAmount)}<br>`;
+      html += `<strong>Distributable Pool:</strong> ${money(distributablePool)}<br>`;
+
+      if (splitMethod === "income") {
+        const percentA = totalIncome > 0 ? ((incomeA / totalIncome) * 100).toFixed(1) : 0;
+        const percentB = totalIncome > 0 ? ((incomeB / totalIncome) * 100).toFixed(1) : 0;
+        html += `<br><em>Income-based split (A: ${percentA}% / B: ${percentB}%)</em><br>`;
+        html += `Person A contributes ${money(contributionA)} to obligations, keeping ${money(allowanceA)}<br>`;
+        html += `Person B contributes ${money(contributionB)} to obligations, keeping ${money(allowanceB)}<br>`;
+      } else {
+        html += `<br><em>50/50 equal split</em><br>`;
+        html += `Each person contributes ${money(contributionA)} to obligations<br>`;
+        html += `Each person receives ${money(effectiveAllowanceA)} as personal allowance<br>`;
+      }
+
+      if (effectiveAllowanceA < 0 || effectiveAllowanceB < 0) {
+        html += `<br><span style="color: var(--danger);">⚠️ One person's allowance is negative. This means their income doesn't cover their share of the obligations. Consider a different split method or review expenses.</span>`;
+      }
+
+      output.innerHTML = html;
+    }
+
+    // Run calculation on page load with placeholder values so the result area isn't empty
+    window.addEventListener("DOMContentLoaded", () => {
+      calculateAllowance();
+    });
+  </script>
+
+ <div id="footer-container"></div>
+
+ <script src="/components/shared.js"></script>
+  
+</body>
+</html>
