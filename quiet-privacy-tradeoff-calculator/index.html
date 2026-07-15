@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+  <!-- Google AdSense tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1724135069833024"
+       crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR5ESWGW9Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VR5ESWGW9Y');
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/files/favicon.png">
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Quiet / privacy tradeoff calculator. Balance noise levels and personal space needs in shared living situations.">
+  <title>Quiet / Privacy Tradeoff Calculator · WellSplit</title>
+  <link rel="stylesheet" href="/components/styles.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #2f343c; --panel: #3a4048; --panel-2: #454c56;
+      --field: #505863; --text: #f3f4f6; --muted: #c6ccd4;
+      --border: #606977; --accent: #7dd3fc; --accent-2: #38bdf8;
+      --danger: #f87171; --shadow: 0 18px 50px rgba(0,0,0,.18);
+      --radius: 16px;
+      --green: #6ee7b7;
+      --orange: #fcd34d;
+      --purple: #c4b5fd;
+      --pink: #f9a8d4;
+    }
+    html[data-theme="light"] {
+      --bg: #f6f7f9; --panel: #fff; --panel-2: #f1f5f9;
+      --field: #fff; --text: #111827; --muted: #5e6b78;
+      --border: #dce3eb; --accent: #0369a1; --accent-2: #0284c7;
+      --danger: #b91c1c; --shadow: 0 18px 45px rgba(15,23,42,.08);
+      --green: #059669;
+      --orange: #d97706;
+      --purple: #7c3aed;
+      --pink: #db2777;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh; background: var(--bg); color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    main { padding: 42px 6% 32px; }
+    .content-layout {
+      width: min(100%, 1180px);
+      display: grid;
+      grid-template-columns: minmax(0, 780px) minmax(280px, 1fr);
+      gap: 30px; align-items: start;
+    }
+    .page-shell { width: 100%; min-width: 0; }
+    .ad-space { min-height: 600px; }
+    .ad-column { display: block; }
+    .hero { margin-bottom: 18px; }
+    h1 {
+      max-width: 780px; font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+      line-height: 1.02; letter-spacing: -.06em; margin-bottom: 10px;
+    }
+    .hero p { max-width: 720px; color: var(--muted); font-size: .88rem; }
+    .calculator {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .section-title { font-size: 1.02rem; letter-spacing: -.035em; margin-bottom: 3px; }
+    .section-description {
+      color: var(--muted); font-size: .8rem;
+      line-height: 1.4; margin-bottom: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+    label {
+      display: block; margin-bottom: 3px; color: var(--muted);
+      font-size: .7rem; font-weight: 800;
+    }
+    input, select {
+      width: 100%; min-height: 38px; background: var(--field);
+      color: var(--text); border: 1px solid var(--border);
+      border-radius: 10px; padding: 7px 10px; outline: none;
+      font-size: .85rem;
+    }
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+    .result {
+      margin-top: 12px; padding: 12px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 12px; min-height: 50px; overflow-x: auto;
+    }
+    .result:empty::before {
+      content: "Your quiet/privacy tradeoff analysis will appear here.";
+      color: var(--muted); font-weight: 600;
+    }
+    .summary-line {
+      color: var(--muted); font-size: .78rem; margin-bottom: 10px;
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin: 8px 0;
+    }
+    .result-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+    .result-card .label {
+      color: var(--muted);
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-weight: 800;
+    }
+    .result-card .amount {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .result-card .amount.green { color: var(--green); }
+    .result-card .amount.orange { color: var(--orange); }
+    .result-card .amount.red { color: var(--danger); }
+    .result-card .detail {
+      color: var(--muted);
+      font-size: .75rem;
+      margin-top: 4px;
+    }
+    .comparison-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .8rem;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .comparison-row:last-child { border-bottom: 0; }
+    .comparison-label { color: var(--muted); }
+    .status-badge {
+      display: inline-block;
+      padding: 2px 12px;
+      border-radius: 20px;
+      font-size: .7rem;
+      font-weight: 700;
+    }
+    .status-balanced { background: color-mix(in srgb, var(--green) 20%, transparent); color: var(--green); }
+    .status-partial { background: color-mix(in srgb, var(--orange) 20%, transparent); color: var(--orange); }
+    .status-unbalanced { background: color-mix(in srgb, var(--danger) 20%, transparent); color: var(--danger); }
+    .note {
+      margin-top: 10px; color: var(--muted); font-size: .76rem;
+      line-height: 1.4;
+    }
+    .btns {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px;
+    }
+    button {
+      border: 0; cursor: pointer; border-radius: 10px;
+      padding: 8px 12px; font-size: .82rem; font-weight: 900;
+      transition: .16s;
+    }
+    button:hover { transform: translateY(-1px); }
+    .primary { background: var(--accent); color: #061018; }
+    .primary:hover { background: var(--accent-2); }
+    .secondary {
+      background: var(--panel-2); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .content-section {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .content-section h2 { font-size: 1.3rem; letter-spacing: -.035em; margin-bottom: 8px; }
+    .content-section h3 { font-size: .98rem; margin: 14px 0 5px; }
+    .content-section p { color: var(--muted); font-size: .85rem; margin-bottom: 8px; }
+    .content-section ul { margin: 6px 0 8px 18px; color: var(--muted); font-size: .85rem; }
+    .content-section li { margin-bottom: 4px; }
+    #faqs h2 { font-size: 1.6rem; margin-bottom: 6px; letter-spacing: -.03em; }
+    .faq-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .faq-item {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .faq-item:hover { border-color: var(--accent); }
+    .faq-item[open] { background: var(--panel-2); }
+    .faq-item summary {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+      list-style: none; user-select: none; padding: 10px 14px;
+      font-size: .88rem; font-weight: 700; line-height: 1.3; color: var(--text);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before {
+      content: "▶"; font-size: .7rem; flex-shrink: 0;
+      color: var(--text); transition: transform .22s ease;
+    }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-answer { padding: 0 18px 12px 42px; }
+    .faq-answer p { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    footer { padding: 20px 6%; color: var(--muted); border-top: 1px solid var(--border); font-size: .85rem; text-align: center; }
+    @media (max-width:900px) { .content-layout { display: block; width: 100%; } .ad-column { display: none; } }
+    @media (max-width:780px) {
+      main { padding: 28px 14px 20px; }
+      h1 { font-size: clamp(1.6rem, 8vw, 2.5rem); }
+      .calculator, .content-section { padding: 12px; }
+      .grid, .grid-3 { grid-template-columns: 1fr; }
+      .btns button { flex: 1 1 130px; }
+      .faq-answer { padding: 0 14px 10px 34px; }
+      .faq-answer p { font-size: .82rem; }
+      #faqs h2 { font-size: 1.4rem; }
+      .faq-item summary { padding: 8px 12px; gap: 8px; font-size: .84rem; }
+    }
+    @media (max-width:420px) { .btns button { flex: 1 1 100%; } }
+    .highlight-box {
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      border-left: 3px solid var(--accent);
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 6px;
+      font-size: .85rem;
+    }
+    .highlight-box.success {
+      background: color-mix(in srgb, var(--green) 15%, transparent);
+      border-left-color: var(--green);
+    }
+    .highlight-box.warning {
+      background: color-mix(in srgb, var(--orange) 15%, transparent);
+      border-left-color: var(--orange);
+    }
+    .highlight-box.danger {
+      background: color-mix(in srgb, var(--danger) 15%, transparent);
+      border-left-color: var(--danger);
+    }
+    .privacy-meter {
+      height: 10px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 6px 0;
+    }
+    .privacy-meter .fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.3s;
+    }
+    .privacy-meter .fill.high { background: var(--green); }
+    .privacy-meter .fill.medium { background: var(--orange); }
+    .privacy-meter .fill.low { background: var(--danger); }
+    @media (max-width:768px) {
+      .result-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar-container"></div>
+  <main>
+    <div class="content-layout">
+      <div class="page-shell">
+        <section class="hero">
+          <h1>Quiet / Privacy Tradeoff Calculator</h1>
+          <p>Balance noise levels and personal space needs in shared living situations. Find the sweet spot between quiet enjoyment and privacy.</p>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">1. Household members</h2>
+          <p class="section-description">Enter the names of people sharing the space.</p>
+          <div class="grid">
+            <div>
+              <label for="p1Name22">Person 1 name</label>
+              <input id="p1Name22" type="text" placeholder="e.g. Alex" value="">
+            </div>
+            <div>
+              <label for="p2Name22">Person 2 name</label>
+              <input id="p2Name22" type="text" placeholder="e.g. Jordan" value="">
+            </div>
+          </div>
+          <div style="margin-top:8px;">
+            <button class="secondary" onclick="addPerson22()" type="button" style="font-size:.78rem;">+ Add Person</button>
+          </div>
+          <div id="extraPeople22"></div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">2. Quiet needs assessment</h2>
+          <p class="section-description">Rate each person's need for quiet, tolerance for noise, and ideal quiet hours.</p>
+          
+          <div id="quietAssessment22">
+            <!-- Dynamic content -->
+          </div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">3. Privacy needs assessment</h2>
+          <p class="section-description">Rate each person's need for privacy, alone time, and personal space.</p>
+          
+          <div id="privacyAssessment22">
+            <!-- Dynamic content -->
+          </div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">4. Space &amp; schedule details</h2>
+          <p class="section-description">Enter details about your living space and schedules.</p>
+          <div class="grid">
+            <div>
+              <label for="bedrooms22">Number of bedrooms</label>
+              <input id="bedrooms22" type="number" min="1" max="10" placeholder="e.g. 2" value="">
+            </div>
+            <div>
+              <label for="sharedSpaces22">Shared common areas (living room, kitchen, etc.)</label>
+              <input id="sharedSpaces22" type="number" min="0" max="10" placeholder="e.g. 2" value="">
+            </div>
+            <div>
+              <label for="overlapHours22">Daily schedule overlap (hours)</label>
+              <input id="overlapHours22" type="number" min="0" max="24" placeholder="e.g. 4" value="" step="0.5">
+            </div>
+            <div>
+              <label for="wallThickness22">Wall thickness / soundproofing</label>
+              <select id="wallThickness22">
+                <option value="thin">Thin (hear everything)</option>
+                <option value="medium" selected>Medium (some noise)</option>
+                <option value="thick">Thick (good soundproofing)</option>
+                <option value="excellent">Excellent (very quiet)</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="calculator">
+          <h2 class="section-title">5. Tradeoff settings</h2>
+          <p class="section-description">Choose how to calculate the balance score.</p>
+          <div class="grid">
+            <div>
+              <label for="quietWeight22">Quiet needs importance (1-10)</label>
+              <input id="quietWeight22" type="number" min="1" max="10" placeholder="e.g. 7" value="" step="1">
+            </div>
+            <div>
+              <label for="privacyWeight22">Privacy needs importance (1-10)</label>
+              <input id="privacyWeight22" type="number" min="1" max="10" placeholder="e.g. 7" value="" step="1">
+            </div>
+            <div>
+              <label for="conflictLevel22">Current conflict level (1-10)</label>
+              <input id="conflictLevel22" type="number" min="1" max="10" placeholder="e.g. 5" value="" step="1">
+            </div>
+            <div>
+              <label for="flexibility22">Willingness to compromise (1-10)</label>
+              <input id="flexibility22" type="number" min="1" max="10" placeholder="e.g. 7" value="" step="1">
+            </div>
+          </div>
+        </section>
+
+        <section class="calculator">
+          <div class="btns">
+            <button class="primary" onclick="calculateTradeoff()" type="button">Calculate Tradeoff</button>
+            <button class="secondary" onclick="copyResult22()" type="button">Copy result</button>
+            <button class="secondary" onclick="resetTradeoff()" type="button">Reset</button>
+          </div>
+          <div class="result" id="result22"></div>
+        </section>
+
+        <section class="content-section" id="about22">
+          <h2>About the Quiet / Privacy Tradeoff Calculator</h2>
+          <p>Living with others always involves balancing different needs for quiet and privacy. One person may need absolute silence to work or sleep, while another values social interaction and doesn't mind noise. This calculator helps you understand and quantify these differences to find a fair compromise.</p>
+          <h3>How to use this calculator</h3>
+          <ul>
+            <li>Add each household member.</li>
+            <li>Rate each person's need for quiet and tolerance for noise.</li>
+            <li>Rate each person's need for privacy and alone time.</li>
+            <li>Enter space details and schedule overlap.</li>
+            <li>Calculate to see the balance score and recommendations.</li>
+          </ul>
+        </section>
+
+        <section class="content-section" id="faqs22">
+          <h2>Quiet / Privacy Tradeoff FAQs</h2>
+          <p>Common questions about balancing quiet and privacy in shared living.</p>
+          <div class="faq-list">
+            <details class="faq-item"><summary>What's the difference between quiet and privacy?</summary><div class="faq-answer"><p>Quiet is about noise levels — peace, tranquility, and the absence of disruptive sounds. Privacy is about personal space — having time alone, not being observed, and having boundaries respected. Both are important for mental health and relationship harmony.</p></div></details>
+            <details class="faq-item"><summary>Why do people have different quiet needs?</summary><div class="faq-answer"><p>Everyone has different sensitivity to noise. Some people are naturally more sensitive, while others can tune out distractions. Work-from-home professionals, students, and light sleepers often have higher quiet needs.</p></div></details>
+            <details class="faq-item"><summary>How does privacy affect shared living?</summary><div class="faq-answer"><p>Privacy gives people space to recharge, relax without being observed, and feel safe. When privacy is compromised, people may feel stressed, anxious, or resentful. The calculator helps identify these needs.</p></div></details>
+            <details class="faq-item"><summary>What's a reasonable quiet time schedule?</summary><div class="faq-answer"><p>Most households agree on quiet hours (e.g., 10 PM to 7 AM) when noise should be minimal. However, different schedules (night shifts, remote work) may require customized agreements.</p></div></details>
+            <details class="faq-item"><summary>How can couples balance different quiet needs?</summary><div class="faq-answer"><p>Communication is key. The calculator provides a starting point for discussion. Solutions might include: quiet zones, headphones, scheduled alone time, or adjusting routines to accommodate both partners.</p></div></details>
+            <details class="faq-item"><summary>What if one person works from home?</summary><div class="faq-answer"><p>Remote workers often need more quiet during work hours. This should be reflected in their quiet needs score (7-10). The calculator highlights these differences to find a fair balance.</p></div></details>
+            <details class="faq-item"><summary>How does wall thickness affect the tradeoff?</summary><div class="faq-answer"><p>Good soundproofing reduces noise transmission, allowing different activities in adjacent rooms. Thin walls increase the need for quiet agreements or compromise.</p></div></details>
+            <details class="faq-item"><summary>What's a healthy compromise score?</summary><div class="faq-answer"><p>A score above 70% indicates a healthy balance where both partners' needs are being met reasonably well. Below 50% suggests significant improvement is needed.</p></div></details>
+            <details class="faq-item"><summary>Should quiet and privacy needs be equal?</summary><div class="faq-answer"><p>Not necessarily. Some people prioritize quiet, others prioritize privacy. The calculator lets you weight each factor based on personal importance.</p></div></details>
+            <details class="faq-item"><summary>How do we handle different schedules?</summary><div class="faq-answer"><p>Schedule overlap is a key factor. More overlap means more potential conflict. Solutions include creating individual quiet zones or adjusting routines to minimize overlap during sensitive times.</p></div></details>
+            <details class="faq-item"><summary>What if I need more quiet than my partner?</summary><div class="faq-answer"><p>This is common. Solutions include: using white noise machines, wearing noise-canceling headphones, creating a quiet zone in your space, or agreeing on quiet hours. The calculator helps you quantify the difference.</p></div></details>
+            <details class="faq-item"><summary>Can this calculator help with roommate conflicts?</summary><div class="faq-answer"><p>Yes, the calculator is designed for any shared living situation — couples, roommates, or families. It provides objective data to facilitate fair discussions.</p></div></details>
+            <details class="faq-item"><summary>What about introverts vs extroverts?</summary><div class="faq-answer"><p>Introverts typically need more quiet and privacy to recharge. Extroverts may be more comfortable with noise and social interaction. The calculator accounts for these differences through the ratings.</p></div></details>
+            <details class="faq-item"><summary>How do we create a quiet/privacy agreement?</summary><div class="faq-answer"><p>Use the calculator results as a starting point. Discuss what's working, what's not, and negotiate compromises. Document agreed-upon quiet hours, private time, and noise expectations.</p></div></details>
+            <details class="faq-item"><summary>What if we can't agree on quiet hours?</summary><div class="faq-answer"><p>Try creative solutions: assigning quiet zones in the home, using scheduling apps, or alternating who gets quiet time on different days. The calculator can help you see the financial and emotional impact of different scenarios.</p></div></details>
+            <details class="faq-item"><summary>Is this calculator free to use?</summary><div class="faq-answer"><p>Yes, completely free. We believe better communication in relationships should be accessible to everyone. The calculator is supported by ads to keep it free.</p></div></details>
+          </div>
+        </section>
+      </div>
+      <aside class="ad-column" aria-label="Advertisement"><div class="ad-space"><!-- AdSense ad code --></div></aside>
+    </div>
+  </main>
+  <div id="footer-container"></div>
+  <script>
+    // ---- extra people ----
+    let personCount22 = 2;
+
+    function addPerson22() {
+      personCount22++;
+      const container = document.getElementById('extraPeople22');
+      const div = document.createElement('div');
+      div.className = 'grid';
+      div.id = 'qperson' + personCount22;
+      div.style.marginTop = '6px';
+      div.style.padding = '8px';
+      div.style.background = 'var(--panel-2)';
+      div.style.borderRadius = '10px';
+      div.style.border = '1px solid var(--border)';
+      div.innerHTML = `
+        <div style="grid-column: 1 / -1; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-weight:700; font-size:.85rem;">👤 Person ${personCount22}</span>
+          <button onclick="removePerson22('qperson${personCount22}')" style="background:transparent;border:none;color:var(--danger);cursor:pointer;font-size:.9rem;">✕</button>
+        </div>
+        <div>
+          <label>Name</label>
+          <input class="qpName22" type="text" placeholder="Person ${personCount22}" value="">
+        </div>
+      `;
+      container.appendChild(div);
+      updateAssessments22();
+    }
+
+    function removePerson22(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+      updateAssessments22();
+    }
+
+    function collectPeople22() {
+      const people = [];
+      people.push({ name: document.getElementById('p1Name22').value.trim() || 'Person 1' });
+      people.push({ name: document.getElementById('p2Name22').value.trim() || 'Person 2' });
+      document.querySelectorAll('#extraPeople22 .grid').forEach(el => {
+        const name = el.querySelector('.qpName22').value.trim() || 'Person';
+        people.push({ name });
+      });
+      return people;
+    }
+
+    // ---- assessment generation ----
+    function updateAssessments22() {
+      const people = collectPeople22();
+      const quietContainer = document.getElementById('quietAssessment22');
+      const privacyContainer = document.getElementById('privacyAssessment22');
+      
+      let quietHTML = `<div class="grid" style="grid-template-columns: 1fr 1fr 1fr; font-size:.7rem; font-weight:700; color:var(--muted); text-transform:uppercase; padding:4px 0; border-bottom:1px solid var(--border);">
+        <span>Name</span>
+        <span>Need for Quiet (1-10)</span>
+        <span>Noise Tolerance (1-10)</span>
+      </div>`;
+      
+      let privacyHTML = `<div class="grid" style="grid-template-columns: 1fr 1fr 1fr; font-size:.7rem; font-weight:700; color:var(--muted); text-transform:uppercase; padding:4px 0; border-bottom:1px solid var(--border);">
+        <span>Name</span>
+        <span>Need for Privacy (1-10)</span>
+        <span>Alone Time Need (1-10)</span>
+      </div>`;
+      
+      people.forEach((p, idx) => {
+        const id = idx < 2 ? (idx === 0 ? 'p1' : 'p2') : 'qp' + idx;
+        quietHTML += `
+          <div class="grid" style="grid-template-columns: 1fr 1fr 1fr; gap:8px; padding:4px 0; border-bottom:1px solid var(--border);">
+            <span style="font-weight:600; font-size:.85rem;">${p.name}</span>
+            <input class="quietNeed${id}" type="number" min="1" max="10" placeholder="1-10" value="" step="1">
+            <input class="noiseTolerance${id}" type="number" min="1" max="10" placeholder="1-10" value="" step="1">
+          </div>
+        `;
+        
+        privacyHTML += `
+          <div class="grid" style="grid-template-columns: 1fr 1fr 1fr; gap:8px; padding:4px 0; border-bottom:1px solid var(--border);">
+            <span style="font-weight:600; font-size:.85rem;">${p.name}</span>
+            <input class="privacyNeed${id}" type="number" min="1" max="10" placeholder="1-10" value="" step="1">
+            <input class="aloneTime${id}" type="number" min="1" max="10" placeholder="1-10" value="" step="1">
+          </div>
+        `;
+      });
+      
+      quietContainer.innerHTML = quietHTML;
+      privacyContainer.innerHTML = privacyHTML;
+    }
+
+    // ---- get assessment values ----
+    function getAssessment22(prefix, suffix) {
+      const people = collectPeople22();
+      const values = [];
+      people.forEach((p, idx) => {
+        const id = idx < 2 ? (idx === 0 ? 'p1' : 'p2') : 'qp' + idx;
+        const el = document.querySelector(`.${prefix}${id}`);
+        values.push(parseFloat(el?.value) || 5);
+      });
+      return values;
+    }
+
+    // ---- main calculation ----
+    function calculateTradeoff() {
+      const people = collectPeople22();
+      const quietNeeds = getAssessment22('quietNeed');
+      const noiseTolerance = getAssessment22('noiseTolerance');
+      const privacyNeeds = getAssessment22('privacyNeed');
+      const aloneTime = getAssessment22('aloneTime');
+      
+      const bedrooms = getNumber22('bedrooms22');
+      const sharedSpaces = getNumber22('sharedSpaces22');
+      const overlapHours = getNumber22('overlapHours22');
+      const wallThickness = document.getElementById('wallThickness22').value;
+      const quietWeight = getNumber22('quietWeight22') || 7;
+      const privacyWeight = getNumber22('privacyWeight22') || 7;
+      const conflictLevel = getNumber22('conflictLevel22') || 5;
+      const flexibility = getNumber22('flexibility22') || 7;
+
+      if (people.length < 2) {
+        document.getElementById('result22').innerHTML = '<p>Please add at least 2 people.</p>';
+        return;
+      }
+
+      // Calculate quiet score (higher = more tension)
+      const avgQuietNeed = quietNeeds.reduce((a,b) => a + b, 0) / quietNeeds.length;
+      const quietDiff = Math.max(...quietNeeds) - Math.min(...quietNeeds);
+      const quietScore = (quietDiff / 9) * 100; // 0-100 scale
+      
+      // Calculate privacy score
+      const avgPrivacyNeed = privacyNeeds.reduce((a,b) => a + b, 0) / privacyNeeds.length;
+      const privacyDiff = Math.max(...privacyNeeds) - Math.min(...privacyNeeds);
+      const privacyScore = (privacyDiff / 9) * 100;
+      
+      // Calculate alone time score
+      const avgAloneTime = aloneTime.reduce((a,b) => a + b, 0) / aloneTime.length;
+      const aloneDiff = Math.max(...aloneTime) - Math.min(...aloneTime);
+      const aloneScore = (aloneDiff / 9) * 100;
+
+      // Space score (more space = better for privacy)
+      let spaceScore = 0;
+      if (bedrooms > 0 && sharedSpaces >= 0) {
+        const totalSpace = bedrooms + sharedSpaces;
+        const spacePerPerson = totalSpace / people.length;
+        spaceScore = Math.min(100, (spacePerPerson / 3) * 100); // 3 rooms per person is ideal
+      }
+
+      // Wall thickness factor
+      const wallFactors = { thin: 0.3, medium: 0.6, thick: 0.8, excellent: 0.95 };
+      const wallFactor = wallFactors[wallThickness] || 0.6;
+
+      // Overlap factor (more overlap = more potential conflict)
+      const overlapFactor = Math.min(1, (overlapHours || 0) / 12);
+
+      // Calculate overall tension score
+      const tensionScore = (
+        quietScore * (quietWeight/10) * 0.25 +
+        privacyScore * (privacyWeight/10) * 0.25 +
+        aloneScore * (privacyWeight/10) * 0.15 +
+        (100 - spaceScore) * 0.15 +
+        (conflictLevel/10) * 0.1 +
+        (1 - wallFactor) * 0.1
+      );
+
+      // Calculate balance score (100 - tension, with factors)
+      const balanceScore = Math.max(0, Math.min(100, 100 - (tensionScore * 0.8) + (flexibility/10 * 10)));
+
+      // Determine status
+      let status, statusClass, statusText;
+      if (balanceScore >= 70) {
+        status = 'balanced';
+        statusClass = 'status-balanced';
+        statusText = '✅ Well-Balanced';
+      } else if (balanceScore >= 50) {
+        status = 'partial';
+        statusClass = 'status-partial';
+        statusText = '⚠️ Needs Work';
+      } else {
+        status = 'unbalanced';
+        statusClass = 'status-unbalanced';
+        statusText = '❌ Significant Tension';
+      }
+
+      // Build person breakdown
+      let personRows = people.map((p, idx) => {
+        const qn = quietNeeds[idx] || 5;
+        const nt = noiseTolerance[idx] || 5;
+        const pn = privacyNeeds[idx] || 5;
+        const at = aloneTime[idx] || 5;
+        return `
+          <div class="comparison-row">
+            <span class="comparison-label">${p.name}</span>
+            <span>Quiet: ${qn}/10</span>
+            <span>Noise: ${nt}/10</span>
+            <span>Privacy: ${pn}/10</span>
+            <span>Alone: ${at}/10</span>
+          </div>
+        `;
+      }).join('');
+
+      // Generate recommendations
+      let recommendations = [];
+      if (quietScore > 40) {
+        recommendations.push('Quiet needs vary significantly. Consider quiet hours or designated quiet zones.');
+      }
+      if (privacyScore > 40) {
+        recommendations.push('Privacy needs differ. Ensure each person has personal space or alone time scheduled.');
+      }
+      if (spaceScore < 50) {
+        recommendations.push('Limited shared space may cause conflict. Consider creating designated areas for each person.');
+      }
+      if (overlapHours > 6) {
+        recommendations.push('High schedule overlap. Try staggering routines or using noise-canceling equipment.');
+      }
+      if (wallFactor < 0.5) {
+        recommendations.push('Poor soundproofing. Consider white noise machines, rugs, or acoustic panels.');
+      }
+      if (conflictLevel > 7) {
+        recommendations.push('High conflict level. Consider mediation or a written agreement on quiet/privacy rules.');
+      }
+      if (recommendations.length === 0) {
+        recommendations.push('Your quiet/privacy balance looks good. Continue communicating and checking in regularly.');
+      }
+
+      const resultDiv = document.getElementById('result22');
+
+      resultDiv.innerHTML = `
+        <div class="summary-line">
+          🏡 Quiet / Privacy Tradeoff · ${people.length} people · ${bedrooms} bedrooms · ${sharedSpaces} common areas
+        </div>
+
+        <div class="result-grid">
+          <div class="result-card">
+            <div class="label">🔊 Quiet Score</div>
+            <div class="amount ${quietScore < 40 ? 'green' : quietScore < 60 ? 'orange' : 'red'}">${(100 - quietScore).toFixed(0)}%</div>
+            <div class="detail">${quietScore < 40 ? 'Low tension' : quietScore < 60 ? 'Moderate tension' : 'High tension'}</div>
+          </div>
+          <div class="result-card">
+            <div class="label">🔒 Privacy Score</div>
+            <div class="amount ${privacyScore < 40 ? 'green' : privacyScore < 60 ? 'orange' : 'red'}">${(100 - privacyScore).toFixed(0)}%</div>
+            <div class="detail">${privacyScore < 40 ? 'Low tension' : privacyScore < 60 ? 'Moderate tension' : 'High tension'}</div>
+          </div>
+          <div class="result-card">
+            <div class="label">⚖️ Balance Score</div>
+            <div class="amount ${balanceScore >= 70 ? 'green' : balanceScore >= 50 ? 'orange' : 'red'}">${balanceScore.toFixed(0)}%</div>
+            <div class="detail"><span class="status-badge ${statusClass}">${statusText}</span></div>
+          </div>
+        </div>
+
+        <div class="result-grid" style="grid-template-columns: 1fr 1fr;">
+          <div class="result-card">
+            <div class="label">🏠 Space Score</div>
+            <div class="amount">${spaceScore.toFixed(0)}%</div>
+            <div class="detail">${spaceScore >= 70 ? 'Good space' : spaceScore >= 50 ? 'Limited space' : 'Very limited space'}</div>
+          </div>
+          <div class="result-card">
+            <div class="label">⏰ Schedule Overlap</div>
+            <div class="amount ${overlapHours > 6 ? 'orange' : 'green'}">${overlapHours} hours</div>
+            <div class="detail">${overlapHours > 6 ? 'High overlap' : 'Good separation'}</div>
+          </div>
+        </div>
+
+        <div class="privacy-meter">
+          <div class="fill ${balanceScore >= 70 ? 'high' : balanceScore >= 50 ? 'medium' : 'low'}" style="width: ${balanceScore}%;"></div>
+        </div>
+
+        <div class="highlight-box ${balanceScore >= 70 ? 'success' : balanceScore >= 50 ? 'warning' : 'danger'}">
+          <strong>${balanceScore >= 70 ? '✅ Good balance!' : balanceScore >= 50 ? '⚠️ Needs improvement' : '❌ Significant tension'}</strong>
+          <br>
+          ${balanceScore >= 70 
+            ? 'Your quiet/privacy balance is healthy. Continue communicating and maintaining boundaries.' 
+            : balanceScore >= 50 
+              ? 'There are some tension areas. Focus on the recommendations below to improve balance.' 
+              : 'Your quiet/privacy needs are significantly misaligned. Consider major changes or mediation.'}
+        </div>
+
+        <div style="margin-top:10px;">
+          <div style="font-weight:700; font-size:.82rem; margin-bottom:4px;">📋 Person breakdown</div>
+          <div class="comparison-row" style="font-weight:700; border-bottom:2px solid var(--border);">
+            <span>Name</span>
+            <span>Quiet Need</span>
+            <span>Noise Tolerance</span>
+            <span>Privacy Need</span>
+            <span>Alone Time</span>
+          </div>
+          ${personRows}
+        </div>
+
+        <div style="margin-top:10px;">
+          <div style="font-weight:700; font-size:.82rem; margin-bottom:4px;">💡 Recommendations</div>
+          <ul style="color:var(--muted); font-size:.8rem; margin-left:18px; line-height:1.8;">
+            ${recommendations.map(r => `<li>${r}</li>`).join('')}
+          </ul>
+        </div>
+
+        <p class="note">
+          <strong>How it works:</strong> The calculator compares quiet and privacy needs across household members.
+          ${quietWeight > 5 ? ` Quiet needs are weighted at ${quietWeight}/10 importance.` : ''}
+          ${privacyWeight > 5 ? ` Privacy needs are weighted at ${privacyWeight}/10 importance.` : ''}
+          Wall thickness: ${wallThickness} · ${flexibility > 5 ? ` Flexibility is high (${flexibility}/10), which helps balance.` : ` Flexibility is low (${flexibility}/10), which may limit compromise.`}
+          <br><br>
+          <strong>Next steps:</strong> Discuss the recommendations above as a household. Consider creating a written quiet/privacy agreement.
+        </p>
+      `;
+    }
+
+    function getNumber22(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+    function resetTradeoff() {
+      document.querySelectorAll('.calculator input[type="number"]').forEach(input => {
+        input.value = '';
+      });
+      document.querySelectorAll('#extraPeople22 .grid').forEach(el => el.remove());
+      personCount22 = 2;
+      document.getElementById('result22').innerHTML = '';
+      updateAssessments22();
+    }
+
+    async function copyResult22() {
+      const result = document.getElementById('result22');
+      if (!result.innerText.trim()) { alert('Calculate the tradeoff first.'); return; }
+      try {
+        await navigator.clipboard.writeText(result.innerText.trim());
+        alert('Result copied.');
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = result.innerText.trim();
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+        alert('Result copied.');
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      updateAssessments22();
+    });
+  </script>
+  <script src="/components/shared.js"></script>
+</body>
+</html>
