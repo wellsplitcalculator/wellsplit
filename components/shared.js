@@ -5,11 +5,7 @@ function getPreferredTheme() {
   if (savedTheme) {
     return savedTheme;
   }
-  // If no saved preference, check system preference
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    return 'dark';
-  }
-  // Default to light
+  // If no saved preference, default to LIGHT (ignore system preference)
   return 'light';
 }
 
