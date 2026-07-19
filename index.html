@@ -90,8 +90,6 @@
       font: inherit;
     }
 
-    /* REMOVED: nav styles - shared navbar handles this */
-
     main {
       padding: 42px 6% 28px;
     }
@@ -361,7 +359,7 @@
       background: var(--panel);
       border: 1px solid var(--border);
       border-radius: 13px;
-      padding: 8px 10px;
+      padding: 13px 14px;
     }
 
     summary {
@@ -405,8 +403,6 @@
       display: none;
     }
 
-    /* REMOVED: nav-related mobile styles - shared navbar handles this */
-
     @media (min-width: 1024px) {
       main {
         padding-right: 40%;
@@ -414,6 +410,24 @@
     }
 
     @media (max-width: 780px) {
+      .mobile-menu-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 15;
+        display: block;
+        background: rgba(0, 0, 0, 0.45);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+      }
+
+      .mobile-menu-backdrop.show {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+
       main {
         padding: 34px 18px 24px;
       }
@@ -460,8 +474,7 @@
   </style>
 </head>
 <body>
-
-<!-- SHARED NAVBAR -->
+<!-- SHARED NAVBAR - REPLACED -->
 <div id="navbar-container"></div>
 
 <main>
@@ -714,6 +727,12 @@
 </main>
 
 <div class="toast" id="toast">Result copied.</div>
+
+<!-- SHARED FOOTER - REPLACED -->
+<div id="footer-container"></div>
+
+<!-- SHARED JS - ADDED -->
+<script src="/components/shared.js"></script>
 
 <script>
     function money(value) {
@@ -1040,12 +1059,6 @@
         `Difference: ${difference.toFixed(1)} hours`;
     }
   </script>
-  
-  <!-- SHARED FOOTER -->
-<div id="footer-container"></div>
-
-<!-- SHARED JS -->
-<script src="/components/shared.js"></script>
   
 </body>
 </html>
