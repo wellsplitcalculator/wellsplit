@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-theme="light" lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact - Wellsplit</title>
+
+  <!-- Your shared CSS file -->
+  <link rel="stylesheet" href="/components/styles.css">
 
   <style>
     body {
@@ -12,23 +15,6 @@
       background: #f4f6f8;
       color: #222;
       height: 100%;
-    }
-
-    .nav {
-      background: #111;
-      padding: 14px;
-      text-align: center;
-    }
-
-    .nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 14px;
-      font-size: 14px;
-    }
-
-    .nav a:hover {
-      text-decoration: underline;
     }
 
     .container {
@@ -63,56 +49,38 @@
       font-size: 16px;
       border-left: 4px solid #4a6cf7;
     }
-
-    .footer {
-      text-align: center;
-      font-size: 14px;
-      color: #777;
-      padding: 60px 20px;
-      margin-top: auto;
-    }
   </style>
 </head>
 
 <body>
+  <div id="navbar-container"></div>
 
-  <div class="nav">
-    <a href="/">Home</a>
-  </div>
+  <main>
+    <div class="container">
+      <div class="card">
+        <h1>Contact Us</h1>
 
-  <div class="container">
-    <div class="card">
-      <h1>Contact Us</h1>
+        <p>
+          If you have any questions, feedback, or suggestions, feel free to reach out.
+        </p>
 
-      <p>
-        If you have any questions, feedback, or suggestions, feel free to reach out.
-      </p>
+        <div class="email-box">
+          📧 Email: wellsplit.calculator@gmail.com
+        </div>
 
-      <div class="email-box">
-        📧 Email: wellsplit.calculator@gmail.com
+        <p>
+          We usually respond within 24–48 hours.
+        </p>
+
+        <p>
+          We appreciate your feedback as it helps us improve Wellsplit.
+        </p>
       </div>
-
-      <p>
-        We usually respond within 24–48 hours.
-      </p>
-
-      <p>
-        We appreciate your feedback as it helps us improve Wellsplit.
-      </p>
     </div>
-  </div>
-  
-   <footer class="footer">
-  <div class="main-footer">
-    © 2026 WellSplit.net. All rights reserved.
-  </div>
-  <div class="footer-links">
-    <a href="/all-calculators/">Sitemap</a>
-    <a href="/about/">About</a>
-    <a href="/contact/">Contact</a>
-    <a href="/privacy-policy/">Privacy Policy</a>
-  </div>
-</footer>
+  </main>
 
+  <div id="footer-container"></div>
+
+  <script src="/components/shared.js"></script>
 </body>
 </html>
