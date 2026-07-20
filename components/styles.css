@@ -545,7 +545,7 @@ details p {
 
 footer {
   padding: 24px 6%;
-  color: var(--text); !important;
+  color: var(--text);
   border-top: 1px solid var(--border);
   font-size: 0.9rem;
   /* ADDED: Smooth transition */
@@ -555,13 +555,13 @@ footer {
 
 footer a {
   color: var(--accent);
-  text-decoration: none;
+  text-decoration: underline;
   transition: color 0.15s;
 }
 
 footer a:hover {
   color: var(--accent-2);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 
