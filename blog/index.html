@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>WellSplit.net – Blog</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/files/favicon.png" />
+  
   <!-- Font Awesome (free icons) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
@@ -461,11 +465,14 @@
     }
 
     .post-card h2 a {
+      color: var(--text);
+      text-decoration: none;
       transition: color 0.15s;
     }
 
     .post-card h2 a:hover {
       color: var(--accent);
+      text-decoration: none;
     }
 
     .post-excerpt {
@@ -482,6 +489,7 @@
       align-items: center;
       gap: 6px;
       border-bottom: 1.5px solid transparent;
+      text-decoration: none;
       transition: color 0.2s ease, gap 0.15s, border-color 0.15s;
       font-size: 0.95rem;
     }
@@ -489,6 +497,7 @@
     .read-more:hover {
       border-bottom-color: var(--accent);
       gap: 10px;
+      text-decoration: none;
     }
 
     .read-more i {
@@ -548,12 +557,14 @@
       display: flex;
       justify-content: space-between;
       color: var(--muted);
+      text-decoration: none;
       transition: color 0.15s, padding 0.15s;
     }
 
     .sidebar-list a:hover {
       color: var(--accent);
       padding-left: 4px;
+      text-decoration: none;
     }
 
     .tag-cloud {
@@ -573,11 +584,13 @@
       border: 1px solid var(--border);
       transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
       cursor: default;
+      text-decoration: none;
     }
 
     .tag:hover {
       border-color: var(--accent);
       color: var(--accent);
+      text-decoration: none;
     }
 
     .newsletter-input-group {
@@ -635,6 +648,17 @@
       transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
       background: var(--bg);
       margin-top: auto;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    footer a:hover {
+      color: var(--accent-2);
+      text-decoration: none;
     }
 
     /* Responsive */
