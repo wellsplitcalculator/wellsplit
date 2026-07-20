@@ -15,16 +15,21 @@
   <link rel="stylesheet" href="/components/styles.css" />
   
   <style>
-    /* ===== BLOG-ONLY STYLES ===== */
-    
-    /* CRITICAL FIX: Prevents content from shifting when navbar loads */
-    body {
-      padding-top: 74px; /* Same as your shared CSS */
+    /* ===== CRITICAL FIX: Apply padding immediately ===== */
+    html, body {
+      margin: 0;
+      padding: 0;
     }
     
+    body {
+      padding-top: 74px !important; /* Force this to apply immediately */
+      min-height: 100vh;
+    }
+    
+    /* ===== BLOG-ONLY STYLES ===== */
     .blog-main {
       flex: 1;
-      padding: 20px 1.5rem 2rem; /* Reduced top padding since body handles it */
+      padding: 20px 1.5rem 2rem;
       max-width: 1280px;
       margin: 0 auto;
       width: 100%;
@@ -309,6 +314,10 @@
     }
 
     @media (max-width: 768px) {
+      body {
+        padding-top: 70px !important; /* Slightly less on mobile */
+      }
+      
       .blog-main {
         padding: 20px 0.8rem 1.5rem;
       }
@@ -339,6 +348,10 @@
     }
 
     @media (max-width: 480px) {
+      body {
+        padding-top: 65px !important;
+      }
+      
       .blog-main {
         padding: 20px 0.5rem 1rem;
       }
