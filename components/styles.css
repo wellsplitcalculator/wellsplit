@@ -554,14 +554,14 @@ footer {
 
 
 footer a {
-  color: var(--accent);
-  text-decoration: underline;
+  color: var(--accent); !important;
+  text-decoration: underline; !important;
   transition: color 0.15s;
 }
 
 footer a:hover {
-  color: var(--accent-2);
-  text-decoration: underline;
+  color: var(--accent-2); !important;
+  text-decoration: underline; !important;
 }
 
 
